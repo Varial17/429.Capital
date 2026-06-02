@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>429 Capital — Dashboard</title>
+<link rel="stylesheet" href="assets/style.css">
+<script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js"></script>
+</head>
+<body>
+<div class="wrap">
+
+  <header class="topbar">
+    <div class="word">429&nbsp;<b>CAPITAL</b></div>
+    <nav class="topnav">
+      <a href="index.html">Home</a>
+      <a href="dashboard.html" class="active">Dashboard</a>
+      <a href="reports/index.html">Reports</a>
+      <button class="theme-toggle" onclick="toggleTheme()">Theme</button>
+    </nav>
+  </header>
+
+  <div class="page-head">
+    <div class="kicker">Internal Dashboard</div>
+    <h1>Book overview</h1>
+    <p class="sub">One book, one number. Fund NAV = Conviction + Tactical; Wealth Base tracked alongside as benchmark. <span id="asof" style="color:var(--text-dim)"></span></p>
+  </div>
+
+  <main id="app">
+
+    <!-- OVERVIEW -->
+    <section class="block" id="overview">
+      <div class="sec-label">01 · Overview</div>
+      <h2 class="sec-title">Where the book stands</h2>
+      <div class="cards" id="overview-cards"></div>
+      <div class="two-col" style="margin-top:24px">
+        <div class="panel">
+          <div class="panel-head"><h3>Sleeve allocation</h3><span class="badge">Target weights</span></div>
+          <div class="panel-body"><div class="chart-wrap donut"><canvas id="donut-sleeves"></canvas></div></div>
+        </div>
+        <div class="panel">
+          <div class="panel-head"><h3>By sleeve</h3></div>
+          <div class="panel-body"><div class="bars" id="donut-counts"></div>
+            <p class="placeholder-note">Current $ weights need live prices — showing position counts &amp; targets.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- PERFORMANCE -->
+    <section class="block" id="performance">
+      <div class="sec-label">02 · Performance</div>
+      <h2 class="sec-title">NAV vs benchmark</h2>
+      <div class="panel">
+        <div class="panel-head">
+          <div class="legend">
+            <span class="leg fund"><span></span>429 Capital</span>
+            <span class="leg bench"><span></span>Benchmark · MSCI ACWI (AUD)</span>
+          </div>
+          <span class="badge sample" id="perf-badge" style="display:none">Sample data</span>
+        </div>
+        <div class="panel-body">
+          <div class="chart-wrap"><canvas id="perf-line"></canvas></div>
+        </div>
+      </div>
+      <div class="panel" style="margin-top:18px">
+        <table class="perf-table">
+          <thead><tr><th>Period</th><th class="num">Fund (net)</th><th class="num">Benchmark</th><th class="num">Outperformance</th></tr></thead>
+          <tbody id="perf-table-body"></tbody>
+        </table>
+      </div>
+    </section>
+
+    <!-- HOLDINGS -->
+    <section class="block" id="holdings">
+      <div class="sec-label">03 · Holdings</div>
+      <h2 class="sec-title">All positions <span style="font-family:var(--mono);font-size:14px;color:var(--text-dim)" id="holdings-count"></span></h2>
+      <div class="chips" id="chips"></div>
+      <div class="panel">
+        <table class="holdings-table" id="holdings-table">
+          <thead><tr>
+            <th class="sortable" data-key="book">Sleeve <span class="arrow"></span></th>
+            <th class="sortable" data-key="asset">Asset <span class="arrow"></span></th>
+            <th class="sortable" data-key="asset_class">Class <span class="arrow"></span></th>
+            <th class="sortable" data-key="venue">Venue <span class="arrow"></span></th>
+            <th>Type</th>
+            <th class="num sortable" data-key="quantity">Qty <span class="arrow"></span></th>
+            <th class="num">Value (AUD)</th>
+            <th class="num">P&amp;L</th>
+          </tr></thead>
+          <tbody id="holdings-body"></tbody>
+        </table>
+      </div>
+      <p class="placeholder-note">Value &amp; P&amp;L (—) need live prices — add quantities/prices and an fx rate, then re-run build.py.</p>
+    </section>
+
+    <!-- EXPOSURE -->
+    <section class="block" id="exposure">
+      <div class="sec-label">04 · Exposure</div>
+      <h2 class="sec-title">Tactical risk</h2>
+      <div class="expo-grid" id="expo-cards"></div>
+      <p class="placeholder-note" id="expo-note"></p>
+      <div class="panel" style="margin-top:22px">
+        <div class="panel-head"><h3>Asset-class mix</h3><span class="badge">By position count</span></div>
+        <div class="panel-body"><div class="bars" id="expo-bars"></div></div>
+      </div>
+    </section>
+
+  </main>
+
+  <footer class="foot">
+    <div class="foot-top">
+      <div class="word">429&nbsp;<b>CAPITAL</b></div>
+      <div class="topnav"><a href="reports/index.html">Reports</a><a href="index.html">Home</a></div>
+    </div>
+    <p class="disc">429 Capital is a private personal investment record maintained for the owner's own use. Nothing here is an offer, a solicitation, or financial advice. Figures marked "sample" or shown as "—" are placeholders pending real data. Past performance is not indicative of future performance.</p>
+  </footer>
+
+</div>
+<script src="assets/app.js"></script>
+</body>
+</html>

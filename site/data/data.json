@@ -1,0 +1,463 @@
+{
+  "meta": {
+    "generated_at": "2026-06-02T10:38:59+00:00",
+    "base_currency": "AUD",
+    "as_of_date": "2026-06-02",
+    "has_fx": false,
+    "has_nav": false,
+    "books_display": {
+      "passive": "Wealth Base",
+      "conviction": "Conviction",
+      "tactical": "Tactical"
+    }
+  },
+  "fund": {
+    "definition": "Conviction + Tactical",
+    "value_aud": null,
+    "nav_per_unit": null,
+    "monthly_return": null,
+    "ytd_return": null,
+    "placeholder": true,
+    "position_count": 10
+  },
+  "sleeves": {
+    "display": {
+      "passive": "Wealth Base",
+      "conviction": "Conviction",
+      "tactical": "Tactical"
+    },
+    "target_weights": {
+      "passive": 0.5,
+      "conviction": 0.35,
+      "tactical": 0.15
+    },
+    "counts": {
+      "passive": 2,
+      "conviction": 8,
+      "tactical": 2
+    },
+    "current_weights": null,
+    "current_weights_placeholder": true
+  },
+  "holdings": [
+    {
+      "book": "passive",
+      "asset": "IVV",
+      "asset_class": "etf",
+      "venue": "commsec_au",
+      "quantity": null,
+      "avg_entry": null,
+      "currency": "AUD",
+      "position_type": "spot",
+      "leverage": null,
+      "tac_id": null,
+      "as_of_date": "2026-06-02",
+      "cost_basis": null,
+      "value_aud": null,
+      "weight": null,
+      "pnl": null,
+      "placeholder": {
+        "value_aud": true,
+        "weight": true,
+        "pnl": true
+      }
+    },
+    {
+      "book": "passive",
+      "asset": "CRED",
+      "asset_class": "etf",
+      "venue": "commsec_au",
+      "quantity": null,
+      "avg_entry": null,
+      "currency": "AUD",
+      "position_type": "spot",
+      "leverage": null,
+      "tac_id": null,
+      "as_of_date": "2026-06-02",
+      "cost_basis": null,
+      "value_aud": null,
+      "weight": null,
+      "pnl": null,
+      "placeholder": {
+        "value_aud": true,
+        "weight": true,
+        "pnl": true
+      }
+    },
+    {
+      "book": "conviction",
+      "asset": "GOOGL",
+      "asset_class": "equity",
+      "venue": "commsec_intl",
+      "quantity": null,
+      "avg_entry": null,
+      "currency": "AUD",
+      "position_type": "spot",
+      "leverage": null,
+      "tac_id": null,
+      "as_of_date": "2026-06-02",
+      "cost_basis": null,
+      "value_aud": null,
+      "weight": null,
+      "pnl": null,
+      "placeholder": {
+        "value_aud": true,
+        "weight": true,
+        "pnl": true
+      }
+    },
+    {
+      "book": "conviction",
+      "asset": "IGM",
+      "asset_class": "equity",
+      "venue": "commsec_intl",
+      "quantity": null,
+      "avg_entry": null,
+      "currency": "AUD",
+      "position_type": "spot",
+      "leverage": null,
+      "tac_id": null,
+      "as_of_date": "2026-06-02",
+      "cost_basis": null,
+      "value_aud": null,
+      "weight": null,
+      "pnl": null,
+      "placeholder": {
+        "value_aud": true,
+        "weight": true,
+        "pnl": true
+      }
+    },
+    {
+      "book": "conviction",
+      "asset": "GOOG",
+      "asset_class": "equity",
+      "venue": "stake",
+      "quantity": null,
+      "avg_entry": null,
+      "currency": "USD",
+      "position_type": "spot",
+      "leverage": null,
+      "tac_id": null,
+      "as_of_date": "2026-06-02",
+      "cost_basis": null,
+      "value_aud": null,
+      "weight": null,
+      "pnl": null,
+      "placeholder": {
+        "value_aud": true,
+        "weight": true,
+        "pnl": true
+      }
+    },
+    {
+      "book": "conviction",
+      "asset": "ETH",
+      "asset_class": "crypto_spot",
+      "venue": "phantom",
+      "quantity": null,
+      "avg_entry": null,
+      "currency": "USD",
+      "position_type": "spot",
+      "leverage": null,
+      "tac_id": null,
+      "as_of_date": "2026-06-02",
+      "cost_basis": null,
+      "value_aud": null,
+      "weight": null,
+      "pnl": null,
+      "placeholder": {
+        "value_aud": true,
+        "weight": true,
+        "pnl": true
+      }
+    },
+    {
+      "book": "conviction",
+      "asset": "BTC",
+      "asset_class": "crypto_spot",
+      "venue": "phantom",
+      "quantity": null,
+      "avg_entry": null,
+      "currency": "USD",
+      "position_type": "spot",
+      "leverage": null,
+      "tac_id": null,
+      "as_of_date": "2026-06-02",
+      "cost_basis": null,
+      "value_aud": null,
+      "weight": null,
+      "pnl": null,
+      "placeholder": {
+        "value_aud": true,
+        "weight": true,
+        "pnl": true
+      }
+    },
+    {
+      "book": "conviction",
+      "asset": "jitoSOL",
+      "asset_class": "crypto_spot",
+      "venue": "phantom",
+      "quantity": null,
+      "avg_entry": null,
+      "currency": "USD",
+      "position_type": "spot",
+      "leverage": null,
+      "tac_id": null,
+      "as_of_date": "2026-06-02",
+      "cost_basis": null,
+      "value_aud": null,
+      "weight": null,
+      "pnl": null,
+      "placeholder": {
+        "value_aud": true,
+        "weight": true,
+        "pnl": true
+      }
+    },
+    {
+      "book": "conviction",
+      "asset": "SYRUP",
+      "asset_class": "crypto_spot",
+      "venue": "exchange",
+      "quantity": null,
+      "avg_entry": null,
+      "currency": "USD",
+      "position_type": "spot",
+      "leverage": null,
+      "tac_id": null,
+      "as_of_date": "2026-06-02",
+      "cost_basis": null,
+      "value_aud": null,
+      "weight": null,
+      "pnl": null,
+      "placeholder": {
+        "value_aud": true,
+        "weight": true,
+        "pnl": true
+      }
+    },
+    {
+      "book": "conviction",
+      "asset": "HYPE",
+      "asset_class": "crypto_spot",
+      "venue": "exchange",
+      "quantity": null,
+      "avg_entry": null,
+      "currency": "USD",
+      "position_type": "spot",
+      "leverage": null,
+      "tac_id": null,
+      "as_of_date": "2026-06-02",
+      "cost_basis": null,
+      "value_aud": null,
+      "weight": null,
+      "pnl": null,
+      "placeholder": {
+        "value_aud": true,
+        "weight": true,
+        "pnl": true
+      }
+    },
+    {
+      "book": "tactical",
+      "asset": "GOOGL",
+      "asset_class": "equity_perp",
+      "venue": "hyperliquid",
+      "quantity": 0.519,
+      "avg_entry": 389.89,
+      "currency": "USDC",
+      "position_type": "long",
+      "leverage": 10.0,
+      "tac_id": null,
+      "as_of_date": "2026-06-02",
+      "cost_basis": 202.35,
+      "value_aud": null,
+      "weight": null,
+      "pnl": null,
+      "placeholder": {
+        "value_aud": true,
+        "weight": true,
+        "pnl": true
+      }
+    },
+    {
+      "book": "tactical",
+      "asset": "NVDA",
+      "asset_class": "equity_perp",
+      "venue": "hyperliquid",
+      "quantity": 1.37,
+      "avg_entry": 228.73,
+      "currency": "USDC",
+      "position_type": "long",
+      "leverage": 15.0,
+      "tac_id": null,
+      "as_of_date": "2026-06-02",
+      "cost_basis": 313.36,
+      "value_aud": null,
+      "weight": null,
+      "pnl": null,
+      "placeholder": {
+        "value_aud": true,
+        "weight": true,
+        "pnl": true
+      }
+    }
+  ],
+  "filters": {
+    "book": [
+      "conviction",
+      "passive",
+      "tactical"
+    ],
+    "asset_class": [
+      "crypto_spot",
+      "equity",
+      "equity_perp",
+      "etf"
+    ],
+    "venue": [
+      "commsec_au",
+      "commsec_intl",
+      "exchange",
+      "hyperliquid",
+      "phantom",
+      "stake"
+    ]
+  },
+  "exposure": {
+    "currency": "USDC",
+    "basis": "entry",
+    "gross_long": 515.71,
+    "gross_short": 0.0,
+    "net": 515.71,
+    "long_count": 2,
+    "short_count": 0,
+    "unpriced_count": 0,
+    "positions": [
+      {
+        "asset": "GOOGL",
+        "position_type": "long",
+        "leverage": 10.0,
+        "venue": "hyperliquid",
+        "notional": 202.35,
+        "currency": "USDC"
+      },
+      {
+        "asset": "NVDA",
+        "position_type": "long",
+        "leverage": 15.0,
+        "venue": "hyperliquid",
+        "notional": 313.36,
+        "currency": "USDC"
+      }
+    ]
+  },
+  "breakdowns": {
+    "asset_class_counts": {
+      "etf": 2,
+      "equity": 3,
+      "crypto_spot": 5,
+      "equity_perp": 2
+    },
+    "venue_counts": {
+      "commsec_au": 2,
+      "commsec_intl": 2,
+      "stake": 1,
+      "phantom": 3,
+      "exchange": 2,
+      "hyperliquid": 2
+    }
+  },
+  "performance": {
+    "placeholder": true,
+    "note": "Sample data \u2014 populate data/nav.csv for real figures.",
+    "series": {
+      "labels": [
+        "May 24",
+        "Jul",
+        "Sep",
+        "Nov",
+        "Jan 25",
+        "Mar",
+        "May",
+        "Jul",
+        "Sep",
+        "Nov",
+        "Jan 26",
+        "Mar",
+        "May 26"
+      ],
+      "fund": [
+        100.0,
+        102.2,
+        101.8,
+        106.4,
+        105.1,
+        109.8,
+        112.4,
+        116.0,
+        114.3,
+        120.5,
+        123.8,
+        129.1,
+        138.4
+      ],
+      "benchmark": [
+        100.0,
+        100.9,
+        102.4,
+        101.8,
+        104.1,
+        103.3,
+        105.6,
+        107.2,
+        106.5,
+        108.8,
+        110.2,
+        112.4,
+        114.3
+      ]
+    },
+    "periods": [
+      {
+        "period": "1M",
+        "fund": 4.2,
+        "benchmark": 1.9,
+        "outperformance": 2.3
+      },
+      {
+        "period": "3M",
+        "fund": 7.2,
+        "benchmark": 3.7,
+        "outperformance": 3.5
+      },
+      {
+        "period": "6M",
+        "fund": 11.8,
+        "benchmark": 5.4,
+        "outperformance": 6.4
+      },
+      {
+        "period": "12M",
+        "fund": 22.6,
+        "benchmark": 9.1,
+        "outperformance": 13.5
+      },
+      {
+        "period": "Inception",
+        "fund": 38.4,
+        "benchmark": 14.3,
+        "outperformance": 24.1
+      },
+      {
+        "period": "Inception p.a.",
+        "fund": 17.1,
+        "benchmark": 6.8,
+        "outperformance": 10.3
+      }
+    ]
+  },
+  "reports": []
+}

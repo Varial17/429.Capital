@@ -62,6 +62,15 @@ python3 build.py
 Reads the CSVs in `data/` plus `reports/*.json`, computes derived metrics, and writes
 `site/data/data.json`. Python 3 standard library only — no dependencies to install.
 
+## Preview locally
+
+```sh
+python3 serve.py            # serves site/ at http://localhost:8753
+```
+
+Then open `http://localhost:8753/` (landing) or `/dashboard.html` (internal dashboard).
+The dashboard fetches `data/data.json`, so it must be served over HTTP, not opened as a file.
+
 ## Adding data
 
 - **Update holdings:** edit `data/holdings.csv`, then re-run `python3 build.py`.

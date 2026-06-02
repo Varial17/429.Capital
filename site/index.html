@@ -1,0 +1,292 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>429 Capital</title>
+<style>
+  :root{
+    --bg:#0a0a0b;
+    --bg-2:#0e0e10;
+    --surface:#141416;
+    --text:#f4f3ef;
+    --text-muted:#8c8c92;
+    --text-dim:#5a5a60;
+    --border:rgba(255,255,255,0.09);
+    --border-strong:rgba(255,255,255,0.16);
+    --accent:#f4f3ef;       /* monochrome for now — swap to a colour later */
+    --positive:#e8e7e3;
+    --negative:#8c8c92;
+    /* system fonts only — no external requests */
+    --serif:'Iowan Old Style','Palatino Linotype',Palatino,Georgia,'Times New Roman',serif;
+    --sans:system-ui,-apple-system,'Segoe UI',Roboto,Helvetica,Arial,sans-serif;
+    --mono:ui-monospace,'SF Mono',SFMono-Regular,Menlo,Consolas,monospace;
+  }
+  *{margin:0;padding:0;box-sizing:border-box}
+  html{scroll-behavior:smooth}
+  body{
+    background:var(--bg);color:var(--text);font-family:var(--sans);
+    line-height:1.6;-webkit-font-smoothing:antialiased;
+    overflow-x:hidden;position:relative;
+  }
+  /* faint grain + vignette for atmosphere */
+  body::before{
+    content:"";position:fixed;inset:0;pointer-events:none;z-index:1;
+    background:radial-gradient(120% 90% at 50% 0%,transparent 55%,rgba(0,0,0,0.55) 100%);
+  }
+  body::after{
+    content:"";position:fixed;inset:0;pointer-events:none;z-index:1;opacity:0.035;
+    background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='3'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+  }
+  .wrap{max-width:1180px;margin:0 auto;padding:0 32px;position:relative;z-index:2}
+
+  /* ---- Nav ---- */
+  nav{display:flex;align-items:center;justify-content:space-between;
+    padding:26px 0;border-bottom:1px solid var(--border)}
+  .word{font-family:var(--serif);font-weight:400;font-size:21px;letter-spacing:0.04em}
+  .word b{font-weight:600}
+  .navlinks{display:flex;gap:34px;align-items:center}
+  .navlinks a{color:var(--text-muted);text-decoration:none;font-size:12px;
+    letter-spacing:0.14em;text-transform:uppercase;transition:color .25s}
+  .navlinks a:hover{color:var(--text)}
+  @media(max-width:680px){.navlinks{gap:18px}}
+
+  /* ---- Hero ---- */
+  .hero{padding:78px 0 30px}
+  .kicker{font-size:11px;letter-spacing:0.32em;text-transform:uppercase;
+    color:var(--text-dim);margin-bottom:26px;opacity:0;animation:rise .9s .1s forwards}
+  .hero h1{font-family:var(--serif);font-weight:300;font-size:clamp(38px,6vw,72px);
+    line-height:1.04;letter-spacing:-0.015em;max-width:14ch;
+    opacity:0;animation:rise 1s .22s forwards}
+  .hero h1 em{font-style:italic;font-weight:400}
+  .hero .sub{margin-top:24px;color:var(--text-muted);max-width:46ch;font-size:16px;
+    opacity:0;animation:rise 1s .34s forwards}
+
+  /* ---- Performance hero card ---- */
+  .perf{margin-top:58px;border:1px solid var(--border);border-radius:3px;
+    background:linear-gradient(180deg,var(--bg-2),var(--bg));
+    opacity:0;animation:rise 1s .48s forwards}
+  .perf-head{display:flex;justify-content:space-between;align-items:flex-end;
+    flex-wrap:wrap;gap:20px;padding:30px 34px 8px}
+  .perf-label{font-size:11px;letter-spacing:0.22em;text-transform:uppercase;color:var(--text-dim)}
+  .perf-value{font-family:var(--serif);font-weight:300;font-size:clamp(44px,7vw,76px);
+    line-height:1;letter-spacing:-0.02em;font-variant-numeric:tabular-nums}
+  .perf-delta{font-family:var(--mono);font-size:13px;color:var(--text-muted);margin-top:10px;letter-spacing:0.02em}
+  .perf-delta b{color:var(--text);font-weight:500}
+  .legend{display:flex;gap:22px;align-items:center}
+  .leg{display:flex;align-items:center;gap:9px;font-size:12px;color:var(--text-muted);letter-spacing:0.04em}
+  .leg span{width:18px;height:2px;display:inline-block}
+  .leg.fund span{background:var(--text)}
+  .leg.bench span{background:var(--text-dim);
+    background-image:repeating-linear-gradient(90deg,var(--text-dim) 0 5px,transparent 5px 9px)}
+  .chart{padding:6px 18px 14px}
+  svg.line{width:100%;height:300px;display:block;overflow:visible}
+  .axis-x{display:flex;justify-content:space-between;padding:2px 16px 24px;
+    font-family:var(--mono);font-size:10.5px;color:var(--text-dim);letter-spacing:0.05em}
+  .tag{display:inline-block;margin:0 34px 26px;font-family:var(--mono);font-size:10px;
+    color:var(--text-dim);border:1px solid var(--border);border-radius:2px;padding:3px 9px;letter-spacing:0.08em}
+
+  /* ---- Stat strip ---- */
+  .strip{display:grid;grid-template-columns:repeat(5,1fr);border:1px solid var(--border);
+    border-top:none;border-radius:0 0 3px 3px;overflow:hidden}
+  .strip .cell{padding:20px 22px;border-left:1px solid var(--border)}
+  .strip .cell:first-child{border-left:none}
+  .strip .l{font-size:10.5px;letter-spacing:0.16em;text-transform:uppercase;color:var(--text-dim);margin-bottom:9px}
+  .strip .v{font-family:var(--mono);font-size:19px;letter-spacing:-0.01em}
+  @media(max-width:680px){.strip{grid-template-columns:repeat(2,1fr)}
+    .strip .cell:nth-child(odd){border-left:none}
+    .strip .cell:nth-child(n+3){border-top:1px solid var(--border)}}
+
+  /* ---- Sleeves ---- */
+  .sleeves{padding:96px 0 30px}
+  .sec-label{font-size:11px;letter-spacing:0.28em;text-transform:uppercase;color:var(--text-dim);
+    margin-bottom:8px}
+  .sec-title{font-family:var(--serif);font-weight:300;font-size:clamp(28px,4vw,42px);
+    letter-spacing:-0.01em;margin-bottom:46px}
+  .sgrid{display:grid;grid-template-columns:repeat(3,1fr);gap:1px;background:var(--border);
+    border:1px solid var(--border);border-radius:3px;overflow:hidden}
+  .sleeve{background:var(--bg);padding:34px 30px 38px;transition:background .3s}
+  .sleeve:hover{background:var(--bg-2)}
+  .sleeve .idx{font-family:var(--mono);font-size:11px;color:var(--text-dim);letter-spacing:0.1em}
+  .sleeve h3{font-family:var(--serif);font-weight:400;font-size:25px;margin:16px 0 4px}
+  .sleeve .role{font-size:12px;letter-spacing:0.06em;color:var(--text-dim);text-transform:uppercase;margin-bottom:20px}
+  .sleeve p{font-size:14px;color:var(--text-muted);margin-bottom:26px;min-height:66px}
+  .sleeve .wt{display:flex;align-items:baseline;justify-content:space-between;
+    border-top:1px solid var(--border);padding-top:16px}
+  .sleeve .wt .n{font-family:var(--mono);font-size:22px}
+  .sleeve .wt .x{font-size:11px;color:var(--text-dim);letter-spacing:0.1em;text-transform:uppercase}
+  @media(max-width:760px){.sgrid{grid-template-columns:1fr}}
+
+  /* ---- CTA ---- */
+  .cta{margin-top:30px;display:flex;gap:16px;flex-wrap:wrap}
+  .btn{font-family:var(--mono);font-size:12px;letter-spacing:0.1em;text-transform:uppercase;
+    text-decoration:none;padding:13px 22px;border:1px solid var(--border-strong);
+    border-radius:3px;color:var(--text);transition:.2s}
+  .btn:hover{background:var(--text);color:var(--bg)}
+  .btn.ghost{border-color:var(--border);color:var(--text-muted)}
+  .btn.ghost:hover{color:var(--text);background:transparent;border-color:var(--border-strong)}
+
+  /* ---- Footer ---- */
+  footer{margin-top:96px;border-top:1px solid var(--border);padding:40px 0 60px}
+  .foot-top{display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:18px;margin-bottom:26px}
+  .foot-links{display:flex;gap:26px}
+  .foot-links a{color:var(--text-muted);text-decoration:none;font-size:12px;letter-spacing:0.12em;text-transform:uppercase;transition:color .25s}
+  .foot-links a:hover{color:var(--text)}
+  .disc{font-size:11.5px;color:var(--text-dim);line-height:1.7;max-width:80ch}
+
+  @keyframes rise{from{opacity:0;transform:translateY(16px)}to{opacity:1;transform:none}}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <nav>
+    <div class="word">429&nbsp;<b>CAPITAL</b></div>
+    <div class="navlinks">
+      <a href="dashboard.html">Dashboard</a>
+      <a href="reports/index.html">Reports</a>
+      <a href="#sleeves">Structure</a>
+    </div>
+  </nav>
+
+  <header class="hero">
+    <div class="kicker">A private investment book · Since May 2024</div>
+    <h1>Capital, compounded with <em>conviction</em>.</h1>
+    <p class="sub">429 Capital runs three sleeves — Wealth Base, Conviction and Tactical — across global equities, crypto and event-driven macro. One book, one number, fully transparent.</p>
+  </header>
+
+  <section class="perf">
+    <div class="perf-head">
+      <div>
+        <div class="perf-label">Growth of $10,000 · since inception</div>
+        <div class="perf-value" id="heroval">$10,000</div>
+        <div class="perf-delta">Fund <b id="herodelta">+0.0%</b> &nbsp;·&nbsp; Benchmark <span id="benchdelta">+0.0%</span> &nbsp;·&nbsp; MSCI ACWI (AUD)</div>
+      </div>
+      <div class="legend">
+        <div class="leg fund"><span></span>429 Capital</div>
+        <div class="leg bench"><span></span>Benchmark</div>
+      </div>
+    </div>
+    <div class="chart">
+      <svg class="line" viewBox="0 0 1000 300" preserveAspectRatio="none" id="svg"></svg>
+    </div>
+    <div class="axis-x" id="axis"></div>
+    <span class="tag">Illustrative — sample data, not actual returns</span>
+
+    <div class="strip">
+      <div class="cell"><div class="l">1 Month</div><div class="v">+4.2%</div></div>
+      <div class="cell"><div class="l">6 Months</div><div class="v">+11.8%</div></div>
+      <div class="cell"><div class="l">12 Months</div><div class="v">+22.6%</div></div>
+      <div class="cell"><div class="l">Inception</div><div class="v">+38.4%</div></div>
+      <div class="cell"><div class="l">Inception p.a.</div><div class="v">+17.1%</div></div>
+    </div>
+  </section>
+
+  <section class="sleeves" id="sleeves">
+    <div class="sec-label">Structure</div>
+    <h2 class="sec-title">Three sleeves, one mandate.</h2>
+    <div class="sgrid">
+      <div class="sleeve">
+        <div class="idx">01</div>
+        <h3>Wealth Base</h3>
+        <div class="role">Passive · Benchmark</div>
+        <p>Index ETFs held outright. The long-term foundation and the yardstick every other sleeve is measured against.</p>
+        <div class="wt"><span class="n">50%</span><span class="x">Target weight</span></div>
+      </div>
+      <div class="sleeve">
+        <div class="idx">02</div>
+        <h3>Conviction</h3>
+        <div class="role">Active · Owned outright</div>
+        <p>Thesis-driven equities and spot crypto held for the multi-year story. No leverage, high patience.</p>
+        <div class="wt"><span class="n">35%</span><span class="x">Target weight</span></div>
+      </div>
+      <div class="sleeve">
+        <div class="idx">03</div>
+        <h3>Tactical</h3>
+        <div class="role">Active · Event-driven</div>
+        <p>Leveraged, catalyst-driven positions on a defined entry, ladder and stop. Short-to-medium horizon, tightly sized.</p>
+        <div class="wt"><span class="n">15%</span><span class="x">Target weight</span></div>
+      </div>
+    </div>
+    <div class="cta">
+      <a class="btn" href="dashboard.html">Open dashboard</a>
+      <a class="btn ghost" href="reports/index.html">Read reports</a>
+    </div>
+  </section>
+
+  <footer>
+    <div class="foot-top">
+      <div class="word">429&nbsp;<b>CAPITAL</b></div>
+      <div class="foot-links">
+        <a href="dashboard.html">Dashboard</a><a href="reports/index.html">Reports</a>
+      </div>
+    </div>
+    <p class="disc">429 Capital is a private personal investment record maintained for the owner's own use. Nothing here is an offer, a solicitation, or financial advice, and it does not take into account anyone's objectives or circumstances. Figures shown are illustrative sample data. Past performance is not indicative of future performance.</p>
+  </footer>
+
+</div>
+
+<script>
+  // ---- illustrative monthly growth-of-$10,000 series (sample data) ----
+  const months = ['May 24','Jul','Sep','Nov','Jan 25','Mar','May','Jul','Sep','Nov','Jan 26','Mar','May 26'];
+  const fund  = [10000,10220,10180,10640,10510,10980,11240,11600,11430,12050,12380,12910,13840];
+  const bench = [10000,10090,10240,10180,10410,10330,10560,10720,10650,10880,11020,11240,11430];
+
+  const W=1000,H=300,pad=8;
+  const all=[...fund,...bench];
+  const min=Math.min(...all)*0.997, max=Math.max(...all)*1.003;
+  const x=i=>pad+(i/(fund.length-1))*(W-pad*2);
+  const y=v=>pad+(1-(v-min)/(max-min))*(H-pad*2);
+  const path=a=>a.map((v,i)=>(i?'L':'M')+x(i).toFixed(1)+' '+y(v).toFixed(1)).join(' ');
+
+  const svg=document.getElementById('svg');
+  // baseline gridlines
+  let grid='';
+  for(let g=0;g<=3;g++){const gy=pad+(g/3)*(H-pad*2);
+    grid+=`<line x1="0" y1="${gy}" x2="${W}" y2="${gy}" stroke="rgba(255,255,255,0.05)" stroke-width="1"/>`;}
+  // area fill under fund
+  const area=path(fund)+` L ${x(fund.length-1)} ${H} L ${x(0)} ${H} Z`;
+  svg.innerHTML=grid+`
+    <defs><linearGradient id="fade" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="rgba(244,243,239,0.10)"/>
+      <stop offset="100%" stop-color="rgba(244,243,239,0)"/>
+    </linearGradient></defs>
+    <path d="${area}" fill="url(#fade)" opacity="0"/>
+    <path d="${path(bench)}" fill="none" stroke="var(--text-dim)" stroke-width="1.4"
+      stroke-dasharray="5 4" class="draw" id="pb"/>
+    <path d="${path(fund)}" fill="none" stroke="var(--text)" stroke-width="2.4"
+      stroke-linecap="round" stroke-linejoin="round" class="draw" id="pf"/>
+    <circle r="3.5" fill="var(--text)" id="dot" opacity="0"/>`;
+
+  // axis labels (sparse)
+  document.getElementById('axis').innerHTML=
+    [0,3,6,9,12].map(i=>`<span>${months[i]}</span>`).join('');
+
+  // draw-on animation
+  [['pf',1600],['pb',1600]].forEach(([id,dur])=>{
+    const p=document.getElementById(id);const len=p.getTotalLength();
+    p.style.strokeDasharray=id==='pb'?'5 4':len;p.style.strokeDashoffset=len;
+    p.animate([{strokeDashoffset:len},{strokeDashoffset:0}],
+      {duration:dur,delay:600,easing:'cubic-bezier(.4,0,.1,1)',fill:'forwards'});
+  });
+  // endpoint dot + area fade
+  setTimeout(()=>{const d=document.getElementById('dot');
+    d.setAttribute('cx',x(fund.length-1));d.setAttribute('cy',y(fund[fund.length-1]));
+    d.animate([{opacity:0},{opacity:1}],{duration:500,fill:'forwards'});
+    svg.querySelector('path[fill^="url"]').animate([{opacity:0},{opacity:1}],{duration:900,fill:'forwards'});
+  },1900);
+
+  // hero number count-up
+  const endVal=fund[fund.length-1];
+  const fEl=document.getElementById('heroval'),dEl=document.getElementById('herodelta');
+  document.getElementById('benchdelta').textContent='+'+(((bench.at(-1)-10000)/100).toFixed(1))+'%';
+  let t0=null,DUR=1700;
+  function step(ts){if(!t0)t0=ts;const k=Math.min((ts-t0)/DUR,1);
+    const e=1-Math.pow(1-k,3);const val=10000+(endVal-10000)*e;
+    fEl.textContent='$'+Math.round(val).toLocaleString();
+    dEl.textContent='+'+(((val-10000)/100).toFixed(1))+'%';
+    if(k<1)requestAnimationFrame(step);}
+  setTimeout(()=>requestAnimationFrame(step),600);
+</script>
+</body>
+</html>
