@@ -1,1 +1,15 @@
 date,tac_id,book,asset,asset_class,venue,action,quantity,price,currency,fees,notes
+2026-04-14,,tactical,HYPE,crypto_perp,hyperliquid,open,3.02,44.912,USDC,0.058593,Open Long 20:59:22
+2026-04-14,,tactical,ETH,crypto_perp,hyperliquid,open,0.0295,2373.1,USDC,0.030242,Open Short 21:00:06
+2026-04-14,,tactical,ETH,crypto_perp,hyperliquid,add,0.0199,2372.8,USDC,0.020398,Open Short 21:01:45
+2026-04-15,,tactical,ETH,crypto_perp,hyperliquid,close,0.0494,2336.4,USDC,0.04986,Close Short 10:24:55; closedPnl +1.756698
+2026-05-18,,tactical,NVDA,equity_perp,hyperliquid,open,0.447,223.97,USDC,0.008649,Open Long 17:25:20
+2026-05-18,,tactical,HYPE,crypto_perp,hyperliquid,trim,0.75,45.502,USDC,0.014742,Close Long 18:15:33; closedPnl +0.427758
+2026-05-18,,tactical,NVDA,equity_perp,hyperliquid,add,1.379,230.27,USDC,0.027435,Open Long 22:54:22
+2026-05-20,,tactical,HYPE,crypto_perp,hyperliquid,trim,0.75,50.036,USDC,0.016211,Close Long 22:40:55; closedPnl +3.826789
+2026-05-21,,tactical,GOOGL,equity_perp,hyperliquid,open,0.26,389.91,USDC,0.008758,Open Long 16:06:03
+2026-05-21,,tactical,HYPE,crypto_perp,hyperliquid,trim,0.75,58.003,USDC,0.018792,Close Long 17:46:55; closedPnl +9.799458
+2026-05-21,,tactical,NVDA,equity_perp,hyperliquid,trim,0.456,223.49,USDC,0.008805,Close Long 19:06:33; closedPnl -2.396877
+2026-05-21,,tactical,GOOGL,equity_perp,hyperliquid,add,0.259,389.86,USDC,0.008724,Open Long 19:07:17
+2026-05-22,,tactical,HYPE,crypto_perp,hyperliquid,close,0.77,59.935,USDC,0.019936,Close Long 00:02:34; closedPnl +11.547774
+2026-05-22,,conviction,HYPE,crypto_spot,hyperliquid,buy,0.29,57.193,USDC,0.00019487,Spot buy HYPE/USDC 16:56:25

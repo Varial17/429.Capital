@@ -1,6 +1,6 @@
 {
   "meta": {
-    "generated_at": "2026-06-02T11:18:34+00:00",
+    "generated_at": "2026-06-02T11:25:59+00:00",
     "base_currency": "AUD",
     "as_of_date": "2026-06-02",
     "has_fx": false,
@@ -418,15 +418,15 @@
       "book": "conviction",
       "asset": "HYPE",
       "asset_class": "crypto_spot",
-      "venue": "exchange",
-      "quantity": null,
-      "avg_entry": null,
-      "currency": "USD",
+      "venue": "hyperliquid",
+      "quantity": 0.29,
+      "avg_entry": 57.193,
+      "currency": "USDC",
       "position_type": "spot",
       "leverage": null,
       "tac_id": null,
       "as_of_date": "2026-06-02",
-      "cost_basis": null,
+      "cost_basis": 16.59,
       "value_aud": null,
       "weight": null,
       "pnl": null,
@@ -542,8 +542,8 @@
       "stake": 9,
       "commsec_intl": 2,
       "phantom": 3,
-      "exchange": 2,
-      "hyperliquid": 2
+      "exchange": 1,
+      "hyperliquid": 3
     }
   },
   "performance": {
