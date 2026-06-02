@@ -1,0 +1,11 @@
+{
+  "version": "0.0.1",
+  "configurations": [
+    {
+      "name": "site",
+      "runtimeExecutable": "python3",
+      "runtimeArgs": ["/Users/danielhay/Documents/GitHub/429.Capital/serve.py", "8753"],
+      "port": 8753
+    }
+  ]
+}
