@@ -1,43 +1,82 @@
 {
   "meta": {
-    "generated_at": "2026-06-02T11:25:59+00:00",
+    "generated_at": "2026-06-02T12:34:18+00:00",
     "base_currency": "AUD",
     "as_of_date": "2026-06-02",
-    "has_fx": false,
+    "fx": {
+      "AUDUSD": 0.658,
+      "date": "2026-06-02"
+    },
+    "fx_note": "market rate \u2014 update data/fx.csv to refresh",
+    "has_fx": true,
     "has_nav": false,
     "books_display": {
       "passive": "Wealth Base",
       "conviction": "Conviction",
       "tactical": "Tactical"
-    }
+    },
+    "book_order": [
+      "passive",
+      "conviction",
+      "tactical"
+    ]
   },
+  "book_total_aud": 7416.47,
   "fund": {
     "definition": "Conviction + Tactical",
-    "value_aud": null,
-    "nav_per_unit": null,
-    "monthly_return": null,
-    "ytd_return": null,
-    "placeholder": true,
+    "value_aud": 3433.84,
+    "cost_aud": 1898.45,
+    "pnl_aud": 641.4,
+    "return_pct": 33.79,
     "position_count": 17
   },
   "sleeves": {
-    "display": {
-      "passive": "Wealth Base",
-      "conviction": "Conviction",
-      "tactical": "Tactical"
+    "passive": {
+      "book": "passive",
+      "display": "Wealth Base",
+      "count": 3,
+      "value_aud": 3982.63,
+      "cost_aud": 3611.93,
+      "pnl_aud": 370.7,
+      "return_pct": 10.26,
+      "target_weight": 0.5,
+      "weight": 53.7,
+      "unpriced": [],
+      "uncosted": []
     },
-    "target_weights": {
-      "passive": 0.5,
-      "conviction": 0.35,
-      "tactical": 0.15
+    "conviction": {
+      "book": "conviction",
+      "display": "Conviction",
+      "count": 15,
+      "value_aud": 3399.36,
+      "cost_aud": 1835.95,
+      "pnl_aud": 669.42,
+      "return_pct": 36.46,
+      "target_weight": 0.35,
+      "weight": 45.84,
+      "unpriced": [
+        "HYPE"
+      ],
+      "uncosted": [
+        "ETH",
+        "BTC",
+        "jitoSOL",
+        "SYRUP"
+      ]
     },
-    "counts": {
-      "passive": 3,
-      "conviction": 15,
-      "tactical": 2
-    },
-    "current_weights": null,
-    "current_weights_placeholder": true
+    "tactical": {
+      "book": "tactical",
+      "display": "Tactical",
+      "count": 2,
+      "value_aud": 34.48,
+      "cost_aud": 62.5,
+      "pnl_aud": -28.02,
+      "return_pct": -44.83,
+      "target_weight": 0.15,
+      "weight": 0.46,
+      "unpriced": [],
+      "uncosted": []
+    }
   },
   "holdings": [
     {
@@ -47,20 +86,20 @@
       "venue": "commsec_au",
       "quantity": 37.0,
       "avg_entry": 63.508,
+      "last_price": 70.52,
       "currency": "AUD",
       "position_type": "spot",
       "leverage": null,
       "tac_id": null,
       "as_of_date": "2026-06-02",
-      "cost_basis": 2349.8,
-      "value_aud": null,
-      "weight": null,
-      "pnl": null,
-      "placeholder": {
-        "value_aud": true,
-        "weight": true,
-        "pnl": true
-      }
+      "is_perp": false,
+      "cost_aud": 2349.8,
+      "value_aud": 2609.24,
+      "pnl_aud": 259.44,
+      "pnl_pct": 11.04,
+      "notional_aud": null,
+      "weight": 35.18,
+      "flags": []
     },
     {
       "book": "passive",
@@ -69,20 +108,20 @@
       "venue": "commsec_au",
       "quantity": 26.0,
       "avg_entry": 24.134,
+      "last_price": 22.72,
       "currency": "AUD",
       "position_type": "spot",
       "leverage": null,
       "tac_id": null,
       "as_of_date": "2026-06-02",
-      "cost_basis": 627.48,
-      "value_aud": null,
-      "weight": null,
-      "pnl": null,
-      "placeholder": {
-        "value_aud": true,
-        "weight": true,
-        "pnl": true
-      }
+      "is_perp": false,
+      "cost_aud": 627.48,
+      "value_aud": 590.72,
+      "pnl_aud": -36.76,
+      "pnl_pct": -5.86,
+      "notional_aud": null,
+      "weight": 7.96,
+      "flags": []
     },
     {
       "book": "passive",
@@ -91,20 +130,20 @@
       "venue": "stake",
       "quantity": 10.0,
       "avg_entry": 41.76,
+      "last_price": 51.5,
       "currency": "USD",
       "position_type": "spot",
       "leverage": null,
       "tac_id": null,
       "as_of_date": "2026-06-02",
-      "cost_basis": 417.6,
-      "value_aud": null,
-      "weight": null,
-      "pnl": null,
-      "placeholder": {
-        "value_aud": true,
-        "weight": true,
-        "pnl": true
-      }
+      "is_perp": false,
+      "cost_aud": 634.65,
+      "value_aud": 782.67,
+      "pnl_aud": 148.02,
+      "pnl_pct": 23.32,
+      "notional_aud": null,
+      "weight": 10.55,
+      "flags": []
     },
     {
       "book": "conviction",
@@ -113,20 +152,20 @@
       "venue": "commsec_intl",
       "quantity": 1.0,
       "avg_entry": 159.0,
+      "last_price": 365.9,
       "currency": "USD",
       "position_type": "spot",
       "leverage": null,
       "tac_id": null,
       "as_of_date": "2026-06-02",
-      "cost_basis": 159.0,
-      "value_aud": null,
-      "weight": null,
-      "pnl": null,
-      "placeholder": {
-        "value_aud": true,
-        "weight": true,
-        "pnl": true
-      }
+      "is_perp": false,
+      "cost_aud": 241.64,
+      "value_aud": 556.08,
+      "pnl_aud": 314.44,
+      "pnl_pct": 130.13,
+      "notional_aud": null,
+      "weight": 7.5,
+      "flags": []
     },
     {
       "book": "conviction",
@@ -135,20 +174,20 @@
       "venue": "commsec_intl",
       "quantity": 1.0,
       "avg_entry": 133.27,
+      "last_price": 169.2,
       "currency": "USD",
       "position_type": "spot",
       "leverage": null,
       "tac_id": null,
       "as_of_date": "2026-06-02",
-      "cost_basis": 133.27,
-      "value_aud": null,
-      "weight": null,
-      "pnl": null,
-      "placeholder": {
-        "value_aud": true,
-        "weight": true,
-        "pnl": true
-      }
+      "is_perp": false,
+      "cost_aud": 202.54,
+      "value_aud": 257.14,
+      "pnl_aud": 54.6,
+      "pnl_pct": 26.96,
+      "notional_aud": null,
+      "weight": 3.47,
+      "flags": []
     },
     {
       "book": "conviction",
@@ -157,20 +196,20 @@
       "venue": "stake",
       "quantity": 1.0,
       "avg_entry": 169.06,
+      "last_price": 372.58,
       "currency": "USD",
       "position_type": "spot",
       "leverage": null,
       "tac_id": null,
       "as_of_date": "2026-06-02",
-      "cost_basis": 169.06,
-      "value_aud": null,
-      "weight": null,
-      "pnl": null,
-      "placeholder": {
-        "value_aud": true,
-        "weight": true,
-        "pnl": true
-      }
+      "is_perp": false,
+      "cost_aud": 256.93,
+      "value_aud": 566.23,
+      "pnl_aud": 309.3,
+      "pnl_pct": 120.38,
+      "notional_aud": null,
+      "weight": 7.63,
+      "flags": []
     },
     {
       "book": "conviction",
@@ -179,20 +218,20 @@
       "venue": "stake",
       "quantity": 1.0,
       "avg_entry": 187.81,
+      "last_price": 224.36,
       "currency": "USD",
       "position_type": "spot",
       "leverage": null,
       "tac_id": null,
       "as_of_date": "2026-06-02",
-      "cost_basis": 187.81,
-      "value_aud": null,
-      "weight": null,
-      "pnl": null,
-      "placeholder": {
-        "value_aud": true,
-        "weight": true,
-        "pnl": true
-      }
+      "is_perp": false,
+      "cost_aud": 285.43,
+      "value_aud": 340.97,
+      "pnl_aud": 55.55,
+      "pnl_pct": 19.46,
+      "notional_aud": null,
+      "weight": 4.6,
+      "flags": []
     },
     {
       "book": "conviction",
@@ -201,20 +240,20 @@
       "venue": "stake",
       "quantity": 0.1956,
       "avg_entry": 688.4,
+      "last_price": 600.47,
       "currency": "USD",
       "position_type": "spot",
       "leverage": null,
       "tac_id": null,
       "as_of_date": "2026-06-02",
-      "cost_basis": 134.65,
-      "value_aud": null,
-      "weight": null,
-      "pnl": null,
-      "placeholder": {
-        "value_aud": true,
-        "weight": true,
-        "pnl": true
-      }
+      "is_perp": false,
+      "cost_aud": 204.64,
+      "value_aud": 178.5,
+      "pnl_aud": -26.14,
+      "pnl_pct": -12.77,
+      "notional_aud": null,
+      "weight": 2.41,
+      "flags": []
     },
     {
       "book": "conviction",
@@ -223,20 +262,20 @@
       "venue": "stake",
       "quantity": 0.3661,
       "avg_entry": 436.38,
+      "last_price": 460.52,
       "currency": "USD",
       "position_type": "spot",
       "leverage": null,
       "tac_id": null,
       "as_of_date": "2026-06-02",
-      "cost_basis": 159.76,
-      "value_aud": null,
-      "weight": null,
-      "pnl": null,
-      "placeholder": {
-        "value_aud": true,
-        "weight": true,
-        "pnl": true
-      }
+      "is_perp": false,
+      "cost_aud": 242.79,
+      "value_aud": 256.23,
+      "pnl_aud": 13.43,
+      "pnl_pct": 5.53,
+      "notional_aud": null,
+      "weight": 3.45,
+      "flags": []
     },
     {
       "book": "conviction",
@@ -245,20 +284,20 @@
       "venue": "stake",
       "quantity": 1.0,
       "avg_entry": 138.82,
+      "last_price": 124.82,
       "currency": "USD",
       "position_type": "spot",
       "leverage": null,
       "tac_id": null,
       "as_of_date": "2026-06-02",
-      "cost_basis": 138.82,
-      "value_aud": null,
-      "weight": null,
-      "pnl": null,
-      "placeholder": {
-        "value_aud": true,
-        "weight": true,
-        "pnl": true
-      }
+      "is_perp": false,
+      "cost_aud": 210.97,
+      "value_aud": 189.7,
+      "pnl_aud": -21.28,
+      "pnl_pct": -10.09,
+      "notional_aud": null,
+      "weight": 2.56,
+      "flags": []
     },
     {
       "book": "conviction",
@@ -267,20 +306,20 @@
       "venue": "stake",
       "quantity": 1.0,
       "avg_entry": 57.1,
+      "last_price": 32.12,
       "currency": "USD",
       "position_type": "spot",
       "leverage": null,
       "tac_id": null,
       "as_of_date": "2026-06-02",
-      "cost_basis": 57.1,
-      "value_aud": null,
-      "weight": null,
-      "pnl": null,
-      "placeholder": {
-        "value_aud": true,
-        "weight": true,
-        "pnl": true
-      }
+      "is_perp": false,
+      "cost_aud": 86.78,
+      "value_aud": 48.81,
+      "pnl_aud": -37.96,
+      "pnl_pct": -43.75,
+      "notional_aud": null,
+      "weight": 0.66,
+      "flags": []
     },
     {
       "book": "conviction",
@@ -289,20 +328,20 @@
       "venue": "stake",
       "quantity": 5.0,
       "avg_entry": 0.6,
+      "last_price": 1.1,
       "currency": "USD",
       "position_type": "spot",
       "leverage": null,
       "tac_id": null,
       "as_of_date": "2026-06-02",
-      "cost_basis": 3.0,
-      "value_aud": null,
-      "weight": null,
-      "pnl": null,
-      "placeholder": {
-        "value_aud": true,
-        "weight": true,
-        "pnl": true
-      }
+      "is_perp": false,
+      "cost_aud": 4.56,
+      "value_aud": 8.36,
+      "pnl_aud": 3.8,
+      "pnl_pct": 83.33,
+      "notional_aud": null,
+      "weight": 0.11,
+      "flags": []
     },
     {
       "book": "conviction",
@@ -311,108 +350,116 @@
       "venue": "stake",
       "quantity": 1.0,
       "avg_entry": 65.58,
+      "last_price": 68.0,
       "currency": "USD",
       "position_type": "spot",
       "leverage": null,
       "tac_id": null,
       "as_of_date": "2026-06-02",
-      "cost_basis": 65.58,
-      "value_aud": null,
-      "weight": null,
-      "pnl": null,
-      "placeholder": {
-        "value_aud": true,
-        "weight": true,
-        "pnl": true
-      }
+      "is_perp": false,
+      "cost_aud": 99.67,
+      "value_aud": 103.34,
+      "pnl_aud": 3.68,
+      "pnl_pct": 3.69,
+      "notional_aud": null,
+      "weight": 1.39,
+      "flags": []
     },
     {
       "book": "conviction",
       "asset": "ETH",
       "asset_class": "crypto_spot",
       "venue": "phantom",
-      "quantity": null,
+      "quantity": 0.1105,
       "avg_entry": null,
+      "last_price": 2756.56,
       "currency": "USD",
       "position_type": "spot",
       "leverage": null,
       "tac_id": null,
       "as_of_date": "2026-06-02",
-      "cost_basis": null,
-      "value_aud": null,
-      "weight": null,
-      "pnl": null,
-      "placeholder": {
-        "value_aud": true,
-        "weight": true,
-        "pnl": true
-      }
+      "is_perp": false,
+      "cost_aud": null,
+      "value_aud": 462.92,
+      "pnl_aud": null,
+      "pnl_pct": null,
+      "notional_aud": null,
+      "weight": 6.24,
+      "flags": [
+        "no_cost"
+      ]
     },
     {
       "book": "conviction",
       "asset": "BTC",
       "asset_class": "crypto_spot",
       "venue": "phantom",
-      "quantity": null,
+      "quantity": 0.001484,
       "avg_entry": null,
+      "last_price": 96745.28,
       "currency": "USD",
       "position_type": "spot",
       "leverage": null,
       "tac_id": null,
       "as_of_date": "2026-06-02",
-      "cost_basis": null,
-      "value_aud": null,
-      "weight": null,
-      "pnl": null,
-      "placeholder": {
-        "value_aud": true,
-        "weight": true,
-        "pnl": true
-      }
+      "is_perp": false,
+      "cost_aud": null,
+      "value_aud": 218.19,
+      "pnl_aud": null,
+      "pnl_pct": null,
+      "notional_aud": null,
+      "weight": 2.94,
+      "flags": [
+        "no_cost"
+      ]
     },
     {
       "book": "conviction",
       "asset": "jitoSOL",
       "asset_class": "crypto_spot",
       "venue": "phantom",
-      "quantity": null,
+      "quantity": 1.03504,
       "avg_entry": null,
+      "last_price": 101.36,
       "currency": "USD",
       "position_type": "spot",
       "leverage": null,
       "tac_id": null,
       "as_of_date": "2026-06-02",
-      "cost_basis": null,
-      "value_aud": null,
-      "weight": null,
-      "pnl": null,
-      "placeholder": {
-        "value_aud": true,
-        "weight": true,
-        "pnl": true
-      }
+      "is_perp": false,
+      "cost_aud": null,
+      "value_aud": 159.44,
+      "pnl_aud": null,
+      "pnl_pct": null,
+      "notional_aud": null,
+      "weight": 2.15,
+      "flags": [
+        "no_cost"
+      ]
     },
     {
       "book": "conviction",
       "asset": "SYRUP",
       "asset_class": "crypto_spot",
       "venue": "exchange",
-      "quantity": null,
+      "quantity": 232.558,
       "avg_entry": null,
+      "last_price": 0.15123,
       "currency": "USD",
       "position_type": "spot",
       "leverage": null,
       "tac_id": null,
       "as_of_date": "2026-06-02",
-      "cost_basis": null,
-      "value_aud": null,
-      "weight": null,
-      "pnl": null,
-      "placeholder": {
-        "value_aud": true,
-        "weight": true,
-        "pnl": true
-      }
+      "is_perp": false,
+      "cost_aud": null,
+      "value_aud": 53.45,
+      "pnl_aud": null,
+      "pnl_pct": null,
+      "notional_aud": null,
+      "weight": 0.72,
+      "flags": [
+        "no_cost"
+      ]
     },
     {
       "book": "conviction",
@@ -421,20 +468,22 @@
       "venue": "hyperliquid",
       "quantity": 0.29,
       "avg_entry": 57.193,
+      "last_price": null,
       "currency": "USDC",
       "position_type": "spot",
       "leverage": null,
       "tac_id": null,
       "as_of_date": "2026-06-02",
-      "cost_basis": 16.59,
+      "is_perp": false,
+      "cost_aud": 25.21,
       "value_aud": null,
+      "pnl_aud": null,
+      "pnl_pct": null,
+      "notional_aud": null,
       "weight": null,
-      "pnl": null,
-      "placeholder": {
-        "value_aud": true,
-        "weight": true,
-        "pnl": true
-      }
+      "flags": [
+        "no_price"
+      ]
     },
     {
       "book": "tactical",
@@ -443,20 +492,20 @@
       "venue": "hyperliquid",
       "quantity": 0.519,
       "avg_entry": 389.89,
+      "last_price": 365.9,
       "currency": "USDC",
       "position_type": "long",
       "leverage": 10.0,
       "tac_id": null,
       "as_of_date": "2026-06-02",
-      "cost_basis": 202.35,
-      "value_aud": null,
-      "weight": null,
-      "pnl": null,
-      "placeholder": {
-        "value_aud": true,
-        "weight": true,
-        "pnl": true
-      }
+      "is_perp": true,
+      "cost_aud": 30.75,
+      "value_aud": 11.83,
+      "pnl_aud": -18.92,
+      "pnl_pct": -61.53,
+      "notional_aud": 288.61,
+      "weight": 0.16,
+      "flags": []
     },
     {
       "book": "tactical",
@@ -465,26 +514,26 @@
       "venue": "hyperliquid",
       "quantity": 1.37,
       "avg_entry": 228.73,
+      "last_price": 224.36,
       "currency": "USDC",
       "position_type": "long",
       "leverage": 15.0,
       "tac_id": null,
       "as_of_date": "2026-06-02",
-      "cost_basis": 313.36,
-      "value_aud": null,
-      "weight": null,
-      "pnl": null,
-      "placeholder": {
-        "value_aud": true,
-        "weight": true,
-        "pnl": true
-      }
+      "is_perp": true,
+      "cost_aud": 31.75,
+      "value_aud": 22.65,
+      "pnl_aud": -9.1,
+      "pnl_pct": -28.66,
+      "notional_aud": 467.13,
+      "weight": 0.31,
+      "flags": []
     }
   ],
   "filters": {
     "book": [
-      "conviction",
       "passive",
+      "conviction",
       "tactical"
     ],
     "asset_class": [
@@ -503,11 +552,11 @@
     ]
   },
   "exposure": {
-    "currency": "USDC",
-    "basis": "entry",
-    "gross_long": 515.71,
+    "currency": "AUD",
+    "basis": "current mark",
+    "gross_long": 755.74,
     "gross_short": 0.0,
-    "net": 515.71,
+    "net": 755.74,
     "long_count": 2,
     "short_count": 0,
     "unpriced_count": 0,
@@ -517,16 +566,18 @@
         "position_type": "long",
         "leverage": 10.0,
         "venue": "hyperliquid",
-        "notional": 202.35,
-        "currency": "USDC"
+        "notional_aud": 288.61,
+        "pnl_aud": -18.92,
+        "pnl_pct": -61.53
       },
       {
         "asset": "NVDA",
         "position_type": "long",
         "leverage": 15.0,
         "venue": "hyperliquid",
-        "notional": 313.36,
-        "currency": "USDC"
+        "notional_aud": 467.13,
+        "pnl_aud": -9.1,
+        "pnl_pct": -28.66
       }
     ]
   },
@@ -548,7 +599,7 @@
   },
   "performance": {
     "placeholder": true,
-    "note": "Sample data \u2014 populate data/nav.csv for real figures.",
+    "note": "Sample data \u2014 populate data/nav.csv for a real NAV history.",
     "series": {
       "labels": [
         "May 24",
@@ -595,45 +646,7 @@
         112.4,
         114.3
       ]
-    },
-    "periods": [
-      {
-        "period": "1M",
-        "fund": 4.2,
-        "benchmark": 1.9,
-        "outperformance": 2.3
-      },
-      {
-        "period": "3M",
-        "fund": 7.2,
-        "benchmark": 3.7,
-        "outperformance": 3.5
-      },
-      {
-        "period": "6M",
-        "fund": 11.8,
-        "benchmark": 5.4,
-        "outperformance": 6.4
-      },
-      {
-        "period": "12M",
-        "fund": 22.6,
-        "benchmark": 9.1,
-        "outperformance": 13.5
-      },
-      {
-        "period": "Inception",
-        "fund": 38.4,
-        "benchmark": 14.3,
-        "outperformance": 24.1
-      },
-      {
-        "period": "Inception p.a.",
-        "fund": 17.1,
-        "benchmark": 6.8,
-        "outperformance": 10.3
-      }
-    ]
+    }
   },
   "reports": [
     {

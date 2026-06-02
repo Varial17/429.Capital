@@ -3,9 +3,17 @@
 
 One-way data flow:  data/*.csv  ->  build.py  ->  site/data/data.json
 
-Reads the flat-CSV source of truth, computes the metrics it *can* derive from
-the data present, and emits clearly-flagged placeholders for anything that needs
-prices or NAV history we don't have yet. Python 3 standard library only.
+Reads the flat-CSV source of truth and computes real, marked-to-market metrics
+wherever the inputs exist:
+
+  * spot holdings  -> market value = quantity x last_price, converted to AUD via fx
+  * perp holdings  -> margin (collateral at entry) + unrealised PnL = sleeve equity;
+                      gross notional tracked separately for the exposure view
+  * sleeves        -> value, cost, PnL and return per book (the "deviation" view)
+  * fund NAV       -> Conviction + Tactical ; Wealth Base (passive) shown alongside
+
+Anything still missing a price or cost is left as null and flagged, never invented.
+Python 3 standard library only.
 
 Run:  python3 build.py
 """
@@ -26,7 +34,8 @@ BOOK_DISPLAY = {
     "conviction": "Conviction",
     "tactical": "Tactical",
 }
-# Target weights across the whole book (per the spec / landing page).
+BOOK_ORDER = ["passive", "conviction", "tactical"]
+# Long-run target weights across the whole book (the mandate).
 TARGET_WEIGHTS = {"passive": 0.50, "conviction": 0.35, "tactical": 0.15}
 
 
@@ -59,57 +68,152 @@ def clean(value):
     return s or None
 
 
-def parse_holdings(rows):
+def r2(x):
+    return round(x, 2) if x is not None else None
+
+
+def load_fx(rows):
+    """Return {'AUDUSD': rate, 'date': ...} using the most recent AUDUSD row."""
+    audusd = None
+    date = None
+    for row in rows:
+        if (clean(row.get("pair")) or "").upper() == "AUDUSD":
+            rate = num(row.get("rate"))
+            d = clean(row.get("date"))
+            if rate and (date is None or (d or "") >= (date or "")):
+                audusd, date = rate, d
+    return {"AUDUSD": audusd, "date": date}
+
+
+def make_to_aud(audusd):
+    """USD/USDC -> AUD via AUDUSD (USD per 1 AUD). AUD passes through.
+    Returns None if a conversion is needed but no rate is available."""
+    def to_aud(amount, currency):
+        if amount is None:
+            return None
+        cur = (currency or "").upper()
+        if cur == "AUD":
+            return amount
+        if cur in ("USD", "USDC"):
+            return amount / audusd if audusd else None
+        return None
+    return to_aud
+
+
+def parse_holdings(rows, to_aud):
     out = []
     for r in rows:
+        book = clean(r.get("book"))
         qty = num(r.get("quantity"))
         entry = num(r.get("avg_entry"))
-        cost_basis = qty * entry if (qty is not None and entry is not None) else None
-        out.append({
-            "book": clean(r.get("book")),
+        last = num(r.get("last_price"))
+        currency = clean(r.get("currency"))
+        ptype = clean(r.get("position_type"))
+        lev = num(r.get("leverage"))
+        is_perp = (clean(r.get("asset_class")) or "").endswith("_perp")
+
+        cost_native = qty * entry if (qty is not None and entry is not None) else None
+        mkt_native = qty * last if (qty is not None and last is not None) else None
+
+        h = {
+            "book": book,
             "asset": clean(r.get("asset")),
             "asset_class": clean(r.get("asset_class")),
             "venue": clean(r.get("venue")),
             "quantity": qty,
             "avg_entry": entry,
-            "currency": clean(r.get("currency")),
-            "position_type": clean(r.get("position_type")),
-            "leverage": num(r.get("leverage")),
+            "last_price": last,
+            "currency": currency,
+            "position_type": ptype,
+            "leverage": lev,
             "tac_id": clean(r.get("tac_id")),
             "as_of_date": clean(r.get("as_of_date")),
-            # Derived where possible; value/weight/pnl need live prices (pending).
-            "cost_basis": round(cost_basis, 2) if cost_basis is not None else None,
+            "is_perp": is_perp,
+            # derived (AUD), filled below
+            "cost_aud": None,
             "value_aud": None,
-            "weight": None,
-            "pnl": None,
-            "placeholder": {"value_aud": True, "weight": True, "pnl": True},
-        })
+            "pnl_aud": None,
+            "pnl_pct": None,
+            "notional_aud": None,
+            "weight": None,   # share of total book value, filled after totals
+            "flags": [],
+        }
+
+        if is_perp:
+            # Leveraged: capital at risk = margin = entry-notional / leverage.
+            # Sleeve value contributed = margin + unrealised PnL (account equity).
+            if cost_native is not None and lev:
+                margin_native = cost_native / lev
+                upnl_native = None
+                if mkt_native is not None:
+                    direction = -1.0 if ptype == "short" else 1.0
+                    upnl_native = direction * (last - entry) * qty
+                equity_native = margin_native + (upnl_native or 0.0)
+                h["cost_aud"] = r2(to_aud(margin_native, currency))
+                h["value_aud"] = r2(to_aud(equity_native, currency)) if upnl_native is not None else h["cost_aud"]
+                h["pnl_aud"] = r2(to_aud(upnl_native, currency)) if upnl_native is not None else None
+                h["pnl_pct"] = r2(upnl_native / margin_native * 100) if upnl_native is not None else None
+                h["notional_aud"] = r2(to_aud(mkt_native if mkt_native is not None else cost_native, currency))
+            else:
+                h["flags"].append("no_cost")
+        else:
+            # Spot: market value and (where we know entry) cost + PnL.
+            h["value_aud"] = r2(to_aud(mkt_native, currency))
+            h["cost_aud"] = r2(to_aud(cost_native, currency))
+            if mkt_native is not None and cost_native is not None:
+                h["pnl_aud"] = r2(to_aud(mkt_native - cost_native, currency))
+                h["pnl_pct"] = r2((last / entry - 1) * 100) if entry else None
+            if last is None:
+                h["flags"].append("no_price")
+            if entry is None:
+                h["flags"].append("no_cost")
+
+        out.append(h)
     return out
 
 
-def compute_exposure(holdings):
-    """Tactical sleeve exposure — the one block we can compute for real.
+def summarise_sleeve(book, holdings):
+    """Aggregate one book. Value = sum of marked positions; return is computed
+    only over positions where BOTH cost and value are known, so unsized/uncosted
+    legs (e.g. crypto with no entry) don't distort the percentage."""
+    rows = [h for h in holdings if h["book"] == book]
+    value = sum(h["value_aud"] for h in rows if h["value_aud"] is not None) or 0.0
+    # cost/pnl only over positions carrying both numbers
+    costed = [h for h in rows if h["cost_aud"] is not None and h["value_aud"] is not None]
+    cost_basis = sum(h["cost_aud"] for h in costed) or 0.0
+    pnl = sum((h["pnl_aud"] or 0.0) for h in costed) or 0.0
+    ret_pct = (pnl / cost_basis * 100) if cost_basis else None
+    unpriced = [h["asset"] for h in rows if "no_price" in h["flags"]]
+    uncosted = [h["asset"] for h in rows if "no_cost" in h["flags"]]
+    return {
+        "book": book,
+        "display": BOOK_DISPLAY.get(book, book),
+        "count": len(rows),
+        "value_aud": r2(value),
+        "cost_aud": r2(cost_basis),
+        "pnl_aud": r2(pnl),
+        "return_pct": r2(ret_pct),
+        "target_weight": TARGET_WEIGHTS.get(book),
+        "weight": None,  # of total book value, filled after totals
+        "unpriced": unpriced,
+        "uncosted": uncosted,
+    }
 
-    Notional is taken at entry price (no live mark yet), in the position's
-    native currency. Long/short netted; counts are exact.
-    """
+
+def compute_exposure(holdings, to_aud):
+    """Tactical exposure at CURRENT mark (notional now), in AUD."""
     tac = [h for h in holdings if h["book"] == "tactical"]
-    priced = [h for h in tac if h["quantity"] is not None and h["avg_entry"] is not None]
-
-    gross_long = 0.0
-    gross_short = 0.0
-    long_count = 0
-    short_count = 0
+    gross_long = gross_short = 0.0
+    long_count = short_count = 0
     positions = []
-    currencies = set()
-
-    for h in priced:
-        notional = h["quantity"] * h["avg_entry"]
-        currencies.add(h["currency"])
+    for h in tac:
+        notional = h["notional_aud"]
+        if notional is None:
+            continue
         if h["position_type"] == "short":
             gross_short += notional
             short_count += 1
-        else:  # long (default for non-short tactical)
+        else:
             gross_long += notional
             long_count += 1
         positions.append({
@@ -117,20 +221,17 @@ def compute_exposure(holdings):
             "position_type": h["position_type"],
             "leverage": h["leverage"],
             "venue": h["venue"],
-            "notional": round(notional, 2),
-            "currency": h["currency"],
+            "notional_aud": notional,
+            "pnl_aud": h["pnl_aud"],
+            "pnl_pct": h["pnl_pct"],
         })
-
-    # Count tactical rows missing prices so the UI can disclose incompleteness.
-    unpriced = len(tac) - len(priced)
-    currency = currencies.pop() if len(currencies) == 1 else "mixed"
-
+    unpriced = sum(1 for h in tac if h["notional_aud"] is None)
     return {
-        "currency": currency,
-        "basis": "entry",          # notional at entry price; live mark pending
-        "gross_long": round(gross_long, 2),
-        "gross_short": round(gross_short, 2),
-        "net": round(gross_long - gross_short, 2),
+        "currency": "AUD",
+        "basis": "current mark",
+        "gross_long": r2(gross_long),
+        "gross_short": r2(gross_short),
+        "net": r2(gross_long - gross_short),
         "long_count": long_count,
         "short_count": short_count,
         "unpriced_count": unpriced,
@@ -147,45 +248,27 @@ def count_by(holdings, key):
 
 
 def sample_performance():
-    """Illustrative NAV-vs-benchmark series so the chart renders end-to-end.
-
-    Flagged placeholder=True everywhere. Replace by populating data/nav.csv.
-    """
+    """Illustrative growth-of-100 series so the NAV-vs-benchmark chart renders.
+    Still placeholder=True everywhere — replace by populating data/nav.csv."""
     labels = ["May 24", "Jul", "Sep", "Nov", "Jan 25", "Mar", "May",
               "Jul", "Sep", "Nov", "Jan 26", "Mar", "May 26"]
     fund = [100.0, 102.2, 101.8, 106.4, 105.1, 109.8, 112.4,
             116.0, 114.3, 120.5, 123.8, 129.1, 138.4]
     bench = [100.0, 100.9, 102.4, 101.8, 104.1, 103.3, 105.6,
              107.2, 106.5, 108.8, 110.2, 112.4, 114.3]
-    periods = [
-        {"period": "1M", "fund": 4.2, "benchmark": 1.9},
-        {"period": "3M", "fund": 7.2, "benchmark": 3.7},
-        {"period": "6M", "fund": 11.8, "benchmark": 5.4},
-        {"period": "12M", "fund": 22.6, "benchmark": 9.1},
-        {"period": "Inception", "fund": 38.4, "benchmark": 14.3},
-        {"period": "Inception p.a.", "fund": 17.1, "benchmark": 6.8},
-    ]
-    for p in periods:
-        p["outperformance"] = round(p["fund"] - p["benchmark"], 1)
     return {
         "placeholder": True,
-        "note": "Sample data — populate data/nav.csv for real figures.",
+        "note": "Sample data — populate data/nav.csv for a real NAV history.",
         "series": {"labels": labels, "fund": fund, "benchmark": bench},
-        "periods": periods,
     }
 
 
 def process_reports():
-    """Discover reports/*.json, copy each into site/data/reports/, and build an
-    ordered manifest with prev/next links so the report pages are self-contained.
-
-    reports/ lives at repo root and is NOT served by Pages/Netlify (only site/ is),
-    so the JSON must be copied under site/data/reports/ to be fetchable.
-    """
+    """Discover reports/*.json, copy each into site/data/reports/, build an
+    ordered manifest with prev/next links."""
     if not REPORTS.exists():
         return []
     OUT_REPORTS.mkdir(parents=True, exist_ok=True)
-    # clear stale copies so deleted reports don't linger in the deploy
     for stale in OUT_REPORTS.glob("*.json"):
         stale.unlink()
 
@@ -201,7 +284,6 @@ def process_reports():
             json.dumps(obj, indent=2) + "\n", encoding="utf-8")
         parsed.append(obj)
 
-    # chronological order for prev/next (oldest -> newest)
     parsed.sort(key=lambda o: (o.get("date") or o.get("period") or ""))
     manifest = []
     for i, obj in enumerate(parsed):
@@ -213,7 +295,6 @@ def process_reports():
             "prev": parsed[i - 1].get("period") if i > 0 else None,
             "next": parsed[i + 1].get("period") if i < len(parsed) - 1 else None,
         })
-    # newest first for the index listing
     manifest.reverse()
     return manifest
 
@@ -223,13 +304,27 @@ def build():
     fx_rows = read_csv(DATA / "fx.csv")
     nav_rows = read_csv(DATA / "nav.csv")
 
-    holdings = parse_holdings(holdings_rows)
-    has_fx = len(fx_rows) > 0
-    has_nav = len(nav_rows) > 0
+    fx = load_fx(fx_rows)
+    audusd = fx["AUDUSD"]
+    to_aud = make_to_aud(audusd)
 
+    holdings = parse_holdings(holdings_rows, to_aud)
     as_of = max((h["as_of_date"] for h in holdings if h["as_of_date"]), default=None)
 
-    fund_holdings = [h for h in holdings if h["book"] in ("conviction", "tactical")]
+    # ---- sleeve aggregates + weights ----
+    sleeves = {b: summarise_sleeve(b, holdings) for b in BOOK_ORDER}
+    book_total = sum(s["value_aud"] or 0.0 for s in sleeves.values())
+    for s in sleeves.values():
+        s["weight"] = r2((s["value_aud"] or 0.0) / book_total * 100) if book_total else None
+    for h in holdings:
+        if h["value_aud"] is not None and book_total:
+            h["weight"] = r2(h["value_aud"] / book_total * 100)
+
+    # ---- fund NAV = conviction + tactical ----
+    fund_value = (sleeves["conviction"]["value_aud"] or 0.0) + (sleeves["tactical"]["value_aud"] or 0.0)
+    fund_cost = (sleeves["conviction"]["cost_aud"] or 0.0) + (sleeves["tactical"]["cost_aud"] or 0.0)
+    fund_pnl = (sleeves["conviction"]["pnl_aud"] or 0.0) + (sleeves["tactical"]["pnl_aud"] or 0.0)
+    fund_positions = [h for h in holdings if h["book"] in ("conviction", "tactical")]
 
     data = {
         "meta": {
@@ -237,34 +332,30 @@ def build():
                 .isoformat(timespec="seconds"),
             "base_currency": "AUD",
             "as_of_date": as_of,
-            "has_fx": has_fx,
-            "has_nav": has_nav,
+            "fx": fx,
+            "fx_note": "market rate — update data/fx.csv to refresh",
+            "has_fx": audusd is not None,
+            "has_nav": len(nav_rows) > 0,
             "books_display": BOOK_DISPLAY,
+            "book_order": BOOK_ORDER,
         },
+        "book_total_aud": r2(book_total),
         "fund": {
-            # Fund NAV = Conviction + Tactical. Real value needs live prices (pending).
             "definition": "Conviction + Tactical",
-            "value_aud": None,
-            "nav_per_unit": None,
-            "monthly_return": None,
-            "ytd_return": None,
-            "placeholder": True,
-            "position_count": len(fund_holdings),
+            "value_aud": r2(fund_value),
+            "cost_aud": r2(fund_cost),
+            "pnl_aud": r2(fund_pnl),
+            "return_pct": r2(fund_pnl / fund_cost * 100) if fund_cost else None,
+            "position_count": len(fund_positions),
         },
-        "sleeves": {
-            "display": BOOK_DISPLAY,
-            "target_weights": TARGET_WEIGHTS,
-            "counts": count_by(holdings, "book"),
-            "current_weights": None,
-            "current_weights_placeholder": True,
-        },
+        "sleeves": sleeves,
         "holdings": holdings,
         "filters": {
-            "book": sorted({h["book"] for h in holdings if h["book"]}),
+            "book": [b for b in BOOK_ORDER if any(h["book"] == b for h in holdings)],
             "asset_class": sorted({h["asset_class"] for h in holdings if h["asset_class"]}),
             "venue": sorted({h["venue"] for h in holdings if h["venue"]}),
         },
-        "exposure": compute_exposure(holdings),
+        "exposure": compute_exposure(holdings, to_aud),
         "breakdowns": {
             "asset_class_counts": count_by(holdings, "asset_class"),
             "venue_counts": count_by(holdings, "venue"),
@@ -279,14 +370,18 @@ def build():
         f.write("\n")
 
     print(f"Wrote {OUT.relative_to(ROOT)}")
-    print(f"  holdings: {len(holdings)}  |  fund positions: {len(fund_holdings)}")
-    print(f"  tactical exposure: gross_long={data['exposure']['gross_long']} "
-          f"{data['exposure']['currency']} (long {data['exposure']['long_count']}, "
-          f"short {data['exposure']['short_count']})")
-    print(f"  fx rows: {len(fx_rows)}  |  nav rows: {len(nav_rows)}  "
-          f"|  reports: {len(data['reports'])}")
-    if not has_nav:
-        print("  NOTE: no nav.csv data — performance is SAMPLE/placeholder.")
+    print(f"  fx: AUDUSD={audusd}  |  book total: {data['book_total_aud']} AUD")
+    for b in BOOK_ORDER:
+        s = sleeves[b]
+        print(f"    {s['display']:<12} value={s['value_aud']} AUD  "
+              f"weight={s['weight']}%  return={s['return_pct']}%  ({s['count']} pos)")
+    print(f"  fund NAV (Conv+Tac): {data['fund']['value_aud']} AUD  "
+          f"return={data['fund']['return_pct']}%")
+    print(f"  tactical exposure: gross_long={data['exposure']['gross_long']} AUD "
+          f"net={data['exposure']['net']} AUD")
+    print(f"  reports: {len(data['reports'])}")
+    if not data["meta"]["has_nav"]:
+        print("  NOTE: no nav.csv — the NAV-over-time chart is still SAMPLE.")
 
 
 if __name__ == "__main__":

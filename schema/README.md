@@ -54,8 +54,9 @@ a single asset can be held under multiple books, at multiple venues, in multiple
 | `asset_class`   | `etf` \| `equity` \| `crypto_spot` \| `crypto_perp` \| `equity_perp` | |
 | `venue`         | `commsec_au` \| `commsec_intl` \| `stake` \| `ibkr` \| `hyperliquid` \| `phantom` \| `exchange` | |
 | `quantity`      | number (blank if unknown) | units / coins / contracts held |
-| `avg_entry`     | number (blank if unknown) | average entry price, in `currency` |
-| `currency`      | `AUD` \| `USD` \| `USDC` | currency of `avg_entry` (and the position) |
+| `avg_entry`     | number (blank if unknown) | average entry price (cost basis), in `currency` |
+| `last_price`    | number (blank if unknown) | latest market price per unit, in `currency`. Drives market value & P&L. Refresh from venue/wallet. |
+| `currency`      | `AUD` \| `USD` \| `USDC` | currency of `avg_entry` / `last_price` (and the position) |
 | `position_type` | `spot` \| `long` \| `short` | |
 | `leverage`      | number, **blank for spot/cash** | e.g. `10`, `15` for perps |
 | `tac_id`        | `TAC-###`, blank unless tactical | tags a tactical position |

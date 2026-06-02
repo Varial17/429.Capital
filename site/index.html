@@ -115,6 +115,16 @@
     border-top:1px solid var(--border);padding-top:16px}
   .sleeve .wt .n{font-family:var(--mono);font-size:22px}
   .sleeve .wt .x{font-size:11px;color:var(--text-dim);letter-spacing:0.1em;text-transform:uppercase}
+  .sleeves-sub{color:var(--text-muted);font-size:15px;max-width:62ch;margin:-30px 0 40px}
+  #sleeves-asof{font-family:var(--mono);font-size:12.5px;color:var(--text-dim)}
+  .sstats{border-top:1px solid var(--border);padding-top:15px;display:flex;
+    flex-direction:column;gap:10px}
+  .srow{display:flex;align-items:baseline;justify-content:space-between;gap:12px}
+  .srow .sk{font-size:10.5px;letter-spacing:0.12em;text-transform:uppercase;color:var(--text-dim)}
+  .srow .sv{font-family:var(--mono);font-size:16px;font-variant-numeric:tabular-nums}
+  .srow.muted .sv{color:var(--text-dim);font-size:13px}
+  .srow .sv.pos{color:var(--text);font-weight:500}
+  .srow .sv.neg{color:var(--text-muted)}
   @media(max-width:760px){.sgrid{grid-template-columns:1fr}}
 
   /* ---- CTA ---- */
@@ -184,28 +194,44 @@
 
   <section class="sleeves" id="sleeves">
     <div class="sec-label">Structure</div>
-    <h2 class="sec-title">Three sleeves, one mandate.</h2>
+    <h2 class="sec-title">Three sleeves, side by side.</h2>
+    <p class="sleeves-sub">Not one number — three. Each sleeve runs its own mandate, weight and return. Figures below are live from the book <span id="sleeves-asof"></span>.</p>
     <div class="sgrid">
-      <div class="sleeve">
+      <div class="sleeve" data-book="passive">
         <div class="idx">01</div>
         <h3>Wealth Base</h3>
         <div class="role">Passive · Benchmark</div>
         <p>Index ETFs held outright. The long-term foundation and the yardstick every other sleeve is measured against.</p>
-        <div class="wt"><span class="n">50%</span><span class="x">Target weight</span></div>
+        <div class="sstats">
+          <div class="srow"><span class="sk">Value</span><span class="sv" data-fill="value">—</span></div>
+          <div class="srow"><span class="sk">Weight</span><span class="sv" data-fill="weight">—</span></div>
+          <div class="srow"><span class="sk">Return</span><span class="sv" data-fill="return">—</span></div>
+          <div class="srow muted"><span class="sk">Target</span><span class="sv" data-fill="target">50%</span></div>
+        </div>
       </div>
-      <div class="sleeve">
+      <div class="sleeve" data-book="conviction">
         <div class="idx">02</div>
         <h3>Conviction</h3>
         <div class="role">Active · Owned outright</div>
         <p>Thesis-driven equities and spot crypto held for the multi-year story. No leverage, high patience.</p>
-        <div class="wt"><span class="n">35%</span><span class="x">Target weight</span></div>
+        <div class="sstats">
+          <div class="srow"><span class="sk">Value</span><span class="sv" data-fill="value">—</span></div>
+          <div class="srow"><span class="sk">Weight</span><span class="sv" data-fill="weight">—</span></div>
+          <div class="srow"><span class="sk">Return</span><span class="sv" data-fill="return">—</span></div>
+          <div class="srow muted"><span class="sk">Target</span><span class="sv" data-fill="target">35%</span></div>
+        </div>
       </div>
-      <div class="sleeve">
+      <div class="sleeve" data-book="tactical">
         <div class="idx">03</div>
         <h3>Tactical</h3>
         <div class="role">Active · Event-driven</div>
         <p>Leveraged, catalyst-driven positions on a defined entry, ladder and stop. Short-to-medium horizon, tightly sized.</p>
-        <div class="wt"><span class="n">15%</span><span class="x">Target weight</span></div>
+        <div class="sstats">
+          <div class="srow"><span class="sk">Value</span><span class="sv" data-fill="value">—</span></div>
+          <div class="srow"><span class="sk">Weight</span><span class="sv" data-fill="weight">—</span></div>
+          <div class="srow"><span class="sk">Return</span><span class="sv" data-fill="return">—</span></div>
+          <div class="srow muted"><span class="sk">Target</span><span class="sv" data-fill="target">15%</span></div>
+        </div>
       </div>
     </div>
     <div class="cta">
@@ -287,6 +313,33 @@
     dEl.textContent='+'+(((val-10000)/100).toFixed(1))+'%';
     if(k<1)requestAnimationFrame(step);}
   setTimeout(()=>requestAnimationFrame(step),600);
+</script>
+
+<script>
+  // ---- live sleeve figures from the book (data/data.json) ----
+  (async function () {
+    try {
+      const d = await (await fetch('data/data.json', { cache: 'no-store' })).json();
+      const fmtA = (n) => n == null ? '—' : '$' + Math.round(n).toLocaleString();
+      const fmtP = (n) => n == null ? '—' : (n > 0 ? '+' : '') + n.toFixed(1) + '%';
+      const asof = document.getElementById('sleeves-asof');
+      if (asof && d.meta && d.meta.as_of_date) asof.textContent = '· as of ' + d.meta.as_of_date;
+      document.querySelectorAll('.sleeve[data-book]').forEach((card) => {
+        const s = d.sleeves && d.sleeves[card.dataset.book];
+        if (!s) return;
+        const set = (k, v, cls) => {
+          const el = card.querySelector(`[data-fill="${k}"]`);
+          if (!el) return;
+          el.textContent = v;
+          if (cls) el.classList.add(cls);
+        };
+        set('value', fmtA(s.value_aud));
+        set('weight', s.weight == null ? '—' : s.weight.toFixed(1) + '%');
+        set('return', fmtP(s.return_pct), s.return_pct == null ? '' : (s.return_pct >= 0 ? 'pos' : 'neg'));
+        if (s.target_weight != null) set('target', Math.round(s.target_weight * 100) + '%');
+      });
+    } catch (e) { /* leave dashes if data.json isn't built yet */ }
+  })();
 </script>
 </body>
 </html>

@@ -273,3 +273,33 @@ section.block{padding:40px 0 8px}
 .region-head span:first-child{font-family:var(--serif);font-size:17px}
 .region-head .bn{font-family:var(--mono);font-size:13px;color:var(--text-muted)}
 .region .bar-row.sub{margin-bottom:10px}
+
+/* ============================================================
+   Sleeve breakdown (the three sectors, side by side)
+   ============================================================ */
+.sub-title{font-family:var(--serif);font-weight:400;font-size:17px;
+  color:var(--text);margin-bottom:14px}
+
+.sleeve-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:1px;
+  background:var(--border);border:1px solid var(--border);border-radius:var(--radius);
+  overflow:hidden}
+@media(max-width:760px){.sleeve-grid{grid-template-columns:1fr}}
+
+.sleeve-card{background:var(--bg);padding:24px 24px 26px;display:flex;
+  flex-direction:column;gap:4px;transition:background .25s}
+.sleeve-card:hover{background:var(--bg-2)}
+.sleeve-card.is-bench{background:var(--surface)}
+.sc-head{display:flex;align-items:baseline;justify-content:space-between;gap:10px}
+.sc-name{font-family:var(--serif);font-size:21px;font-weight:400}
+.sc-role{font-size:10px;letter-spacing:0.14em;text-transform:uppercase;color:var(--text-dim)}
+.sc-value{font-family:var(--mono);font-size:clamp(22px,2.6vw,30px);
+  letter-spacing:-0.01em;font-variant-numeric:tabular-nums;margin-top:12px}
+.sc-sub{font-family:var(--mono);font-size:12px;color:var(--text-muted);margin-top:4px}
+.sc-meta{font-size:11.5px;color:var(--text-dim);margin-top:2px}
+
+.wbar{position:relative;height:8px;background:var(--surface-2);border-radius:99px;
+  overflow:visible;margin-top:18px}
+.wbar-fill{position:absolute;left:0;top:0;height:100%;background:var(--text);border-radius:99px}
+.wbar-target{position:absolute;top:-3px;width:2px;height:14px;background:var(--text-dim)}
+.wrow{display:flex;justify-content:space-between;font-family:var(--mono);font-size:10.5px;
+  color:var(--text-dim);letter-spacing:0.04em;margin-top:9px}
