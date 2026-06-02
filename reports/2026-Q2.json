@@ -1,0 +1,95 @@
+{
+  "period": "2026-Q2",
+  "title": "429 Capital — Q2 2026",
+  "subtitle": "Quarterly Letter",
+  "date": "2026-06-30",
+  "hero_image": null,
+  "performance": {
+    "rows": [
+      { "period": "Quarter", "fund": 7.2, "benchmark": 3.7 },
+      { "period": "12 Months", "fund": 22.6, "benchmark": 9.1 },
+      { "period": "Since Inception", "fund": 38.4, "benchmark": 14.3 },
+      { "period": "Since Inception p.a.", "fund": 17.1, "benchmark": 6.8 }
+    ]
+  },
+  "commentary": "## The quarter in one line\n\nA constructive three months. Conviction did the heavy lifting, Tactical earned its keep on two clean catalysts, and Wealth Base did exactly what it is supposed to do — nothing dramatic.\n\n## What worked\n\n**Compute kept compounding.** The thesis here hasn't changed: the names building and renting out AI infrastructure are still under-owned relative to where demand is heading. We added on weakness in May rather than chasing strength.\n\n**Tactical stayed disciplined.** Two positions, both pre-defined entries with a ladder and a stop. No hero trades, no averaging into losers. The leverage is a tool, not a personality.\n\n## What didn't\n\nA couple of the smaller spec positions chopped sideways and cost us a little in fees and attention. Noted. The fix is fewer, better tickets — not more screens.\n\n## How I'm positioned into Q3\n\nStill long the structural compute story in Conviction, still happy to sit in index ETFs as the base, and keeping Tactical dry powder for the next defined setup. One book, one number — and the number is moving the right way.\n\n_Illustrative commentary — sample text for layout, not actual views or advice._",
+  "holdings": [
+    {
+      "name": "Alphabet",
+      "ticker": "GOOGL / GOOG",
+      "description": "Core compounder across Search, YouTube and Cloud, with an underappreciated AI distribution moat. Held in Conviction and expressed tactically on catalysts.",
+      "sleeve": "Conviction",
+      "country": "United States",
+      "sector": "Communication Services",
+      "cap": "Mega",
+      "expanded": true
+    },
+    {
+      "name": "NVIDIA",
+      "ticker": "NVDA",
+      "description": "The toll road for AI compute. Owned in Conviction and traded with leverage in Tactical around earnings and product cycles.",
+      "sleeve": "Conviction · Tactical",
+      "country": "United States",
+      "sector": "Information Technology",
+      "cap": "Mega",
+      "expanded": false
+    },
+    {
+      "name": "Ethereum",
+      "ticker": "ETH",
+      "description": "Base-layer settlement and the staking yield that comes with it. Held spot, long horizon.",
+      "sleeve": "Conviction",
+      "country": "Global",
+      "sector": "Crypto",
+      "cap": "Large",
+      "expanded": false
+    },
+    {
+      "name": "iShares S&P 500 ETF",
+      "ticker": "IVV",
+      "description": "The Wealth Base anchor and the yardstick everything else is measured against. Set-and-forget.",
+      "sleeve": "Wealth Base",
+      "country": "United States",
+      "sector": "Diversified",
+      "cap": "Index",
+      "expanded": false
+    }
+  ],
+  "allocation": {
+    "sleeves": { "Wealth Base": 50, "Conviction": 35, "Tactical": 15 },
+    "asset_class": { "Equity": 46, "ETF": 30, "Crypto": 18, "Perp": 6 }
+  },
+  "exposure": {
+    "currency": "USDC",
+    "gross_long": 515.71,
+    "gross_short": 0,
+    "net": 515.71,
+    "long_count": 2,
+    "short_count": 0
+  },
+  "regions": [
+    {
+      "region": "North America",
+      "total": 78,
+      "countries": [{ "country": "United States", "pct": 78 }]
+    },
+    {
+      "region": "Asia Pacific",
+      "total": 8,
+      "countries": [{ "country": "Australia", "pct": 8 }]
+    },
+    {
+      "region": "Global / Crypto",
+      "total": 14,
+      "countries": [{ "country": "Decentralised", "pct": 14 }]
+    }
+  ],
+  "sectors": [
+    { "sector": "Information Technology", "pct": 34 },
+    { "sector": "Communication Services", "pct": 22 },
+    { "sector": "Crypto", "pct": 18 },
+    { "sector": "Diversified / Index", "pct": 18 },
+    { "sector": "Consumer & Other", "pct": 8 }
+  ],
+  "disclaimer": "429 Capital is a private personal investment record maintained for the owner's own use. Nothing here is an offer, a solicitation, or financial advice, and it does not take into account anyone's objectives or circumstances. Figures and commentary in this sample report are illustrative. Past performance is not indicative of future performance."
+}

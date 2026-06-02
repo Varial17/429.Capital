@@ -179,3 +179,97 @@ section.block{padding:40px 0 8px}
   flex-wrap:wrap;gap:14px;margin-bottom:18px}
 
 .empty{color:var(--text-dim);font-size:13px;padding:18px 0}
+.empty code{font-family:var(--mono);font-size:12px;color:var(--text-muted)}
+
+/* ============================================================
+   Reports
+   ============================================================ */
+
+/* ---- reports index listing ---- */
+.report-list{display:grid;grid-template-columns:repeat(auto-fill,minmax(300px,1fr));
+  gap:16px;margin-top:8px}
+.report-card{background:var(--bg-2);border:1px solid var(--border);border-radius:var(--radius);
+  padding:28px 26px 24px;text-decoration:none;color:inherit;
+  display:flex;flex-direction:column;gap:6px;transition:.25s;min-height:150px}
+.report-card:hover{border-color:var(--border-strong);background:var(--surface-2)}
+.rc-period{font-family:var(--mono);font-size:11px;letter-spacing:0.12em;
+  text-transform:uppercase;color:var(--text-dim)}
+.rc-title{font-family:var(--serif);font-weight:400;font-size:24px;margin-top:2px}
+.rc-meta{font-size:13px;color:var(--text-muted)}
+.rc-go{margin-top:auto;font-family:var(--mono);font-size:11px;letter-spacing:0.08em;
+  text-transform:uppercase;color:var(--text-muted);padding-top:18px}
+.report-card:hover .rc-go{color:var(--text)}
+
+/* ---- report page layout: sticky sidebar + main ---- */
+.report-layout{display:grid;grid-template-columns:212px 1fr;gap:48px;
+  align-items:start;padding-top:8px}
+@media(max-width:860px){.report-layout{grid-template-columns:1fr;gap:0}}
+
+.report-side{position:sticky;top:88px;align-self:start}
+@media(max-width:860px){.report-side{position:static;top:auto;margin-top:32px;
+  border-bottom:1px solid var(--border);padding-bottom:8px}}
+.side-label{font-size:10px;letter-spacing:0.2em;text-transform:uppercase;
+  color:var(--text-dim);margin-bottom:14px}
+.side-nav{display:flex;flex-direction:column;gap:2px}
+.side-nav a{font-size:13px;color:var(--text-muted);text-decoration:none;
+  padding:5px 0;border-left:2px solid transparent;padding-left:12px;transition:.18s}
+.side-nav a:hover{color:var(--text)}
+.side-nav a.active{color:var(--text);border-left-color:var(--text)}
+.side-sep{height:1px;background:var(--border);margin:18px 0}
+.side-all{font-family:var(--mono);font-size:11px;letter-spacing:0.06em;
+  color:var(--text-muted);text-decoration:none;transition:.18s}
+.side-all:hover{color:var(--text)}
+.prevnext{display:flex;flex-direction:column;gap:8px;margin-top:18px}
+.pn{font-family:var(--mono);font-size:11px;letter-spacing:0.04em;color:var(--text-muted);
+  text-decoration:none;transition:.18s}
+.pn:hover{color:var(--text)}
+.pn.disabled{color:var(--text-dim);cursor:default}
+@media(max-width:860px){.prevnext{flex-direction:row;gap:18px}}
+
+/* ---- report hero ---- */
+.report-main{min-width:0;padding-bottom:20px}
+.report-hero{padding:40px 0 8px;border-bottom:1px solid var(--border);margin-bottom:8px}
+.hero-sub{font-size:11px;letter-spacing:0.3em;text-transform:uppercase;
+  color:var(--text-dim);margin-bottom:14px}
+.hero-title{font-family:var(--serif);font-weight:300;font-size:clamp(32px,5vw,52px);
+  letter-spacing:-0.015em;line-height:1.04}
+.hero-date{margin-top:14px;font-family:var(--mono);font-size:12px;color:var(--text-muted);
+  letter-spacing:0.04em;margin-bottom:8px}
+
+/* ---- commentary prose ---- */
+.prose{max-width:68ch;color:var(--text-muted);font-size:15.5px;line-height:1.75}
+.prose h2{font-family:var(--serif);font-weight:400;font-size:22px;color:var(--text);
+  margin:30px 0 10px;letter-spacing:-0.01em}
+.prose h3{font-weight:600;font-size:14px;color:var(--text);margin:22px 0 6px;
+  letter-spacing:0.01em}
+.prose p{margin:0 0 16px}
+.prose strong{color:var(--text);font-weight:600}
+.prose em{font-style:italic}
+.prose ul{margin:0 0 16px;padding-left:20px}
+.prose li{margin:0 0 6px}
+
+/* ---- holdings cards (expandable) ---- */
+.hcards{display:flex;flex-direction:column;gap:1px;background:var(--border);
+  border:1px solid var(--border);border-radius:var(--radius);overflow:hidden}
+.hcard{background:var(--bg)}
+.hcard>summary{list-style:none;cursor:pointer;display:flex;align-items:center;gap:14px;
+  padding:18px 22px;transition:background .2s}
+.hcard>summary::-webkit-details-marker{display:none}
+.hcard>summary:hover{background:var(--bg-2)}
+.hc-name{font-family:var(--serif);font-size:18px;font-weight:400}
+.hc-ticker{font-family:var(--mono);font-size:11px;color:var(--text-dim);letter-spacing:0.04em}
+.hc-chev{margin-left:auto;color:var(--text-dim);font-size:12px;transition:transform .2s}
+.hcard[open] .hc-chev{transform:rotate(180deg)}
+.hc-body{padding:2px 22px 22px}
+.hc-body p{font-size:14px;color:var(--text-muted);line-height:1.7;max-width:70ch}
+.hc-tags{display:flex;flex-wrap:wrap;gap:8px;margin-top:16px}
+.hc-tags .tag{text-transform:none;display:inline-flex;gap:6px;align-items:center}
+.hc-tags .tag .tk{color:var(--text-dim);text-transform:uppercase;font-size:9px;letter-spacing:0.1em}
+
+/* ---- regions ---- */
+.regions{display:flex;flex-direction:column;gap:24px}
+.region-head{display:flex;justify-content:space-between;align-items:baseline;
+  margin-bottom:12px;padding-bottom:8px;border-bottom:1px solid var(--border)}
+.region-head span:first-child{font-family:var(--serif);font-size:17px}
+.region-head .bn{font-family:var(--mono);font-size:13px;color:var(--text-muted)}
+.region .bar-row.sub{margin-bottom:10px}

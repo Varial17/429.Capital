@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Report · 429 Capital</title>
+<link rel="stylesheet" href="../assets/style.css">
+</head>
+<body>
+
+<header class="topbar">
+  <div class="wrap" style="display:flex;align-items:center;justify-content:space-between;width:100%">
+    <a class="word" href="../index.html" style="text-decoration:none">429&nbsp;<b>CAPITAL</b></a>
+    <nav class="topnav">
+      <a href="../dashboard.html">Dashboard</a>
+      <a href="index.html" class="active">Reports</a>
+      <button class="theme-toggle" onclick="toggleTheme()">Theme</button>
+    </nav>
+  </div>
+</header>
+
+<div class="wrap report-layout">
+
+  <aside class="report-side">
+    <div class="side-inner">
+      <div class="side-label">On this page</div>
+      <nav id="anchors" class="side-nav"></nav>
+      <div class="side-sep"></div>
+      <a class="side-all" href="index.html">← All reports</a>
+      <div id="prevnext" class="prevnext"></div>
+    </div>
+  </aside>
+
+  <main id="report" class="report-main">
+
+    <header class="report-hero">
+      <div class="hero-sub" id="hero-sub"></div>
+      <h1 class="hero-title" id="hero-title"></h1>
+      <div class="hero-date" id="hero-date"></div>
+    </header>
+
+    <section id="performance" class="block">
+      <div class="sec-label">Performance</div>
+      <h2 class="sec-title">Returns</h2>
+      <div class="panel"><div class="panel-body" style="padding:0">
+        <table class="perf-table">
+          <thead><tr>
+            <th>Period</th><th class="num">Fund</th>
+            <th class="num">Benchmark</th><th class="num">Excess</th>
+          </tr></thead>
+          <tbody id="perf-rows"></tbody>
+        </table>
+      </div></div>
+    </section>
+
+    <section id="commentary" class="block">
+      <div class="sec-label">Commentary</div>
+      <h2 class="sec-title">The letter</h2>
+      <div id="commentary-body" class="prose"></div>
+    </section>
+
+    <section id="holdings" class="block">
+      <div class="sec-label">Top Holdings</div>
+      <h2 class="sec-title">What we own</h2>
+      <div id="holdings-cards" class="hcards"></div>
+    </section>
+
+    <section id="allocation" class="block">
+      <div class="sec-label">Allocation</div>
+      <h2 class="sec-title">How it splits</h2>
+      <div class="two-col">
+        <div class="panel"><div class="panel-head"><h3>By sleeve</h3></div>
+          <div class="panel-body"><div class="chart-wrap donut"><canvas id="alloc-sleeves"></canvas></div></div>
+        </div>
+        <div class="panel"><div class="panel-head"><h3>By asset class</h3></div>
+          <div class="panel-body"><div class="chart-wrap donut"><canvas id="alloc-class"></canvas></div></div>
+        </div>
+      </div>
+    </section>
+
+    <section id="exposure" class="block">
+      <div class="sec-label">Exposure</div>
+      <h2 class="sec-title">Tactical book</h2>
+      <div id="expo-cards" class="expo-grid"></div>
+    </section>
+
+    <section id="regions" class="block">
+      <div class="sec-label">Regions</div>
+      <h2 class="sec-title">Where it sits</h2>
+      <div id="regions-body" class="regions"></div>
+    </section>
+
+    <section id="sectors" class="block">
+      <div class="sec-label">Sectors</div>
+      <h2 class="sec-title">By industry</h2>
+      <div id="sectors-body" class="bars"></div>
+    </section>
+
+    <footer class="foot">
+      <p class="disc" id="disclaimer"></p>
+    </footer>
+
+  </main>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js"></script>
+<script src="../assets/report.js"></script>
+</body>
+</html>

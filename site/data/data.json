@@ -1,6 +1,6 @@
 {
   "meta": {
-    "generated_at": "2026-06-02T10:38:59+00:00",
+    "generated_at": "2026-06-02T11:09:33+00:00",
     "base_currency": "AUD",
     "as_of_date": "2026-06-02",
     "has_fx": false,
@@ -459,5 +459,14 @@
       }
     ]
   },
-  "reports": []
+  "reports": [
+    {
+      "period": "2026-Q2",
+      "title": "429 Capital \u2014 Q2 2026",
+      "subtitle": "Quarterly Letter",
+      "date": "2026-06-30",
+      "prev": null,
+      "next": null
+    }
+  ]
 }

@@ -19,6 +19,7 @@ ROOT = Path(__file__).resolve().parent
 DATA = ROOT / "data"
 REPORTS = ROOT / "reports"
 OUT = ROOT / "site" / "data" / "data.json"
+OUT_REPORTS = ROOT / "site" / "data" / "reports"
 
 BOOK_DISPLAY = {
     "passive": "Wealth Base",
@@ -174,14 +175,47 @@ def sample_performance():
     }
 
 
-def list_reports():
-    """Discover reports/*.json (Phase 3 populates these)."""
+def process_reports():
+    """Discover reports/*.json, copy each into site/data/reports/, and build an
+    ordered manifest with prev/next links so the report pages are self-contained.
+
+    reports/ lives at repo root and is NOT served by Pages/Netlify (only site/ is),
+    so the JSON must be copied under site/data/reports/ to be fetchable.
+    """
     if not REPORTS.exists():
         return []
-    out = []
+    OUT_REPORTS.mkdir(parents=True, exist_ok=True)
+    # clear stale copies so deleted reports don't linger in the deploy
+    for stale in OUT_REPORTS.glob("*.json"):
+        stale.unlink()
+
+    parsed = []
     for p in sorted(REPORTS.glob("*.json")):
-        out.append({"period": p.stem})
-    return out
+        try:
+            obj = json.loads(p.read_text(encoding="utf-8"))
+        except json.JSONDecodeError as e:
+            print(f"  WARN: skipping {p.name} (invalid JSON): {e}")
+            continue
+        period = obj.get("period") or p.stem
+        (OUT_REPORTS / f"{period}.json").write_text(
+            json.dumps(obj, indent=2) + "\n", encoding="utf-8")
+        parsed.append(obj)
+
+    # chronological order for prev/next (oldest -> newest)
+    parsed.sort(key=lambda o: (o.get("date") or o.get("period") or ""))
+    manifest = []
+    for i, obj in enumerate(parsed):
+        manifest.append({
+            "period": obj.get("period"),
+            "title": obj.get("title"),
+            "subtitle": obj.get("subtitle"),
+            "date": obj.get("date"),
+            "prev": parsed[i - 1].get("period") if i > 0 else None,
+            "next": parsed[i + 1].get("period") if i < len(parsed) - 1 else None,
+        })
+    # newest first for the index listing
+    manifest.reverse()
+    return manifest
 
 
 def build():
@@ -236,7 +270,7 @@ def build():
             "venue_counts": count_by(holdings, "venue"),
         },
         "performance": sample_performance(),
-        "reports": list_reports(),
+        "reports": process_reports(),
     }
 
     OUT.parent.mkdir(parents=True, exist_ok=True)

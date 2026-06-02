@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Reports · 429 Capital</title>
+<link rel="stylesheet" href="../assets/style.css">
+</head>
+<body>
+
+<header class="topbar">
+  <div class="wrap" style="display:flex;align-items:center;justify-content:space-between;width:100%">
+    <a class="word" href="../index.html" style="text-decoration:none">429&nbsp;<b>CAPITAL</b></a>
+    <nav class="topnav">
+      <a href="../dashboard.html">Dashboard</a>
+      <a href="index.html" class="active">Reports</a>
+      <button class="theme-toggle" onclick="toggleTheme()">Theme</button>
+    </nav>
+  </div>
+</header>
+
+<div class="wrap">
+  <header class="page-head">
+    <div class="kicker">429 Capital</div>
+    <h1>Reports</h1>
+    <p class="sub">Quarterly and yearly letters — performance, commentary, positioning. One book, one number.</p>
+  </header>
+
+  <section class="block">
+    <div id="report-list" class="report-list"></div>
+  </section>
+
+  <footer class="foot">
+    <div class="foot-top">
+      <div class="word">429&nbsp;<b>CAPITAL</b></div>
+      <div class="foot-links" style="display:flex;gap:24px">
+        <a href="../dashboard.html" style="color:var(--text-muted);text-decoration:none;font-size:12px;letter-spacing:0.12em;text-transform:uppercase">Dashboard</a>
+      </div>
+    </div>
+    <p class="disc">429 Capital is a private personal investment record maintained for the owner's own use. Nothing here is an offer, a solicitation, or financial advice. Figures and commentary in sample reports are illustrative. Past performance is not indicative of future performance.</p>
+  </footer>
+</div>
+
+<script>
+  (function () {
+    if (localStorage.getItem("429-theme") === "light")
+      document.documentElement.setAttribute("data-theme", "light");
+  })();
+  function toggleTheme() {
+    const el = document.documentElement;
+    const next = el.getAttribute("data-theme") === "light" ? "dark" : "light";
+    if (next === "light") el.setAttribute("data-theme", "light");
+    else el.removeAttribute("data-theme");
+    localStorage.setItem("429-theme", next);
+  }
+  window.toggleTheme = toggleTheme;
+
+  const esc = (s) =>
+    String(s).replace(/[&<>"]/g, (c) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;" }[c]));
+
+  (async function () {
+    let reports = [];
+    try {
+      const d = await (await fetch("../data/data.json", { cache: "no-store" })).json();
+      reports = d.reports || [];
+    } catch (e) { /* fall through to empty state */ }
+
+    const el = document.getElementById("report-list");
+    if (!reports.length) {
+      el.innerHTML = `<p class="empty">No reports yet. Add <code>reports/&lt;period&gt;.json</code> and run <code>build.py</code>.</p>`;
+      return;
+    }
+    el.innerHTML = reports.map((r) => {
+      const date = r.date
+        ? new Date(r.date).toLocaleDateString(undefined, { year: "numeric", month: "long", day: "numeric" })
+        : "";
+      return `<a class="report-card" href="report.html?period=${encodeURIComponent(r.period)}">
+        <div class="rc-period">${esc(r.period || "")}</div>
+        <div class="rc-title">${esc(r.title || r.period || "")}</div>
+        <div class="rc-meta">${esc(r.subtitle || "")}${date ? ` · ${esc(date)}` : ""}</div>
+        <div class="rc-go">Read →</div>
+      </a>`;
+    }).join("");
+  })();
+</script>
+</body>
+</html>
