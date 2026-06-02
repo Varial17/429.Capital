@@ -16,6 +16,6 @@ conviction,ETH,crypto_spot,phantom,0.1105,,2756.56,USD,spot,,,2026-06-02
 conviction,BTC,crypto_spot,phantom,0.001484,,96745.28,USD,spot,,,2026-06-02
 conviction,jitoSOL,crypto_spot,phantom,1.03504,,101.36,USD,spot,,,2026-06-02
 conviction,SYRUP,crypto_spot,exchange,232.558,,0.15123,USD,spot,,,2026-06-02
-conviction,HYPE,crypto_spot,hyperliquid,0.29,57.193,,USDC,spot,,,2026-06-02
+conviction,HYPE,crypto_spot,hyperliquid,0.28980513,57.193,73.29,USDC,spot,,,2026-06-02
 tactical,GOOGL,equity_perp,hyperliquid,0.519,389.89,365.90,USDC,long,10,,2026-06-02
 tactical,NVDA,equity_perp,hyperliquid,1.370,228.73,224.36,USDC,long,15,,2026-06-02

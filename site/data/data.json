@@ -1,6 +1,6 @@
 {
   "meta": {
-    "generated_at": "2026-06-02T12:34:18+00:00",
+    "generated_at": "2026-06-02T12:44:23+00:00",
     "base_currency": "AUD",
     "as_of_date": "2026-06-02",
     "fx": {
@@ -21,13 +21,13 @@
       "tactical"
     ]
   },
-  "book_total_aud": 7416.47,
+  "book_total_aud": 7448.75,
   "fund": {
     "definition": "Conviction + Tactical",
-    "value_aud": 3433.84,
-    "cost_aud": 1898.45,
-    "pnl_aud": 641.4,
-    "return_pct": 33.79,
+    "value_aud": 3466.12,
+    "cost_aud": 1923.64,
+    "pnl_aud": 648.49,
+    "return_pct": 33.71,
     "position_count": 17
   },
   "sleeves": {
@@ -40,7 +40,7 @@
       "pnl_aud": 370.7,
       "return_pct": 10.26,
       "target_weight": 0.5,
-      "weight": 53.7,
+      "weight": 53.47,
       "unpriced": [],
       "uncosted": []
     },
@@ -48,15 +48,13 @@
       "book": "conviction",
       "display": "Conviction",
       "count": 15,
-      "value_aud": 3399.36,
-      "cost_aud": 1835.95,
-      "pnl_aud": 669.42,
-      "return_pct": 36.46,
+      "value_aud": 3431.64,
+      "cost_aud": 1861.14,
+      "pnl_aud": 676.51,
+      "return_pct": 36.35,
       "target_weight": 0.35,
-      "weight": 45.84,
-      "unpriced": [
-        "HYPE"
-      ],
+      "weight": 46.07,
+      "unpriced": [],
       "uncosted": [
         "ETH",
         "BTC",
@@ -98,7 +96,7 @@
       "pnl_aud": 259.44,
       "pnl_pct": 11.04,
       "notional_aud": null,
-      "weight": 35.18,
+      "weight": 35.03,
       "flags": []
     },
     {
@@ -120,7 +118,7 @@
       "pnl_aud": -36.76,
       "pnl_pct": -5.86,
       "notional_aud": null,
-      "weight": 7.96,
+      "weight": 7.93,
       "flags": []
     },
     {
@@ -142,7 +140,7 @@
       "pnl_aud": 148.02,
       "pnl_pct": 23.32,
       "notional_aud": null,
-      "weight": 10.55,
+      "weight": 10.51,
       "flags": []
     },
     {
@@ -164,7 +162,7 @@
       "pnl_aud": 314.44,
       "pnl_pct": 130.13,
       "notional_aud": null,
-      "weight": 7.5,
+      "weight": 7.47,
       "flags": []
     },
     {
@@ -186,7 +184,7 @@
       "pnl_aud": 54.6,
       "pnl_pct": 26.96,
       "notional_aud": null,
-      "weight": 3.47,
+      "weight": 3.45,
       "flags": []
     },
     {
@@ -208,7 +206,7 @@
       "pnl_aud": 309.3,
       "pnl_pct": 120.38,
       "notional_aud": null,
-      "weight": 7.63,
+      "weight": 7.6,
       "flags": []
     },
     {
@@ -230,7 +228,7 @@
       "pnl_aud": 55.55,
       "pnl_pct": 19.46,
       "notional_aud": null,
-      "weight": 4.6,
+      "weight": 4.58,
       "flags": []
     },
     {
@@ -252,7 +250,7 @@
       "pnl_aud": -26.14,
       "pnl_pct": -12.77,
       "notional_aud": null,
-      "weight": 2.41,
+      "weight": 2.4,
       "flags": []
     },
     {
@@ -274,7 +272,7 @@
       "pnl_aud": 13.43,
       "pnl_pct": 5.53,
       "notional_aud": null,
-      "weight": 3.45,
+      "weight": 3.44,
       "flags": []
     },
     {
@@ -296,7 +294,7 @@
       "pnl_aud": -21.28,
       "pnl_pct": -10.09,
       "notional_aud": null,
-      "weight": 2.56,
+      "weight": 2.55,
       "flags": []
     },
     {
@@ -384,7 +382,7 @@
       "pnl_aud": null,
       "pnl_pct": null,
       "notional_aud": null,
-      "weight": 6.24,
+      "weight": 6.21,
       "flags": [
         "no_cost"
       ]
@@ -408,7 +406,7 @@
       "pnl_aud": null,
       "pnl_pct": null,
       "notional_aud": null,
-      "weight": 2.94,
+      "weight": 2.93,
       "flags": [
         "no_cost"
       ]
@@ -432,7 +430,7 @@
       "pnl_aud": null,
       "pnl_pct": null,
       "notional_aud": null,
-      "weight": 2.15,
+      "weight": 2.14,
       "flags": [
         "no_cost"
       ]
@@ -466,24 +464,22 @@
       "asset": "HYPE",
       "asset_class": "crypto_spot",
       "venue": "hyperliquid",
-      "quantity": 0.29,
+      "quantity": 0.28980513,
       "avg_entry": 57.193,
-      "last_price": null,
+      "last_price": 73.29,
       "currency": "USDC",
       "position_type": "spot",
       "leverage": null,
       "tac_id": null,
       "as_of_date": "2026-06-02",
       "is_perp": false,
-      "cost_aud": 25.21,
-      "value_aud": null,
-      "pnl_aud": null,
-      "pnl_pct": null,
+      "cost_aud": 25.19,
+      "value_aud": 32.28,
+      "pnl_aud": 7.09,
+      "pnl_pct": 28.15,
       "notional_aud": null,
-      "weight": null,
-      "flags": [
-        "no_price"
-      ]
+      "weight": 0.43,
+      "flags": []
     },
     {
       "book": "tactical",
@@ -526,7 +522,7 @@
       "pnl_aud": -9.1,
       "pnl_pct": -28.66,
       "notional_aud": 467.13,
-      "weight": 0.31,
+      "weight": 0.3,
       "flags": []
     }
   ],
