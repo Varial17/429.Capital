@@ -1,0 +1,23 @@
+# Secrets — NEVER commit. This is a private repo of live personal holdings.
+.env
+.env.*
+*.key
+*.pem
+secrets.*
+credentials.*
+
+# Python
+__pycache__/
+*.pyc
+.venv/
+venv/
+
+# OS / editor
+.DS_Store
+Thumbs.db
+*.swp
+.idea/
+.vscode/
+
+# NOTE: site/data/data.json is GENERATED but intentionally NOT ignored —
+# GitHub Pages has no build step, so the committed JSON is what the site serves.

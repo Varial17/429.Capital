@@ -1,0 +1,13 @@
+book,asset,asset_class,venue,quantity,avg_entry,currency,position_type,leverage,tac_id,as_of_date
+passive,IVV,etf,commsec_au,,,AUD,spot,,,2026-06-02
+passive,CRED,etf,commsec_au,,,AUD,spot,,,2026-06-02
+conviction,GOOGL,equity,commsec_intl,,,AUD,spot,,,2026-06-02
+conviction,IGM,equity,commsec_intl,,,AUD,spot,,,2026-06-02
+conviction,GOOG,equity,stake,,,USD,spot,,,2026-06-02
+conviction,ETH,crypto_spot,phantom,,,USD,spot,,,2026-06-02
+conviction,BTC,crypto_spot,phantom,,,USD,spot,,,2026-06-02
+conviction,jitoSOL,crypto_spot,phantom,,,USD,spot,,,2026-06-02
+conviction,SYRUP,crypto_spot,exchange,,,USD,spot,,,2026-06-02
+conviction,HYPE,crypto_spot,exchange,,,USD,spot,,,2026-06-02
+tactical,GOOGL,equity_perp,hyperliquid,0.519,389.89,USDC,long,10,,2026-06-02
+tactical,NVDA,equity_perp,hyperliquid,1.370,228.73,USDC,long,15,,2026-06-02
