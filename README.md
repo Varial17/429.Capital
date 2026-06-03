@@ -62,6 +62,55 @@ python3 build.py
 Reads the CSVs in `data/` plus `reports/*.json`, computes derived metrics, and writes
 `site/data/data.json`. Python 3 standard library only — no dependencies to install.
 
+## Live prices (optional)
+
+By default the dashboard uses the `last_price` you type into `data/holdings.csv`
+(the header shows `○ manual prices`). Turn on live marking and `build.py` will
+refresh prices at build time via `pricefetch.py` (stdlib `urllib`, no deps):
+
+```sh
+REFRESH_PRICES=1 python3 build.py            # crypto + perp + FX (all keyless)
+ALPHAVANTAGE_API_KEY=xxxx REFRESH_PRICES=1 python3 build.py   # + equities/ETFs
+```
+
+| Asset type | Source | Key |
+|---|---|---|
+| Spot crypto (BTC, ETH, jitoSOL, HYPE, SYRUP) | CoinGecko | none |
+| FX (AUDUSD) | Frankfurter (ECB) | none |
+| Equities / ETFs | Alpha Vantage `GLOBAL_QUOTE` | `ALPHAVANTAGE_API_KEY` |
+
+Rules: a failed or missing fetch **falls back to the CSV `last_price`** — never
+invented. The header badge flips to `● N live` and lists the sources used.
+
+**Security:** the Alpha Vantage key is read from the environment only. Never put
+it in `data/`, `site/`, or any committed file — `data.json` and `app.js` are
+publicly downloadable.
+
+### Alpha Vantage free-tier limit
+
+Free tier = **25 calls/day, 5/min**. We have ~11 US equity symbols, so a full
+equity refresh is ~11 calls — budget for **~2 builds/day**. To run a frequent
+schedule (crypto/FX hourly) while only hitting Alpha Vantage once a day, pin the
+equity fetch to a single UTC hour:
+
+```sh
+EQUITY_REFRESH_HOUR_UTC=21   # only fetch equities when the build runs at 21:00 UTC
+```
+
+ASX tickers (`IVV`, `CRED`, in AUD) are queried as `IVV.AX` etc.; Alpha Vantage's
+free ASX coverage is patchy, so those may stay on the manual `last_price`.
+
+### On Netlify (auto-refresh)
+
+1. **Site settings → Environment variables:** add `REFRESH_PRICES=1`,
+   `ALPHAVANTAGE_API_KEY=…`, and optionally `EQUITY_REFRESH_HOUR_UTC=21`.
+   (Build-only — never exposed to the browser.)
+2. **Build hook:** Site settings → Build & deploy → *Build hooks* → create one,
+   copy the URL.
+3. **Schedule it:** point a cron at that hook — either a Netlify Scheduled
+   Function that `POST`s the hook, or a GitHub Actions `schedule:` workflow doing
+   `curl -X POST <hook-url>`. Each trigger rebuilds with fresh prices.
+
 ## Preview locally
 
 ```sh

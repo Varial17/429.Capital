@@ -29,7 +29,11 @@ a single asset can be held under multiple books, at multiple venues, in multiple
 
 ### 3. `asset_class` — *what* it is
 
-`etf` · `equity` · `crypto_spot` · `crypto_perp` · `equity_perp`
+`etf` · `equity` · `crypto_spot` · `crypto_perp` · `equity_perp` · `cash`
+
+`cash` = a stablecoin / cash balance held at a venue (e.g. USDC collateral in the
+Hyperliquid perp account). It carries the sleeve's value; the perp legs sitting on
+top of it are cross-margined, so they add **exposure**, not a second stack of value.
 
 ---
 
@@ -51,7 +55,7 @@ a single asset can be held under multiple books, at multiple venues, in multiple
 |-----------------|-------------|-------|
 | `book`          | `passive` \| `conviction` \| `tactical` | the mandate axis |
 | `asset`         | string (ticker / symbol) | e.g. `IVV`, `GOOGL`, `ETH` |
-| `asset_class`   | `etf` \| `equity` \| `crypto_spot` \| `crypto_perp` \| `equity_perp` | |
+| `asset_class`   | `etf` \| `equity` \| `crypto_spot` \| `crypto_perp` \| `equity_perp` \| `cash` | `cash` = stablecoin/cash collateral; carries value. Perp legs add exposure, not value. |
 | `venue`         | `commsec_au` \| `commsec_intl` \| `stake` \| `ibkr` \| `hyperliquid` \| `phantom` \| `exchange` | |
 | `quantity`      | number (blank if unknown) | units / coins / contracts held |
 | `avg_entry`     | number (blank if unknown) | average entry price (cost basis), in `currency` |

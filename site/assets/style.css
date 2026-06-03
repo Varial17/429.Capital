@@ -303,3 +303,7 @@ section.block{padding:40px 0 8px}
 .wbar-target{position:absolute;top:-3px;width:2px;height:14px;background:var(--text-dim)}
 .wrow{display:flex;justify-content:space-between;font-family:var(--mono);font-size:10.5px;
   color:var(--text-dim);letter-spacing:0.04em;margin-top:9px}
+
+/* live vs manual price badge (header sub-line) */
+.px-live{color:var(--positive);font-family:var(--mono);font-size:11px;letter-spacing:0.03em}
+.px-manual{color:var(--text-dim);font-family:var(--mono);font-size:11px;letter-spacing:0.03em}

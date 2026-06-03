@@ -61,7 +61,14 @@ const charts = [];
 function renderMeta() {
   const m = DATA.meta;
   const fx = m.fx && m.fx.AUDUSD ? ` · AUDUSD ${m.fx.AUDUSD}` : "";
-  $("#asof").textContent = (m.as_of_date ? `As of ${m.as_of_date}` : "") + fx;
+  const p = m.prices || {};
+  let prices;
+  if (p.live && p.live_count) {
+    prices = ` · <span class="px-live" title="${(p.sources || []).join(', ')}${p.ran_at ? ' — ' + p.ran_at : ''}">● ${p.live_count} live</span>`;
+  } else {
+    prices = ` · <span class="px-manual" title="prices entered by hand in data/holdings.csv">○ manual prices</span>`;
+  }
+  $("#asof").innerHTML = (m.as_of_date ? `As of ${m.as_of_date}` : "") + fx + prices;
 }
 
 // ---------- Headline ----------
@@ -219,6 +226,21 @@ function drawHoldingsTable() {
   }
   $("#holdings-body").innerHTML = rows.map((h) => {
     const lev = h.leverage ? ` ${h.leverage}×` : "";
+    // Perps are cross-margined: capital lives in the USDC collateral line, so
+    // show their leveraged notional (muted) instead of a misleading $0 value.
+    let valueCell;
+    if (h.is_collateralised) {
+      valueCell = h.notional_aud == null
+        ? '<span class="dash" title="needs price">—</span>'
+        : `<span class="dash" title="leveraged notional — capital sits in the USDC collateral line">${fmtAUD(h.notional_aud)} exp.</span>`;
+    } else {
+      valueCell = h.value_aud == null
+        ? '<span class="dash" title="needs price">—</span>'
+        : fmtAUD(h.value_aud);
+    }
+    const weightCell = h.is_collateralised
+      ? '<span class="dash">—</span>'
+      : (h.weight == null ? '<span class="dash">—</span>' : fmtNum(h.weight, 1) + "%");
     return `<tr>
       <td><span class="tag book-${h.book}">${DATA.meta.books_display[h.book] || h.book}</span></td>
       <td style="font-family:var(--mono)">${h.asset}</td>
@@ -226,8 +248,8 @@ function drawHoldingsTable() {
       <td>${titleCase(h.venue)}</td>
       <td>${h.position_type}${lev}</td>
       <td class="num">${h.quantity == null ? '<span class="dash">—</span>' : fmtNum(h.quantity, 4)}</td>
-      <td class="num">${h.value_aud == null ? '<span class="dash" title="needs price">—</span>' : fmtAUD(h.value_aud)}</td>
-      <td class="num">${h.weight == null ? '<span class="dash">—</span>' : fmtNum(h.weight, 1) + "%"}</td>
+      <td class="num">${valueCell}</td>
+      <td class="num">${weightCell}</td>
       <td class="num ${signClass(h.pnl_pct)}">${h.pnl_pct == null ? '<span class="dash" title="no cost recorded">—</span>' : fmtPct(h.pnl_pct)}</td>
     </tr>`;
   }).join("");
@@ -237,15 +259,23 @@ function drawHoldingsTable() {
 function renderExposure() {
   const e = DATA.exposure;
   const cur = e.currency;
-  $("#expo-cards").innerHTML = [
-    { l: "Gross Long", v: e.gross_long },
-    { l: "Gross Short", v: e.gross_short },
-    { l: "Net Exposure", v: e.net },
-  ].map((c) => `
+  const levTxt = e.leverage != null ? `${e.leverage}× on collateral` : "";
+  $("#expo-cards").innerHTML = `
     <div class="card">
-      <div class="l">${c.l}</div>
-      <div class="v">${fmtAUD(c.v)} <span style="font-size:12px;color:var(--text-dim)">${cur}</span></div>
-    </div>`).join("") + `
+      <div class="l">Collateral</div>
+      <div class="v">${fmtAUD(e.collateral_aud)} <span style="font-size:12px;color:var(--text-dim)">${cur}</span></div>
+      <div class="x">account equity backing the book</div>
+    </div>
+    <div class="card">
+      <div class="l">Gross Long</div>
+      <div class="v">${fmtAUD(e.gross_long)} <span style="font-size:12px;color:var(--text-dim)">${cur}</span></div>
+      <div class="x">${levTxt}</div>
+    </div>
+    <div class="card">
+      <div class="l">Open P&amp;L</div>
+      <div class="v ${signClass(e.open_pnl_aud)}">${fmtAUD(e.open_pnl_aud)} <span style="font-size:12px;color:var(--text-dim)">${cur}</span></div>
+      <div class="x">unrealised, marked now</div>
+    </div>
     <div class="card">
       <div class="l">Positions</div>
       <div class="v">${e.long_count}L / ${e.short_count}S</div>
@@ -253,9 +283,9 @@ function renderExposure() {
     </div>`;
 
   $("#expo-note").innerHTML = e.positions.length
-    ? `Notional at current mark, in AUD. ` +
+    ? `Perp legs are cross-margined against the collateral above — their margin isn't double-counted in sleeve value. Notional shown at current mark, ROE on entry margin. ` +
       e.positions.map((p) =>
-        `${p.asset} ${p.leverage || ""}× ${p.position_type} (${fmtPct(p.pnl_pct)})`).join(" · ")
+        `${p.asset} ${p.leverage || ""}× ${p.position_type} ${fmtAUD(p.notional_aud)} (${fmtPct(p.pnl_pct)})`).join(" · ")
     : "No tactical positions with prices yet.";
 
   const counts = DATA.breakdowns.asset_class_counts;

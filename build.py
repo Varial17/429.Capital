@@ -23,6 +23,8 @@ import json
 import datetime
 from pathlib import Path
 
+import pricefetch
+
 ROOT = Path(__file__).resolve().parent
 DATA = ROOT / "data"
 REPORTS = ROOT / "reports"
@@ -100,29 +102,41 @@ def make_to_aud(audusd):
     return to_aud
 
 
-def parse_holdings(rows, to_aud):
+def parse_holdings(rows, to_aud, price_resolver=None):
     out = []
     for r in rows:
         book = clean(r.get("book"))
+        asset = clean(r.get("asset"))
+        asset_class = clean(r.get("asset_class"))
         qty = num(r.get("quantity"))
         entry = num(r.get("avg_entry"))
         last = num(r.get("last_price"))
         currency = clean(r.get("currency"))
         ptype = clean(r.get("position_type"))
         lev = num(r.get("leverage"))
-        is_perp = (clean(r.get("asset_class")) or "").endswith("_perp")
+        is_perp = (asset_class or "").endswith("_perp")
+
+        # Live price override: if a resolver returns a mark, it wins over the CSV
+        # value; otherwise the manual last_price stands (never invented).
+        price_source = "manual" if last is not None else None
+        if price_resolver is not None:
+            live_px, src = price_resolver(asset, asset_class, currency)
+            if live_px is not None:
+                last = live_px
+                price_source = src
 
         cost_native = qty * entry if (qty is not None and entry is not None) else None
         mkt_native = qty * last if (qty is not None and last is not None) else None
 
         h = {
             "book": book,
-            "asset": clean(r.get("asset")),
-            "asset_class": clean(r.get("asset_class")),
+            "asset": asset,
+            "asset_class": asset_class,
             "venue": clean(r.get("venue")),
             "quantity": qty,
             "avg_entry": entry,
             "last_price": last,
+            "price_source": price_source,
             "currency": currency,
             "position_type": ptype,
             "leverage": lev,
@@ -140,22 +154,31 @@ def parse_holdings(rows, to_aud):
         }
 
         if is_perp:
-            # Leveraged: capital at risk = margin = entry-notional / leverage.
-            # Sleeve value contributed = margin + unrealised PnL (account equity).
-            if cost_native is not None and lev:
-                margin_native = cost_native / lev
-                upnl_native = None
-                if mkt_native is not None:
-                    direction = -1.0 if ptype == "short" else 1.0
-                    upnl_native = direction * (last - entry) * qty
-                equity_native = margin_native + (upnl_native or 0.0)
-                h["cost_aud"] = r2(to_aud(margin_native, currency))
-                h["value_aud"] = r2(to_aud(equity_native, currency)) if upnl_native is not None else h["cost_aud"]
-                h["pnl_aud"] = r2(to_aud(upnl_native, currency)) if upnl_native is not None else None
-                h["pnl_pct"] = r2(upnl_native / margin_native * 100) if upnl_native is not None else None
-                h["notional_aud"] = r2(to_aud(mkt_native if mkt_native is not None else cost_native, currency))
+            # Cross-margined perp. The capital lives in the account's USDC
+            # collateral (a separate holding), so the position itself adds NO
+            # standalone value to the sleeve — double counting the margin would
+            # inflate the book. We surface two things instead:
+            #   * notional = current gross exposure (qty x mark) -> exposure view
+            #   * pnl = unrealised PnL, with ROE measured on entry-margin
+            # value_aud / cost_aud stay 0 so the sleeve value = collateral only.
+            h["value_aud"] = 0.0
+            h["cost_aud"] = 0.0
+            h["is_collateralised"] = True
+            if mkt_native is not None and entry is not None:
+                direction = -1.0 if ptype == "short" else 1.0
+                upnl_native = direction * (last - entry) * qty
+                h["pnl_aud"] = r2(to_aud(upnl_native, currency))
+                # ROE on the entry-margin (matches the venue's reported ROE).
+                if cost_native is not None and lev:
+                    margin_native = cost_native / lev
+                    h["pnl_pct"] = r2(upnl_native / margin_native * 100) if margin_native else None
+                h["notional_aud"] = r2(to_aud(mkt_native, currency))
             else:
-                h["flags"].append("no_cost")
+                h["notional_aud"] = r2(to_aud(mkt_native if mkt_native is not None else cost_native, currency))
+                if last is None:
+                    h["flags"].append("no_price")
+                if entry is None:
+                    h["flags"].append("no_cost")
         else:
             # Spot: market value and (where we know entry) cost + PnL.
             h["value_aud"] = r2(to_aud(mkt_native, currency))
@@ -201,8 +224,14 @@ def summarise_sleeve(book, holdings):
 
 
 def compute_exposure(holdings, to_aud):
-    """Tactical exposure at CURRENT mark (notional now), in AUD."""
-    tac = [h for h in holdings if h["book"] == "tactical"]
+    """Tactical exposure at CURRENT mark (notional now), in AUD.
+    Only leveraged perp legs carry exposure; the USDC collateral does not."""
+    tac = [h for h in holdings if h["book"] == "tactical" and h["is_perp"]]
+    collateral = sum(
+        h["value_aud"] for h in holdings
+        if h["book"] == "tactical" and not h["is_perp"] and h["value_aud"] is not None
+    )
+    open_pnl = sum(h["pnl_aud"] for h in tac if h["pnl_aud"] is not None)
     gross_long = gross_short = 0.0
     long_count = short_count = 0
     positions = []
@@ -229,9 +258,12 @@ def compute_exposure(holdings, to_aud):
     return {
         "currency": "AUD",
         "basis": "current mark",
+        "collateral_aud": r2(collateral),
+        "open_pnl_aud": r2(open_pnl),
         "gross_long": r2(gross_long),
         "gross_short": r2(gross_short),
         "net": r2(gross_long - gross_short),
+        "leverage": r2((gross_long + gross_short) / collateral) if collateral else None,
         "long_count": long_count,
         "short_count": short_count,
         "unpriced_count": unpriced,
@@ -305,11 +337,29 @@ def build():
     nav_rows = read_csv(DATA / "nav.csv")
 
     fx = load_fx(fx_rows)
+
+    # ---- optional live price refresh (off unless REFRESH_PRICES is set) ----
+    price_resolver = None
+    price_meta = {"enabled": False}
+    if pricefetch.enabled():
+        print("  refreshing live prices…")
+        price_resolver, price_meta = pricefetch.refresh(holdings_rows)
+        price_meta["enabled"] = True
+        live_fx = price_meta.get("fx")
+        if live_fx and live_fx.get("AUDUSD"):
+            fx = {"AUDUSD": live_fx["AUDUSD"], "date": live_fx.get("date")}
+
     audusd = fx["AUDUSD"]
     to_aud = make_to_aud(audusd)
 
-    holdings = parse_holdings(holdings_rows, to_aud)
+    holdings = parse_holdings(holdings_rows, to_aud, price_resolver)
     as_of = max((h["as_of_date"] for h in holdings if h["as_of_date"]), default=None)
+    live_count = sum(1 for h in holdings if h.get("price_source") not in (None, "manual"))
+    # Report only sources that actually marked a position (+ FX if live).
+    used_sources = sorted({h["price_source"] for h in holdings
+                           if h.get("price_source") not in (None, "manual")})
+    if price_meta.get("enabled") and price_meta.get("fx"):
+        used_sources.append("frankfurter (fx)")
 
     # ---- sleeve aggregates + weights ----
     sleeves = {b: summarise_sleeve(b, holdings) for b in BOOK_ORDER}
@@ -333,9 +383,18 @@ def build():
             "base_currency": "AUD",
             "as_of_date": as_of,
             "fx": fx,
-            "fx_note": "market rate — update data/fx.csv to refresh",
+            "fx_note": ("live — Frankfurter (ECB)" if price_meta.get("enabled")
+                        and price_meta.get("fx") else
+                        "market rate — update data/fx.csv to refresh"),
             "has_fx": audusd is not None,
             "has_nav": len(nav_rows) > 0,
+            "prices": {
+                "live": price_meta.get("enabled", False),
+                "live_count": live_count,
+                "sources": used_sources,
+                "equity_fetched": price_meta.get("equity_fetched", False),
+                "ran_at": price_meta.get("ran_at"),
+            },
             "books_display": BOOK_DISPLAY,
             "book_order": BOOK_ORDER,
         },
@@ -370,6 +429,10 @@ def build():
         f.write("\n")
 
     print(f"Wrote {OUT.relative_to(ROOT)}")
+    if price_meta.get("enabled"):
+        print(f"  live prices: {live_count} marked from {', '.join(price_meta.get('sources') or ['none'])}")
+    else:
+        print("  live prices: OFF (set REFRESH_PRICES=1 to fetch). Using CSV last_price.")
     print(f"  fx: AUDUSD={audusd}  |  book total: {data['book_total_aud']} AUD")
     for b in BOOK_ORDER:
         s = sleeves[b]

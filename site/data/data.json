@@ -1,6 +1,6 @@
 {
   "meta": {
-    "generated_at": "2026-06-02T12:44:23+00:00",
+    "generated_at": "2026-06-03T00:51:15+00:00",
     "base_currency": "AUD",
     "as_of_date": "2026-06-02",
     "fx": {
@@ -10,6 +10,13 @@
     "fx_note": "market rate \u2014 update data/fx.csv to refresh",
     "has_fx": true,
     "has_nav": false,
+    "prices": {
+      "live": false,
+      "live_count": 0,
+      "sources": [],
+      "equity_fetched": false,
+      "ran_at": null
+    },
     "books_display": {
       "passive": "Wealth Base",
       "conviction": "Conviction",
@@ -21,14 +28,14 @@
       "tactical"
     ]
   },
-  "book_total_aud": 7448.75,
+  "book_total_aud": 7491.93,
   "fund": {
     "definition": "Conviction + Tactical",
-    "value_aud": 3466.12,
-    "cost_aud": 1923.64,
-    "pnl_aud": 648.49,
-    "return_pct": 33.71,
-    "position_count": 17
+    "value_aud": 3509.3,
+    "cost_aud": 1938.8,
+    "pnl_aud": 654.14,
+    "return_pct": 33.74,
+    "position_count": 18
   },
   "sleeves": {
     "passive": {
@@ -40,7 +47,7 @@
       "pnl_aud": 370.7,
       "return_pct": 10.26,
       "target_weight": 0.5,
-      "weight": 53.47,
+      "weight": 53.16,
       "unpriced": [],
       "uncosted": []
     },
@@ -53,7 +60,7 @@
       "pnl_aud": 676.51,
       "return_pct": 36.35,
       "target_weight": 0.35,
-      "weight": 46.07,
+      "weight": 45.8,
       "unpriced": [],
       "uncosted": [
         "ETH",
@@ -65,13 +72,13 @@
     "tactical": {
       "book": "tactical",
       "display": "Tactical",
-      "count": 2,
-      "value_aud": 34.48,
-      "cost_aud": 62.5,
-      "pnl_aud": -28.02,
-      "return_pct": -44.83,
+      "count": 3,
+      "value_aud": 77.66,
+      "cost_aud": 77.66,
+      "pnl_aud": -22.37,
+      "return_pct": -28.81,
       "target_weight": 0.15,
-      "weight": 0.46,
+      "weight": 1.04,
       "unpriced": [],
       "uncosted": []
     }
@@ -85,6 +92,7 @@
       "quantity": 37.0,
       "avg_entry": 63.508,
       "last_price": 70.52,
+      "price_source": "manual",
       "currency": "AUD",
       "position_type": "spot",
       "leverage": null,
@@ -96,7 +104,7 @@
       "pnl_aud": 259.44,
       "pnl_pct": 11.04,
       "notional_aud": null,
-      "weight": 35.03,
+      "weight": 34.83,
       "flags": []
     },
     {
@@ -107,6 +115,7 @@
       "quantity": 26.0,
       "avg_entry": 24.134,
       "last_price": 22.72,
+      "price_source": "manual",
       "currency": "AUD",
       "position_type": "spot",
       "leverage": null,
@@ -118,7 +127,7 @@
       "pnl_aud": -36.76,
       "pnl_pct": -5.86,
       "notional_aud": null,
-      "weight": 7.93,
+      "weight": 7.88,
       "flags": []
     },
     {
@@ -129,6 +138,7 @@
       "quantity": 10.0,
       "avg_entry": 41.76,
       "last_price": 51.5,
+      "price_source": "manual",
       "currency": "USD",
       "position_type": "spot",
       "leverage": null,
@@ -140,7 +150,7 @@
       "pnl_aud": 148.02,
       "pnl_pct": 23.32,
       "notional_aud": null,
-      "weight": 10.51,
+      "weight": 10.45,
       "flags": []
     },
     {
@@ -151,6 +161,7 @@
       "quantity": 1.0,
       "avg_entry": 159.0,
       "last_price": 365.9,
+      "price_source": "manual",
       "currency": "USD",
       "position_type": "spot",
       "leverage": null,
@@ -162,7 +173,7 @@
       "pnl_aud": 314.44,
       "pnl_pct": 130.13,
       "notional_aud": null,
-      "weight": 7.47,
+      "weight": 7.42,
       "flags": []
     },
     {
@@ -173,6 +184,7 @@
       "quantity": 1.0,
       "avg_entry": 133.27,
       "last_price": 169.2,
+      "price_source": "manual",
       "currency": "USD",
       "position_type": "spot",
       "leverage": null,
@@ -184,7 +196,7 @@
       "pnl_aud": 54.6,
       "pnl_pct": 26.96,
       "notional_aud": null,
-      "weight": 3.45,
+      "weight": 3.43,
       "flags": []
     },
     {
@@ -195,6 +207,7 @@
       "quantity": 1.0,
       "avg_entry": 169.06,
       "last_price": 372.58,
+      "price_source": "manual",
       "currency": "USD",
       "position_type": "spot",
       "leverage": null,
@@ -206,7 +219,7 @@
       "pnl_aud": 309.3,
       "pnl_pct": 120.38,
       "notional_aud": null,
-      "weight": 7.6,
+      "weight": 7.56,
       "flags": []
     },
     {
@@ -217,6 +230,7 @@
       "quantity": 1.0,
       "avg_entry": 187.81,
       "last_price": 224.36,
+      "price_source": "manual",
       "currency": "USD",
       "position_type": "spot",
       "leverage": null,
@@ -228,7 +242,7 @@
       "pnl_aud": 55.55,
       "pnl_pct": 19.46,
       "notional_aud": null,
-      "weight": 4.58,
+      "weight": 4.55,
       "flags": []
     },
     {
@@ -239,6 +253,7 @@
       "quantity": 0.1956,
       "avg_entry": 688.4,
       "last_price": 600.47,
+      "price_source": "manual",
       "currency": "USD",
       "position_type": "spot",
       "leverage": null,
@@ -250,7 +265,7 @@
       "pnl_aud": -26.14,
       "pnl_pct": -12.77,
       "notional_aud": null,
-      "weight": 2.4,
+      "weight": 2.38,
       "flags": []
     },
     {
@@ -261,6 +276,7 @@
       "quantity": 0.3661,
       "avg_entry": 436.38,
       "last_price": 460.52,
+      "price_source": "manual",
       "currency": "USD",
       "position_type": "spot",
       "leverage": null,
@@ -272,7 +288,7 @@
       "pnl_aud": 13.43,
       "pnl_pct": 5.53,
       "notional_aud": null,
-      "weight": 3.44,
+      "weight": 3.42,
       "flags": []
     },
     {
@@ -283,6 +299,7 @@
       "quantity": 1.0,
       "avg_entry": 138.82,
       "last_price": 124.82,
+      "price_source": "manual",
       "currency": "USD",
       "position_type": "spot",
       "leverage": null,
@@ -294,7 +311,7 @@
       "pnl_aud": -21.28,
       "pnl_pct": -10.09,
       "notional_aud": null,
-      "weight": 2.55,
+      "weight": 2.53,
       "flags": []
     },
     {
@@ -305,6 +322,7 @@
       "quantity": 1.0,
       "avg_entry": 57.1,
       "last_price": 32.12,
+      "price_source": "manual",
       "currency": "USD",
       "position_type": "spot",
       "leverage": null,
@@ -316,7 +334,7 @@
       "pnl_aud": -37.96,
       "pnl_pct": -43.75,
       "notional_aud": null,
-      "weight": 0.66,
+      "weight": 0.65,
       "flags": []
     },
     {
@@ -327,6 +345,7 @@
       "quantity": 5.0,
       "avg_entry": 0.6,
       "last_price": 1.1,
+      "price_source": "manual",
       "currency": "USD",
       "position_type": "spot",
       "leverage": null,
@@ -349,6 +368,7 @@
       "quantity": 1.0,
       "avg_entry": 65.58,
       "last_price": 68.0,
+      "price_source": "manual",
       "currency": "USD",
       "position_type": "spot",
       "leverage": null,
@@ -360,7 +380,7 @@
       "pnl_aud": 3.68,
       "pnl_pct": 3.69,
       "notional_aud": null,
-      "weight": 1.39,
+      "weight": 1.38,
       "flags": []
     },
     {
@@ -371,6 +391,7 @@
       "quantity": 0.1105,
       "avg_entry": null,
       "last_price": 2756.56,
+      "price_source": "manual",
       "currency": "USD",
       "position_type": "spot",
       "leverage": null,
@@ -382,7 +403,7 @@
       "pnl_aud": null,
       "pnl_pct": null,
       "notional_aud": null,
-      "weight": 6.21,
+      "weight": 6.18,
       "flags": [
         "no_cost"
       ]
@@ -395,6 +416,7 @@
       "quantity": 0.001484,
       "avg_entry": null,
       "last_price": 96745.28,
+      "price_source": "manual",
       "currency": "USD",
       "position_type": "spot",
       "leverage": null,
@@ -406,7 +428,7 @@
       "pnl_aud": null,
       "pnl_pct": null,
       "notional_aud": null,
-      "weight": 2.93,
+      "weight": 2.91,
       "flags": [
         "no_cost"
       ]
@@ -419,6 +441,7 @@
       "quantity": 1.03504,
       "avg_entry": null,
       "last_price": 101.36,
+      "price_source": "manual",
       "currency": "USD",
       "position_type": "spot",
       "leverage": null,
@@ -430,7 +453,7 @@
       "pnl_aud": null,
       "pnl_pct": null,
       "notional_aud": null,
-      "weight": 2.14,
+      "weight": 2.13,
       "flags": [
         "no_cost"
       ]
@@ -443,6 +466,7 @@
       "quantity": 232.558,
       "avg_entry": null,
       "last_price": 0.15123,
+      "price_source": "manual",
       "currency": "USD",
       "position_type": "spot",
       "leverage": null,
@@ -454,7 +478,7 @@
       "pnl_aud": null,
       "pnl_pct": null,
       "notional_aud": null,
-      "weight": 0.72,
+      "weight": 0.71,
       "flags": [
         "no_cost"
       ]
@@ -467,6 +491,7 @@
       "quantity": 0.28980513,
       "avg_entry": 57.193,
       "last_price": 73.29,
+      "price_source": "manual",
       "currency": "USDC",
       "position_type": "spot",
       "leverage": null,
@@ -483,25 +508,50 @@
     },
     {
       "book": "tactical",
+      "asset": "USDC",
+      "asset_class": "cash",
+      "venue": "hyperliquid",
+      "quantity": 51.1,
+      "avg_entry": 1.0,
+      "last_price": 1.0,
+      "price_source": "manual",
+      "currency": "USDC",
+      "position_type": "spot",
+      "leverage": null,
+      "tac_id": null,
+      "as_of_date": "2026-06-02",
+      "is_perp": false,
+      "cost_aud": 77.66,
+      "value_aud": 77.66,
+      "pnl_aud": 0.0,
+      "pnl_pct": 0.0,
+      "notional_aud": null,
+      "weight": 1.04,
+      "flags": []
+    },
+    {
+      "book": "tactical",
       "asset": "GOOGL",
       "asset_class": "equity_perp",
       "venue": "hyperliquid",
       "quantity": 0.519,
       "avg_entry": 389.89,
-      "last_price": 365.9,
+      "last_price": 365.72,
+      "price_source": "manual",
       "currency": "USDC",
       "position_type": "long",
       "leverage": 10.0,
       "tac_id": null,
       "as_of_date": "2026-06-02",
       "is_perp": true,
-      "cost_aud": 30.75,
-      "value_aud": 11.83,
-      "pnl_aud": -18.92,
-      "pnl_pct": -61.53,
-      "notional_aud": 288.61,
-      "weight": 0.16,
-      "flags": []
+      "cost_aud": 0.0,
+      "value_aud": 0.0,
+      "pnl_aud": -19.06,
+      "pnl_pct": -61.99,
+      "notional_aud": 288.46,
+      "weight": 0.0,
+      "flags": [],
+      "is_collateralised": true
     },
     {
       "book": "tactical",
@@ -510,20 +560,22 @@
       "venue": "hyperliquid",
       "quantity": 1.37,
       "avg_entry": 228.73,
-      "last_price": 224.36,
+      "last_price": 227.14,
+      "price_source": "manual",
       "currency": "USDC",
       "position_type": "long",
       "leverage": 15.0,
       "tac_id": null,
       "as_of_date": "2026-06-02",
       "is_perp": true,
-      "cost_aud": 31.75,
-      "value_aud": 22.65,
-      "pnl_aud": -9.1,
-      "pnl_pct": -28.66,
-      "notional_aud": 467.13,
-      "weight": 0.3,
-      "flags": []
+      "cost_aud": 0.0,
+      "value_aud": 0.0,
+      "pnl_aud": -3.31,
+      "pnl_pct": -10.43,
+      "notional_aud": 472.92,
+      "weight": 0.0,
+      "flags": [],
+      "is_collateralised": true
     }
   ],
   "filters": {
@@ -533,6 +585,7 @@
       "tactical"
     ],
     "asset_class": [
+      "cash",
       "crypto_spot",
       "equity",
       "equity_perp",
@@ -550,9 +603,12 @@
   "exposure": {
     "currency": "AUD",
     "basis": "current mark",
-    "gross_long": 755.74,
+    "collateral_aud": 77.66,
+    "open_pnl_aud": -22.37,
+    "gross_long": 761.38,
     "gross_short": 0.0,
-    "net": 755.74,
+    "net": 761.38,
+    "leverage": 9.8,
     "long_count": 2,
     "short_count": 0,
     "unpriced_count": 0,
@@ -562,18 +618,18 @@
         "position_type": "long",
         "leverage": 10.0,
         "venue": "hyperliquid",
-        "notional_aud": 288.61,
-        "pnl_aud": -18.92,
-        "pnl_pct": -61.53
+        "notional_aud": 288.46,
+        "pnl_aud": -19.06,
+        "pnl_pct": -61.99
       },
       {
         "asset": "NVDA",
         "position_type": "long",
         "leverage": 15.0,
         "venue": "hyperliquid",
-        "notional_aud": 467.13,
-        "pnl_aud": -9.1,
-        "pnl_pct": -28.66
+        "notional_aud": 472.92,
+        "pnl_aud": -3.31,
+        "pnl_pct": -10.43
       }
     ]
   },
@@ -582,6 +638,7 @@
       "etf": 5,
       "equity": 8,
       "crypto_spot": 5,
+      "cash": 1,
       "equity_perp": 2
     },
     "venue_counts": {
@@ -590,7 +647,7 @@
       "commsec_intl": 2,
       "phantom": 3,
       "exchange": 1,
-      "hyperliquid": 3
+      "hyperliquid": 4
     }
   },
   "performance": {
