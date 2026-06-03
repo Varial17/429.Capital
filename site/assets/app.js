@@ -151,12 +151,62 @@ function renderSleevePerf() {
   $("#sleeve-perf-body").innerHTML = rows.join("");
 }
 
-// ---------- Performance chart (still sample until nav.csv) ----------
+// ---------- Performance chart (NAV per unit) ----------
+const NAV_ORDER = ["wealth_base", "conviction", "total_fund", "benchmark"];
+const NAV_COLORVAR = {
+  wealth_base: "--c-wealth", conviction: "--c-conviction",
+  total_fund: "--c-fund", benchmark: "--c-benchmark", tactical: "--c-tactical",
+};
+const NAV_LABEL = {
+  wealth_base: "Wealth Base", conviction: "Conviction", tactical: "Tactical",
+  total_fund: "Total Fund", benchmark: "Benchmark · MSCI ACWI (AUD)",
+};
+
+function fmtUnit(x) { return x == null ? "—" : "$" + Number(x).toFixed(3); }
+
 function renderPerformance() {
   const p = DATA.performance;
-  if (p.placeholder) $("#perf-badge").style.display = "inline-block";
+  const disp = p.display || NAV_LABEL;
+
+  // Marked NAV/unit chips — the REAL since-cost mark per sleeve.
+  const m = p.marked || {};
+  $("#nav-chips").innerHTML = ["wealth_base", "conviction", "tactical", "total_fund"]
+    .map((k) => {
+      const v = m[k];
+      const pct = v == null ? null : (v - 1) * 100;
+      const d = pct == null ? "—"
+        : `${pct >= 0 ? "+" : ""}${pct.toFixed(1)}% since cost`;
+      return `<div class="navchip ${k}">
+        <div class="k">${NAV_LABEL[k]}</div>
+        <div class="v">${fmtUnit(v)}</div>
+        <div class="d">${d}</div>
+      </div>`;
+    }).join("");
+
+  $("#perf-badge").style.display = p.placeholder ? "inline-block" : "none";
+
+  // Reconstructed indexed lines — only the series actually present.
   const c = p.series;
-  drawLine("perf-line", c.labels, c.fund, c.benchmark);
+  const present = NAV_ORDER.filter((s) => Array.isArray(c[s]));
+  const datasets = present.map((s) => {
+    const isFund = s === "total_fund";
+    const isBench = s === "benchmark";
+    return {
+      label: disp[s] || NAV_LABEL[s] || s,
+      data: c[s],
+      borderColor: cssVar(NAV_COLORVAR[s]),
+      borderWidth: isFund ? 2.6 : 1.6,
+      borderDash: isBench ? [5, 4] : [],
+      tension: 0.25, pointRadius: 0, pointHoverRadius: 4, fill: false,
+      order: isFund ? 0 : 1,
+    };
+  });
+  drawLine("perf-line", c.labels, datasets);
+
+  $("#perf-legend").innerHTML = present.map((s) =>
+    `<span class="leg ${s}"><span></span>${disp[s] || NAV_LABEL[s] || s}</span>`
+  ).join("");
+  $("#perf-note").textContent = p.note || "";
 }
 
 // ---------- Holdings ----------
@@ -302,30 +352,24 @@ function renderExposure() {
 }
 
 // ---------- Charts ----------
-function drawLine(id, labels, fund, bench) {
+function drawLine(id, labels, datasets) {
   const ctx = document.getElementById(id);
   if (!ctx) return;
-  const text = cssVar("--text"), dim = cssVar("--text-dim"), grid = cssVar("--border");
+  const dim = cssVar("--text-dim"), grid = cssVar("--border");
   charts.push(new Chart(ctx, {
     type: "line",
-    data: {
-      labels,
-      datasets: [
-        { label: "429 Capital", data: fund, borderColor: text, borderWidth: 2.4,
-          tension: 0.25, pointRadius: 0, pointHoverRadius: 4, fill: false },
-        { label: "Benchmark", data: bench, borderColor: dim, borderWidth: 1.4,
-          borderDash: [5, 4], tension: 0.25, pointRadius: 0, pointHoverRadius: 4, fill: false },
-      ],
-    },
+    data: { labels, datasets },
     options: {
       responsive: true, maintainAspectRatio: false,
       interaction: { mode: "index", intersect: false },
       plugins: { legend: { display: false },
-        tooltip: { callbacks: { label: (c) => `${c.dataset.label}: ${c.parsed.y}` } } },
+        tooltip: { callbacks: {
+          label: (c) => `${c.dataset.label}: $${Number(c.parsed.y).toFixed(3)}` } } },
       scales: {
         x: { grid: { display: false }, ticks: { color: dim, maxRotation: 0, autoSkip: true,
           font: { family: cssVar("--mono"), size: 10 } } },
         y: { grid: { color: grid }, ticks: { color: dim,
+          callback: (v) => "$" + Number(v).toFixed(2),
           font: { family: cssVar("--mono"), size: 10 } } },
       },
     },

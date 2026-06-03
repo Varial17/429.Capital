@@ -293,19 +293,101 @@ def count_by(holdings, key):
     return counts
 
 
-def sample_performance():
-    """Illustrative growth-of-100 series so the NAV-vs-benchmark chart renders.
-    Still placeholder=True everywhere — replace by populating data/nav.csv."""
-    labels = ["May 24", "Jul", "Sep", "Nov", "Jan 25", "Mar", "May",
-              "Jul", "Sep", "Nov", "Jan 26", "Mar", "May 26"]
-    fund = [100.0, 102.2, 101.8, 106.4, 105.1, 109.8, 112.4,
-            116.0, 114.3, 120.5, 123.8, 129.1, 138.4]
-    bench = [100.0, 100.9, 102.4, 101.8, 104.1, 103.3, 105.6,
-             107.2, 106.5, 108.8, 110.2, 112.4, 114.3]
+_MONTHS = ["", "Jan", "Feb", "Mar", "Apr", "May", "Jun",
+           "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"]
+
+
+def _fmt_month(date_str, show_year):
+    """'2025-06-01' -> 'Jun 25' (year shown at boundaries) or 'Jun'."""
+    try:
+        y, m = int(date_str[:4]), int(date_str[5:7])
+    except (ValueError, IndexError):
+        return date_str
+    label = _MONTHS[m] if 1 <= m <= 12 else date_str[5:7]
+    return f"{label} {y % 100:02d}" if show_year else label
+
+
+# Series we know how to label/colour, in chart draw order.
+NAV_SERIES = ["wealth_base", "conviction", "tactical", "total_fund", "benchmark"]
+NAV_DISPLAY = {
+    "wealth_base": "Wealth Base",
+    "conviction": "Conviction",
+    "tactical": "Tactical",
+    "total_fund": "Total Fund",
+    "benchmark": "Benchmark · MSCI ACWI (AUD)",
+}
+
+
+def read_performance(nav_rows, sleeves, fund):
+    """Build the NAV/unit chart payload from data/nav.csv (long format).
+
+    Two layers:
+      * series  — the RECONSTRUCTED indexed paths (growth of $1, buy-and-hold of
+        today's holdings over the trailing window). Drawn as the chart lines.
+      * marked  — the REAL since-cost NAV/unit per sleeve (1 + sleeve return),
+        the genuine current mark. Shown as chips; struck monthly going forward.
+    Falls back to a clearly-flagged sample if nav.csv has no reconstructed rows."""
+    # marked NAV/unit from the authoritative sleeve aggregates (single source).
+    def mk(pct):
+        return r2(1 + pct / 100) if pct is not None else None
+    marked = {
+        "wealth_base": mk(sleeves["passive"]["return_pct"]),
+        "conviction": mk(sleeves["conviction"]["return_pct"]),
+        "tactical": mk(sleeves["tactical"]["return_pct"]),
+        "total_fund": mk(fund["return_pct"]),
+    }
+
+    recon = [r for r in nav_rows if (clean(r.get("kind")) or "") == "reconstructed"]
+    if not recon:
+        labels = ["May 24", "Jul", "Sep", "Nov", "Jan 25", "Mar", "May",
+                  "Jul", "Sep", "Nov", "Jan 26", "Mar", "May 26"]
+        fundv = [1.0, 1.022, 1.018, 1.064, 1.051, 1.098, 1.124,
+                 1.160, 1.143, 1.205, 1.238, 1.291, 1.384]
+        bench = [1.0, 1.009, 1.024, 1.018, 1.041, 1.033, 1.056,
+                 1.072, 1.065, 1.088, 1.102, 1.124, 1.143]
+        return {
+            "reconstructed": False,
+            "placeholder": True,
+            "base": 1.0,
+            "note": "Sample data — run navbuild.py to populate data/nav.csv.",
+            "series": {"labels": labels, "total_fund": fundv, "benchmark": bench},
+            "marked": marked,
+        }
+
+    dates = sorted({r["date"] for r in recon})
+    present = []
+    for r in recon:
+        s = r.get("series")
+        if s not in present:
+            present.append(s)
+    table = {s: {} for s in present}
+    note = {}
+    for r in recon:
+        table[r["series"]][r["date"]] = num(r.get("nav_per_unit"))
+        n = clean(r.get("note"))
+        if n and r["series"] not in note:
+            note[r["series"]] = n
+
+    labels = [_fmt_month(d, show_year=(i == 0 or d[5:7] == "01"))
+              for i, d in enumerate(dates)]
+    series = {"labels": labels}
+    for s in NAV_SERIES:
+        if s in table:
+            series[s] = [table[s].get(d) for d in dates]
+
     return {
-        "placeholder": True,
-        "note": "Sample data — populate data/nav.csv for a real NAV history.",
-        "series": {"labels": labels, "fund": fund, "benchmark": bench},
+        "reconstructed": True,
+        "placeholder": False,
+        "base": 1.0,
+        "window": {"start": dates[0][:7], "end": dates[-1][:7]},
+        "note": ("Indexed to $1.00 at window start — a reconstruction: buy-and-hold "
+                 "of today's holdings at historical monthly prices (AUD). "
+                 "Tactical is excluded from the lines (leveraged, recently opened) "
+                 "— see its marked NAV and the Exposure section."),
+        "series": series,
+        "series_notes": note,
+        "display": {s: NAV_DISPLAY[s] for s in NAV_SERIES},
+        "marked": marked,
     }
 
 
@@ -391,6 +473,15 @@ def build():
     fund_pnl = (sleeves["conviction"]["pnl_aud"] or 0.0) + (sleeves["tactical"]["pnl_aud"] or 0.0)
     fund_positions = [h for h in holdings if h["book"] in ("conviction", "tactical")]
 
+    data_fund = {
+        "definition": "Conviction + Tactical",
+        "value_aud": r2(fund_value),
+        "cost_aud": r2(fund_cost),
+        "pnl_aud": r2(fund_pnl),
+        "return_pct": r2(fund_pnl / fund_cost * 100) if fund_cost else None,
+        "position_count": len(fund_positions),
+    }
+
     data = {
         "meta": {
             "generated_at": datetime.datetime.now(datetime.timezone.utc)
@@ -414,14 +505,7 @@ def build():
             "book_order": BOOK_ORDER,
         },
         "book_total_aud": r2(book_total),
-        "fund": {
-            "definition": "Conviction + Tactical",
-            "value_aud": r2(fund_value),
-            "cost_aud": r2(fund_cost),
-            "pnl_aud": r2(fund_pnl),
-            "return_pct": r2(fund_pnl / fund_cost * 100) if fund_cost else None,
-            "position_count": len(fund_positions),
-        },
+        "fund": data_fund,
         "sleeves": sleeves,
         "holdings": holdings,
         "filters": {
@@ -434,7 +518,7 @@ def build():
             "asset_class_counts": count_by(holdings, "asset_class"),
             "venue_counts": count_by(holdings, "venue"),
         },
-        "performance": sample_performance(),
+        "performance": read_performance(nav_rows, sleeves, data_fund),
         "reports": process_reports(),
     }
 

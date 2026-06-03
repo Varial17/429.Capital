@@ -58,17 +58,16 @@
         </table>
       </div>
 
-      <h3 class="sub-title" style="margin-top:34px">NAV vs benchmark</h3>
+      <h3 class="sub-title" style="margin-top:34px">NAV per unit</h3>
+      <div class="navchips" id="nav-chips"></div>
       <div class="panel">
         <div class="panel-head">
-          <div class="legend">
-            <span class="leg fund"><span></span>429 Capital</span>
-            <span class="leg bench"><span></span>Benchmark · MSCI ACWI (AUD)</span>
-          </div>
-          <span class="badge sample" id="perf-badge" style="display:none">Sample — needs nav.csv</span>
+          <div class="legend" id="perf-legend"></div>
+          <span class="badge sample" id="perf-badge" style="display:none">Sample — run navbuild.py</span>
         </div>
         <div class="panel-body">
           <div class="chart-wrap"><canvas id="perf-line"></canvas></div>
+          <p class="chart-note" id="perf-note"></p>
         </div>
       </div>
     </section>

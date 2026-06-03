@@ -6,6 +6,9 @@
 secrets.*
 credentials.*
 
+# navbuild local fetch cache (re-derivable; avoids re-burning API calls)
+navcache.json
+
 # Python
 __pycache__/
 *.pyc

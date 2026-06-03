@@ -91,14 +91,57 @@ top of it are cross-margined, so they add **exposure**, not a second stack of va
 | `pair` | e.g. `AUDUSD` | base→quote |
 | `rate` | number | units of quote per 1 unit of base |
 
-### `data/nav.csv` — monthly NAV-per-unit history (drives performance + charts)
+### `data/nav.csv` — NAV-per-unit history (drives the Performance chart)
+
+Long format — **one row per (date, series)** so multiple lines (each sleeve, the
+Total Fund, and the benchmark) live in one file. Each value is a NAV per unit,
+indexed to **$1.00** at the start of its series (growth-of-$1).
 
 | column              | type | notes |
 |---------------------|------|-------|
-| `date`              | `YYYY-MM-DD` | one row per month |
-| `nav_per_unit`      | number | fund NAV ÷ units outstanding |
-| `units_outstanding` | number | |
-| `fund_value_aud`    | number | total fund value in AUD (= Conviction + Tactical) |
+| `date`              | `YYYY-MM-DD` | month spine (use the 1st; the label is the month) |
+| `series`            | enum | `wealth_base` \| `conviction` \| `tactical` \| `total_fund` \| `benchmark` |
+| `nav_per_unit`      | number | NAV per unit (rebased to 1.00 at series start) |
+| `units_outstanding` | number | blank for reconstructed rows; filled for struck rows |
+| `fund_value_aud`    | number | blank for reconstructed rows; filled for struck rows |
+| `kind`              | enum | `reconstructed` (back-cast) \| `struck` (real month-end mark) |
+| `note`              | string | optional; methodology note on the first row of a series |
+
+Two kinds of row, by design — the **"both"** model:
+
+- **`reconstructed`** — a back-cast indexed path written by `navbuild.py`: a
+  buy-and-hold of *today's* holdings valued at real historical monthly prices
+  (AUD), chain-linked from $1.00. It gives an immediate chart but its endpoint is
+  a *window return*, not the since-cost mark. Tactical is intentionally **not**
+  reconstructed (a buy-and-hold of a 10–15× perp is not a real path); the Total
+  Fund line blends Conviction with the *unlevered* tactical underlyings.
+- **`struck`** — a real month-end valuation you append over time. This is the
+  genuine track record: each strike records `nav_per_unit`, `units_outstanding`
+  and `fund_value_aud`. Contributions/withdrawals issue or redeem units **at the
+  prevailing NAV** so cashflows never move the unit price (time-weighted return).
+
+`build.py` plots the `reconstructed` rows as the chart lines and shows the real
+**marked NAV/unit per sleeve** (computed live from `holdings.csv`: `1 + sleeve
+return`) as the chips above the chart.
+
+#### Regenerating the reconstruction
+
+```sh
+REFRESH_PRICES=1 python3 navbuild.py            # uses ALPHAVANTAGE_API_KEY from .env
+REFRESH_PRICES=1 python3 navbuild.py --no-cache # force a refetch (ignores navcache.json)
+```
+
+~13 Alpha Vantage calls (monthly equity history) + keyless CoinGecko/Frankfurter;
+results cache to `navcache.json` (gitignored) so reruns don't re-burn the API.
+Window = trailing 12 months (CoinGecko's free history cap), monthly points.
+
+#### Striking the monthly NAV (going forward)
+
+At each month-end, append one `struck` row per series with the real marked value.
+The first strike of a series sets `units_outstanding = fund_value_aud / 1.00`
+(NAV starts at $1.00); subsequent strikes carry units forward and only change
+them when capital is added/removed (new units = contribution ÷ current NAV).
+Run this from the scheduled Netlify build (or by hand) so the track record grows.
 
 ---
 

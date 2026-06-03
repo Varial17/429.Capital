@@ -111,6 +111,33 @@ free ASX coverage is patchy, so those may stay on the manual `last_price`.
    Function that `POST`s the hook, or a GitHub Actions `schedule:` workflow doing
    `curl -X POST <hook-url>`. Each trigger rebuilds with fresh prices.
 
+## NAV per unit (performance chart)
+
+The Performance section charts **NAV per unit** — each sleeve, the Total Fund, and
+the MSCI ACWI (AUD) benchmark, all indexed to **$1.00** like a fund manager's
+unit price. The data lives in `data/nav.csv` (long format) and is built in two
+halves — the **"both"** model:
+
+1. **Reconstructed history** (`navbuild.py`) — an immediate chart. A buy-and-hold
+   of *today's* holdings, valued at real historical monthly prices in AUD and
+   chain-linked from $1.00. Honest but back-cast: the endpoint is a window return,
+   not the since-cost mark. Tactical is excluded from the lines (a buy-and-hold of
+   a 10–15× perp isn't a real path); its real mark shows as a chip + in Exposure.
+
+   ```sh
+   REFRESH_PRICES=1 python3 navbuild.py        # writes data/nav.csv (caches to navcache.json)
+   python3 build.py                            # picks it up into site/data/data.json
+   ```
+
+2. **Monthly strikes** (going forward) — the genuine track record. Each month-end,
+   append one real marked `struck` row per series to `data/nav.csv`; units are
+   issued/redeemed at the prevailing NAV so contributions don't move the unit
+   price (time-weighted). Over time the struck path supersedes the reconstruction.
+
+The **marked NAV/unit** chips above the chart are the real since-cost mark per
+sleeve, computed live from `holdings.csv`. See [`schema/README.md`](schema/README.md)
+for the `nav.csv` column contract and the strike procedure.
+
 ## Preview locally
 
 ```sh
