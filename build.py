@@ -22,6 +22,7 @@ import csv
 import json
 import os
 import datetime
+import re
 from pathlib import Path
 
 import pricefetch
@@ -84,8 +85,29 @@ def clean(value):
     return s or None
 
 
+def clean_symbol(value):
+    """Normalize Hyperliquid export symbols: 'NVDA (xyz)' -> 'NVDA'."""
+    s = clean(value)
+    if not s:
+        return None
+    s = s.split("/", 1)[0]
+    s = re.sub(r"\s*\([^)]*\)\s*$", "", s)
+    return s.strip().upper() or None
+
+
 def r2(x):
     return round(x, 2) if x is not None else None
+
+
+def parse_hl_time(value):
+    """Hyperliquid export time: '14/04/2026 - 20:59:22'."""
+    s = clean(value)
+    if not s:
+        return None
+    try:
+        return datetime.datetime.strptime(s, "%d/%m/%Y - %H:%M:%S")
+    except ValueError:
+        return None
 
 
 def load_fx(rows):
@@ -285,6 +307,134 @@ def compute_exposure(holdings, to_aud):
     }
 
 
+def parse_hyperliquid_trades(rows, to_aud):
+    """Summarise raw Hyperliquid trade export rows.
+
+    The export's closedPnl column is in USDC and already captures the venue's
+    realised P&L line for each fill. Open rows are usually negative by the fee,
+    so account realised P&L sums all perp fills rather than close rows only.
+    Spot buys/sells in the same export are kept out of the Tactical perp stats.
+    """
+    trades = []
+    spot_trades = []
+    for i, row in enumerate(rows):
+        raw_dir = clean(row.get("dir")) or ""
+        dt = parse_hl_time(row.get("time"))
+        side = "long" if "Long" in raw_dir else "short" if "Short" in raw_dir else "spot"
+        if raw_dir.startswith("Open"):
+            action = "open"
+        elif raw_dir.startswith("Close"):
+            action = "close"
+        else:
+            action = raw_dir.lower() or "trade"
+
+        t = {
+            "id": i + 1,
+            "time": dt.isoformat(sep=" ") if dt else clean(row.get("time")),
+            "date": dt.date().isoformat() if dt else None,
+            "asset": clean_symbol(row.get("coin")),
+            "raw_coin": clean(row.get("coin")),
+            "dir": raw_dir,
+            "action": action,
+            "side": side,
+            "price": num(row.get("px")),
+            "size": num(row.get("sz")),
+            "notional_usdc": num(row.get("ntl")),
+            "fee_usdc": num(row.get("fee")) or 0.0,
+            "closed_pnl_usdc": num(row.get("closedPnl")) or 0.0,
+        }
+        t["notional_aud"] = r2(to_aud(t["notional_usdc"], "USDC"))
+        t["fee_aud"] = r2(to_aud(t["fee_usdc"], "USDC"))
+        t["closed_pnl_aud"] = r2(to_aud(t["closed_pnl_usdc"], "USDC"))
+
+        if action in ("open", "close"):
+            trades.append(t)
+        else:
+            spot_trades.append(t)
+
+    trades.sort(key=lambda x: x.get("time") or "")
+    by_asset = {}
+    for t in trades:
+        asset = t["asset"] or "UNKNOWN"
+        bucket = by_asset.setdefault(asset, {
+            "asset": asset,
+            "trade_count": 0,
+            "open_count": 0,
+            "close_count": 0,
+            "wins": 0,
+            "losses": 0,
+            "notional_usdc": 0.0,
+            "fees_usdc": 0.0,
+            "realised_pnl_usdc": 0.0,
+            "best_trade": None,
+            "first_trade": None,
+            "last_trade": None,
+        })
+        bucket["trade_count"] += 1
+        bucket["open_count"] += 1 if t["action"] == "open" else 0
+        bucket["close_count"] += 1 if t["action"] == "close" else 0
+        bucket["notional_usdc"] += t["notional_usdc"] or 0.0
+        bucket["fees_usdc"] += t["fee_usdc"] or 0.0
+        bucket["realised_pnl_usdc"] += t["closed_pnl_usdc"] or 0.0
+        bucket["first_trade"] = bucket["first_trade"] or t["time"]
+        bucket["last_trade"] = t["time"] or bucket["last_trade"]
+        if t["action"] == "close":
+            if (t["closed_pnl_usdc"] or 0.0) > 0:
+                bucket["wins"] += 1
+            elif (t["closed_pnl_usdc"] or 0.0) < 0:
+                bucket["losses"] += 1
+            if bucket["best_trade"] is None or t["closed_pnl_usdc"] > bucket["best_trade"]["closed_pnl_usdc"]:
+                bucket["best_trade"] = t
+
+    assets = []
+    for bucket in by_asset.values():
+        close_count = bucket["close_count"]
+        realised = bucket["realised_pnl_usdc"]
+        bucket["notional_usdc"] = r2(bucket["notional_usdc"])
+        bucket["notional_aud"] = r2(to_aud(bucket["notional_usdc"], "USDC"))
+        bucket["fees_usdc"] = r2(bucket["fees_usdc"])
+        bucket["fees_aud"] = r2(to_aud(bucket["fees_usdc"], "USDC"))
+        bucket["realised_pnl_usdc"] = r2(realised)
+        bucket["realised_pnl_aud"] = r2(to_aud(realised, "USDC"))
+        bucket["win_rate"] = r2(bucket["wins"] / close_count * 100) if close_count else None
+        assets.append(bucket)
+    assets.sort(key=lambda x: x["realised_pnl_usdc"], reverse=True)
+
+    closes = [t for t in trades if t["action"] == "close"]
+    top_trades = sorted(closes, key=lambda x: x["closed_pnl_usdc"], reverse=True)[:8]
+    losing_trades = sorted(closes, key=lambda x: x["closed_pnl_usdc"])[:5]
+
+    realised = sum(t["closed_pnl_usdc"] or 0.0 for t in trades)
+    fees = sum(t["fee_usdc"] or 0.0 for t in trades)
+    volume = sum(t["notional_usdc"] or 0.0 for t in trades)
+    wins = sum(1 for t in closes if (t["closed_pnl_usdc"] or 0.0) > 0)
+    losses = sum(1 for t in closes if (t["closed_pnl_usdc"] or 0.0) < 0)
+    return {
+        "source": "data/hyperliquid_trades.csv",
+        "currency": "USDC",
+        "trade_count": len(trades),
+        "spot_trade_count": len(spot_trades),
+        "open_count": sum(1 for t in trades if t["action"] == "open"),
+        "close_count": len(closes),
+        "wins": wins,
+        "losses": losses,
+        "win_rate": r2(wins / len(closes) * 100) if closes else None,
+        "volume_usdc": r2(volume),
+        "volume_aud": r2(to_aud(volume, "USDC")),
+        "fees_usdc": r2(fees),
+        "fees_aud": r2(to_aud(fees, "USDC")),
+        "realised_pnl_usdc": r2(realised),
+        "realised_pnl_aud": r2(to_aud(realised, "USDC")),
+        "first_trade": trades[0]["time"] if trades else None,
+        "last_trade": trades[-1]["time"] if trades else None,
+        "top_assets": assets,
+        "top_trades": top_trades,
+        "losing_trades": losing_trades,
+        "recent_trades": list(reversed(trades[-12:])),
+        "spot_trades": spot_trades,
+    }
+
+
 def count_by(holdings, key):
     counts = {}
     for h in holdings:
@@ -432,6 +582,7 @@ def build():
     holdings_rows = read_csv(DATA / "holdings.csv")
     fx_rows = read_csv(DATA / "fx.csv")
     nav_rows = read_csv(DATA / "nav.csv")
+    hyperliquid_rows = read_csv(DATA / "hyperliquid_trades.csv")
 
     fx = load_fx(fx_rows)
 
@@ -482,6 +633,22 @@ def build():
         "position_count": len(fund_positions),
     }
 
+    exposure = compute_exposure(holdings, to_aud)
+    tactical = parse_hyperliquid_trades(hyperliquid_rows, to_aud)
+    open_pnl_aud = exposure.get("open_pnl_aud") or 0.0
+    realised_pnl_aud = tactical.get("realised_pnl_aud") or 0.0
+    tactical["account"] = {
+        "basis": "Hyperliquid account export + current holdings snapshot",
+        "collateral_aud": exposure.get("collateral_aud"),
+        "open_pnl_aud": exposure.get("open_pnl_aud"),
+        "realised_pnl_aud": tactical.get("realised_pnl_aud"),
+        "total_pnl_aud": r2(realised_pnl_aud + open_pnl_aud),
+        "gross_long_aud": exposure.get("gross_long"),
+        "gross_short_aud": exposure.get("gross_short"),
+        "net_exposure_aud": exposure.get("net"),
+        "leverage": exposure.get("leverage"),
+    }
+
     data = {
         "meta": {
             "generated_at": datetime.datetime.now(datetime.timezone.utc)
@@ -513,7 +680,8 @@ def build():
             "asset_class": sorted({h["asset_class"] for h in holdings if h["asset_class"]}),
             "venue": sorted({h["venue"] for h in holdings if h["venue"]}),
         },
-        "exposure": compute_exposure(holdings, to_aud),
+        "exposure": exposure,
+        "tactical": tactical,
         "breakdowns": {
             "asset_class_counts": count_by(holdings, "asset_class"),
             "venue_counts": count_by(holdings, "venue"),
@@ -541,6 +709,8 @@ def build():
           f"return={data['fund']['return_pct']}%")
     print(f"  tactical exposure: gross_long={data['exposure']['gross_long']} AUD "
           f"net={data['exposure']['net']} AUD")
+    print(f"  tactical trades: {data['tactical']['trade_count']} fills  "
+          f"realised={data['tactical']['realised_pnl_aud']} AUD")
     print(f"  reports: {len(data['reports'])}")
     if not data["meta"]["has_nav"]:
         print("  NOTE: no nav.csv — the NAV-over-time chart is still SAMPLE.")
