@@ -20,10 +20,24 @@ Run:  python3 build.py
 
 import csv
 import json
+import os
 import datetime
 from pathlib import Path
 
 import pricefetch
+
+
+def load_dotenv(path):
+    """Minimal .env loader (stdlib). Lines of KEY=VALUE; existing env wins.
+    The .env file is gitignored — it holds local secrets like the price API key."""
+    if not path.exists():
+        return
+    for line in path.read_text(encoding="utf-8").splitlines():
+        line = line.strip()
+        if not line or line.startswith("#") or "=" not in line:
+            continue
+        k, v = line.split("=", 1)
+        os.environ.setdefault(k.strip(), v.strip().strip('"').strip("'"))
 
 ROOT = Path(__file__).resolve().parent
 DATA = ROOT / "data"
@@ -332,6 +346,7 @@ def process_reports():
 
 
 def build():
+    load_dotenv(ROOT / ".env")
     holdings_rows = read_csv(DATA / "holdings.csv")
     fx_rows = read_csv(DATA / "fx.csv")
     nav_rows = read_csv(DATA / "nav.csv")
