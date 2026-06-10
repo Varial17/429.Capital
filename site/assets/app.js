@@ -97,6 +97,8 @@ function renderSleeves() {
   const total = DATA.book_total_aud || 0;
   $("#sleeve-grid").innerHTML = order.map((b) => {
     const s = DATA.sleeves[b];
+    const lt = (b === "tactical" && window.LIVE_TAC) ? window.LIVE_TAC : null;
+    const valueAud = lt ? (s.value_aud || 0) + lt.upnl : s.value_aud;
     const wt = s.weight == null ? 0 : s.weight;
     const tgt = s.target_weight == null ? null : s.target_weight * 100;
     const ret = s.return_pct;
@@ -110,9 +112,10 @@ function renderSleeves() {
         <span class="sc-name">${s.display}</span>
         <span class="sc-role">${ROLE[b] || ""}</span>
       </div>
-      <div class="sc-value">${fmtAUD(s.value_aud)}</div>
+      <div class="sc-value">${fmtAUD(valueAud)}</div>
       <div class="sc-sub">Return ${retStr} · ${s.count} positions</div>
       ${note}
+      ${lt && lt.count ? `<div class="sc-meta"><span class="px-live">● ${lt.count} live perp${lt.count > 1 ? "s" : ""}</span> · ${fmtAUD(lt.upnl)} uPnL</div>` : ""}
       <div class="wbar">
         <span class="wbar-fill" style="width:${Math.min(wt, 100)}%"></span>
         ${tgt == null ? "" : `<span class="wbar-target" style="left:${Math.min(tgt, 100)}%" title="target ${tgt}%"></span>`}
@@ -130,11 +133,14 @@ function renderSleevePerf() {
   const order = DATA.meta.book_order || ["passive", "conviction", "tactical"];
   const rows = order.map((b) => {
     const s = DATA.sleeves[b];
+    const lt = (b === "tactical" && window.LIVE_TAC) ? window.LIVE_TAC : null;
+    const valueAud = lt ? (s.value_aud || 0) + lt.upnl : s.value_aud;
+    const pnlAud = lt && s.pnl_aud != null ? s.pnl_aud + lt.upnl : s.pnl_aud;
     return `<tr>
-      <td><span class="tag book-${b}">${s.display}</span></td>
-      <td class="num">${fmtAUD(s.value_aud)}</td>
+      <td><span class="tag book-${b}">${s.display}</span>${lt && lt.count ? ' <span class="px-live" title="incl. live perps">●</span>' : ''}</td>
+      <td class="num">${fmtAUD(valueAud)}</td>
       <td class="num">${fmtAUD(s.cost_aud)}</td>
-      <td class="num ${signClass(s.pnl_aud)}">${fmtAUD(s.pnl_aud)}</td>
+      <td class="num ${signClass(pnlAud)}">${fmtAUD(pnlAud)}</td>
       <td class="num ${signClass(s.return_pct)}">${fmtPct(s.return_pct)}</td>
       <td class="num">${fmtNum(s.weight, 1)}%</td>
       <td class="num">${s.target_weight == null ? "—" : Math.round(s.target_weight * 100) + "%"}</td>
@@ -214,6 +220,9 @@ function renderPerformance() {
 const filters = { book: new Set(), asset_class: new Set(), venue: new Set() };
 let sortKey = "value_aud";
 let sortDir = -1;
+// Live open perps pulled from Hyperliquid, injected into the holdings table.
+// Empty when flat; refreshed by enhanceTacticalLive().
+let LIVE_PERPS = [];
 
 function renderHoldings() {
   const fdef = DATA.filters;
@@ -256,7 +265,8 @@ function passesFilters(h) {
 }
 
 function drawHoldingsTable() {
-  let rows = DATA.holdings.filter(passesFilters);
+  const all = DATA.holdings.concat(LIVE_PERPS);
+  let rows = all.filter(passesFilters);
   rows.sort((a, b) => {
     const av = a[sortKey], bv = b[sortKey];
     if (av == null && bv == null) return 0;
@@ -266,7 +276,7 @@ function drawHoldingsTable() {
     return String(av).localeCompare(String(bv)) * sortDir;
   });
 
-  $("#holdings-count").textContent = `${rows.length} / ${DATA.holdings.length}`;
+  $("#holdings-count").textContent = `${rows.length} / ${all.length}`;
   $$("#holdings-table th.sortable .arrow").forEach((a) => (a.textContent = ""));
   const active = $(`#holdings-table th[data-key="${sortKey}"] .arrow`);
   if (active) active.textContent = sortDir > 0 ? "▲" : "▼";
@@ -294,7 +304,7 @@ function drawHoldingsTable() {
       : (h.weight == null ? '<span class="dash">—</span>' : fmtNum(h.weight, 1) + "%");
     return `<tr>
       <td><span class="tag book-${h.book}">${DATA.meta.books_display[h.book] || h.book}</span></td>
-      <td style="font-family:var(--mono)">${h.asset}</td>
+      <td style="font-family:var(--mono)">${h.asset}${h._live ? ' <span class="px-live" title="live from Hyperliquid">●</span>' : ''}</td>
       <td>${titleCase(h.asset_class)}</td>
       <td>${titleCase(h.venue)}</td>
       <td>${h.position_type}${lev}</td>
@@ -392,11 +402,27 @@ function enhanceTacticalLive() {
     $("#expo-note").innerHTML = snap.positions.length
       ? `Open now: ` +
         snap.positions.map((p) =>
-          `${p.coin} ${p.lev ? p.lev + "× " : ""}${p.side} ${fmtAUD(p.notionalAud)} (${fmtPct(p.roe)})`).join(" · ") +
+          `${HL_LIVE.cleanCoin(p.coin)} ${p.lev ? p.lev + "× " : ""}${p.side} ${fmtAUD(p.notionalAud)} (${fmtPct(p.roe)})`).join(" · ") +
         ` · <a href="tactical.html">full tactical →</a>`
       : `Flat on perps — no open leverage right now. The ${fmtAUD(a.accountAud)} account is sitting in spot and collateral on Hyperliquid. <a href="tactical.html">Full tactical →</a>`;
 
     if (badge) badge.innerHTML = `<span class="px-live">● live</span> ${new Date().toLocaleTimeString()}`;
+
+    // Inject live open perps into the Holdings table — they appear when you
+    // open one and vanish when you close it, no CSV edits. Cross-margined, so
+    // shown as leveraged notional ("exp."), not added to sleeve value; only
+    // their unrealised P&L flows into the Tactical sleeve.
+    LIVE_PERPS = snap.positions.map((p) => ({
+      book: "tactical", asset: HL_LIVE.cleanCoin(p.coin), asset_class: "equity_perp",
+      venue: "hyperliquid", position_type: p.side, leverage: p.lev,
+      quantity: p.sizeAbs, value_aud: null, weight: null, pnl_pct: p.roe,
+      is_collateralised: true, notional_aud: p.notionalAud, _live: true,
+    }));
+    const perpUpnlAud = snap.positions.reduce((s, p) => s + (p.upnlAud || 0), 0);
+    window.LIVE_TAC = { count: snap.positions.length, upnl: perpUpnlAud };
+    drawHoldingsTable();
+    renderSleeves();
+    renderSleevePerf();
   };
 
   run();
