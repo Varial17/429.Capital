@@ -1,24 +1,25 @@
 {
   "meta": {
-    "generated_at": "2026-06-03T05:45:40+00:00",
+    "generated_at": "2026-06-10T06:34:23+00:00",
     "base_currency": "AUD",
     "as_of_date": "2026-06-02",
     "fx": {
-      "AUDUSD": 0.71814,
-      "date": "2026-06-02"
+      "AUDUSD": 0.70606,
+      "date": "2026-06-09"
     },
     "fx_note": "live \u2014 Frankfurter (ECB)",
     "has_fx": true,
     "has_nav": true,
     "prices": {
       "live": true,
-      "live_count": 5,
+      "live_count": 16,
       "sources": [
+        "alphavantage",
         "coingecko",
         "frankfurter (fx)"
       ],
       "equity_fetched": true,
-      "ran_at": "2026-06-03T05:45:24+00:00"
+      "ran_at": "2026-06-10T06:34:05+00:00"
     },
     "books_display": {
       "passive": "Wealth Base",
@@ -31,26 +32,26 @@
       "tactical"
     ]
   },
-  "book_total_aud": 6920.91,
+  "book_total_aud": 6722.1,
   "fund": {
     "definition": "Conviction + Tactical",
-    "value_aud": 3003.82,
-    "cost_aud": 1776.43,
-    "pnl_aud": 599.09,
-    "return_pct": 33.72,
-    "position_count": 18
+    "value_aud": 2827.29,
+    "cost_aud": 1806.82,
+    "pnl_aud": 473.8,
+    "return_pct": 26.22,
+    "position_count": 16
   },
   "sleeves": {
     "passive": {
       "book": "passive",
       "display": "Wealth Base",
       "count": 3,
-      "value_aud": 3917.09,
-      "cost_aud": 3558.78,
-      "pnl_aud": 358.31,
-      "return_pct": 10.07,
+      "value_aud": 3894.81,
+      "cost_aud": 3568.73,
+      "pnl_aud": 326.08,
+      "return_pct": 9.14,
       "target_weight": 0.5,
-      "weight": 56.6,
+      "weight": 57.94,
       "unpriced": [],
       "uncosted": []
     },
@@ -58,12 +59,12 @@
       "book": "conviction",
       "display": "Conviction",
       "count": 15,
-      "value_aud": 2932.66,
-      "cost_aud": 1705.27,
-      "pnl_aud": 619.59,
-      "return_pct": 36.33,
+      "value_aud": 2754.92,
+      "cost_aud": 1734.45,
+      "pnl_aud": 473.8,
+      "return_pct": 27.32,
       "target_weight": 0.35,
-      "weight": 42.37,
+      "weight": 40.98,
       "unpriced": [],
       "uncosted": [
         "ETH",
@@ -75,13 +76,13 @@
     "tactical": {
       "book": "tactical",
       "display": "Tactical",
-      "count": 3,
-      "value_aud": 71.16,
-      "cost_aud": 71.16,
-      "pnl_aud": -20.5,
-      "return_pct": -28.81,
+      "count": 1,
+      "value_aud": 72.37,
+      "cost_aud": 72.37,
+      "pnl_aud": 0.0,
+      "return_pct": 0.0,
       "target_weight": 0.15,
-      "weight": 1.03,
+      "weight": 1.08,
       "unpriced": [],
       "uncosted": []
     }
@@ -107,7 +108,7 @@
       "pnl_aud": 259.44,
       "pnl_pct": 11.04,
       "notional_aud": null,
-      "weight": 37.7,
+      "weight": 38.82,
       "flags": []
     },
     {
@@ -130,7 +131,7 @@
       "pnl_aud": -36.76,
       "pnl_pct": -5.86,
       "notional_aud": null,
-      "weight": 8.54,
+      "weight": 8.79,
       "flags": []
     },
     {
@@ -140,20 +141,20 @@
       "venue": "stake",
       "quantity": 10.0,
       "avg_entry": 41.76,
-      "last_price": 51.5,
-      "price_source": "manual",
+      "last_price": 49.0608,
+      "price_source": "alphavantage",
       "currency": "USD",
       "position_type": "spot",
       "leverage": null,
       "tac_id": null,
       "as_of_date": "2026-06-02",
       "is_perp": false,
-      "cost_aud": 581.5,
-      "value_aud": 717.13,
-      "pnl_aud": 135.63,
-      "pnl_pct": 23.32,
+      "cost_aud": 591.45,
+      "value_aud": 694.85,
+      "pnl_aud": 103.4,
+      "pnl_pct": 17.48,
       "notional_aud": null,
-      "weight": 10.36,
+      "weight": 10.34,
       "flags": []
     },
     {
@@ -163,20 +164,20 @@
       "venue": "commsec_intl",
       "quantity": 1.0,
       "avg_entry": 159.0,
-      "last_price": 365.9,
-      "price_source": "manual",
+      "last_price": 364.26,
+      "price_source": "alphavantage",
       "currency": "USD",
       "position_type": "spot",
       "leverage": null,
       "tac_id": null,
       "as_of_date": "2026-06-02",
       "is_perp": false,
-      "cost_aud": 221.41,
-      "value_aud": 509.51,
-      "pnl_aud": 288.11,
-      "pnl_pct": 130.13,
+      "cost_aud": 225.19,
+      "value_aud": 515.91,
+      "pnl_aud": 290.71,
+      "pnl_pct": 129.09,
       "notional_aud": null,
-      "weight": 7.36,
+      "weight": 7.67,
       "flags": []
     },
     {
@@ -186,20 +187,20 @@
       "venue": "commsec_intl",
       "quantity": 1.0,
       "avg_entry": 133.27,
-      "last_price": 169.2,
-      "price_source": "manual",
+      "last_price": 156.87,
+      "price_source": "alphavantage",
       "currency": "USD",
       "position_type": "spot",
       "leverage": null,
       "tac_id": null,
       "as_of_date": "2026-06-02",
       "is_perp": false,
-      "cost_aud": 185.58,
-      "value_aud": 235.61,
-      "pnl_aud": 50.03,
-      "pnl_pct": 26.96,
+      "cost_aud": 188.75,
+      "value_aud": 222.18,
+      "pnl_aud": 33.42,
+      "pnl_pct": 17.71,
       "notional_aud": null,
-      "weight": 3.4,
+      "weight": 3.31,
       "flags": []
     },
     {
@@ -209,20 +210,20 @@
       "venue": "stake",
       "quantity": 1.0,
       "avg_entry": 169.06,
-      "last_price": 372.58,
-      "price_source": "manual",
+      "last_price": 362.29,
+      "price_source": "alphavantage",
       "currency": "USD",
       "position_type": "spot",
       "leverage": null,
       "tac_id": null,
       "as_of_date": "2026-06-02",
       "is_perp": false,
-      "cost_aud": 235.41,
-      "value_aud": 518.81,
-      "pnl_aud": 283.4,
-      "pnl_pct": 120.38,
+      "cost_aud": 239.44,
+      "value_aud": 513.12,
+      "pnl_aud": 273.67,
+      "pnl_pct": 114.3,
       "notional_aud": null,
-      "weight": 7.5,
+      "weight": 7.63,
       "flags": []
     },
     {
@@ -232,20 +233,20 @@
       "venue": "stake",
       "quantity": 1.0,
       "avg_entry": 187.81,
-      "last_price": 224.36,
-      "price_source": "manual",
+      "last_price": 208.19,
+      "price_source": "alphavantage",
       "currency": "USD",
       "position_type": "spot",
       "leverage": null,
       "tac_id": null,
       "as_of_date": "2026-06-02",
       "is_perp": false,
-      "cost_aud": 261.52,
-      "value_aud": 312.42,
-      "pnl_aud": 50.9,
-      "pnl_pct": 19.46,
+      "cost_aud": 266.0,
+      "value_aud": 294.86,
+      "pnl_aud": 28.86,
+      "pnl_pct": 10.85,
       "notional_aud": null,
-      "weight": 4.51,
+      "weight": 4.39,
       "flags": []
     },
     {
@@ -255,20 +256,20 @@
       "venue": "stake",
       "quantity": 0.1956,
       "avg_entry": 688.4,
-      "last_price": 600.47,
-      "price_source": "manual",
+      "last_price": 584.59,
+      "price_source": "alphavantage",
       "currency": "USD",
       "position_type": "spot",
       "leverage": null,
       "tac_id": null,
       "as_of_date": "2026-06-02",
       "is_perp": false,
-      "cost_aud": 187.5,
-      "value_aud": 163.55,
-      "pnl_aud": -23.95,
-      "pnl_pct": -12.77,
+      "cost_aud": 190.71,
+      "value_aud": 161.95,
+      "pnl_aud": -28.76,
+      "pnl_pct": -15.08,
       "notional_aud": null,
-      "weight": 2.36,
+      "weight": 2.41,
       "flags": []
     },
     {
@@ -278,20 +279,20 @@
       "venue": "stake",
       "quantity": 0.3661,
       "avg_entry": 436.38,
-      "last_price": 460.52,
-      "price_source": "manual",
+      "last_price": 403.41,
+      "price_source": "alphavantage",
       "currency": "USD",
       "position_type": "spot",
       "leverage": null,
       "tac_id": null,
       "as_of_date": "2026-06-02",
       "is_perp": false,
-      "cost_aud": 222.46,
-      "value_aud": 234.77,
-      "pnl_aud": 12.31,
-      "pnl_pct": 5.53,
+      "cost_aud": 226.27,
+      "value_aud": 209.17,
+      "pnl_aud": -17.1,
+      "pnl_pct": -7.56,
       "notional_aud": null,
-      "weight": 3.39,
+      "weight": 3.11,
       "flags": []
     },
     {
@@ -301,20 +302,20 @@
       "venue": "stake",
       "quantity": 1.0,
       "avg_entry": 138.82,
-      "last_price": 124.82,
-      "price_source": "manual",
+      "last_price": 98.45,
+      "price_source": "alphavantage",
       "currency": "USD",
       "position_type": "spot",
       "leverage": null,
       "tac_id": null,
       "as_of_date": "2026-06-02",
       "is_perp": false,
-      "cost_aud": 193.3,
-      "value_aud": 173.81,
-      "pnl_aud": -19.49,
-      "pnl_pct": -10.09,
+      "cost_aud": 196.61,
+      "value_aud": 139.44,
+      "pnl_aud": -57.18,
+      "pnl_pct": -29.08,
       "notional_aud": null,
-      "weight": 2.51,
+      "weight": 2.07,
       "flags": []
     },
     {
@@ -324,20 +325,20 @@
       "venue": "stake",
       "quantity": 1.0,
       "avg_entry": 57.1,
-      "last_price": 32.12,
-      "price_source": "manual",
+      "last_price": 26.9,
+      "price_source": "alphavantage",
       "currency": "USD",
       "position_type": "spot",
       "leverage": null,
       "tac_id": null,
       "as_of_date": "2026-06-02",
       "is_perp": false,
-      "cost_aud": 79.51,
-      "value_aud": 44.73,
-      "pnl_aud": -34.78,
-      "pnl_pct": -43.75,
+      "cost_aud": 80.87,
+      "value_aud": 38.1,
+      "pnl_aud": -42.77,
+      "pnl_pct": -52.89,
       "notional_aud": null,
-      "weight": 0.65,
+      "weight": 0.57,
       "flags": []
     },
     {
@@ -347,20 +348,20 @@
       "venue": "stake",
       "quantity": 5.0,
       "avg_entry": 0.6,
-      "last_price": 1.1,
-      "price_source": "manual",
+      "last_price": 0.86,
+      "price_source": "alphavantage",
       "currency": "USD",
       "position_type": "spot",
       "leverage": null,
       "tac_id": null,
       "as_of_date": "2026-06-02",
       "is_perp": false,
-      "cost_aud": 4.18,
-      "value_aud": 7.66,
-      "pnl_aud": 3.48,
-      "pnl_pct": 83.33,
+      "cost_aud": 4.25,
+      "value_aud": 6.09,
+      "pnl_aud": 1.84,
+      "pnl_pct": 43.33,
       "notional_aud": null,
-      "weight": 0.11,
+      "weight": 0.09,
       "flags": []
     },
     {
@@ -370,20 +371,20 @@
       "venue": "stake",
       "quantity": 1.0,
       "avg_entry": 65.58,
-      "last_price": 68.0,
-      "price_source": "manual",
+      "last_price": 59.86,
+      "price_source": "alphavantage",
       "currency": "USD",
       "position_type": "spot",
       "leverage": null,
       "tac_id": null,
       "as_of_date": "2026-06-02",
       "is_perp": false,
-      "cost_aud": 91.32,
-      "value_aud": 94.69,
-      "pnl_aud": 3.37,
-      "pnl_pct": 3.69,
+      "cost_aud": 92.88,
+      "value_aud": 84.78,
+      "pnl_aud": -8.1,
+      "pnl_pct": -8.72,
       "notional_aud": null,
-      "weight": 1.37,
+      "weight": 1.26,
       "flags": []
     },
     {
@@ -393,7 +394,7 @@
       "venue": "phantom",
       "quantity": 0.1105,
       "avg_entry": null,
-      "last_price": 1863.64,
+      "last_price": 1624.28,
       "price_source": "coingecko",
       "currency": "USD",
       "position_type": "spot",
@@ -402,11 +403,11 @@
       "as_of_date": "2026-06-02",
       "is_perp": false,
       "cost_aud": null,
-      "value_aud": 286.76,
+      "value_aud": 254.2,
       "pnl_aud": null,
       "pnl_pct": null,
       "notional_aud": null,
-      "weight": 4.14,
+      "weight": 3.78,
       "flags": [
         "no_cost"
       ]
@@ -418,7 +419,7 @@
       "venue": "phantom",
       "quantity": 0.001484,
       "avg_entry": null,
-      "last_price": 66945.0,
+      "last_price": 61164.0,
       "price_source": "coingecko",
       "currency": "USD",
       "position_type": "spot",
@@ -427,11 +428,11 @@
       "as_of_date": "2026-06-02",
       "is_perp": false,
       "cost_aud": null,
-      "value_aud": 138.34,
+      "value_aud": 128.55,
       "pnl_aud": null,
       "pnl_pct": null,
       "notional_aud": null,
-      "weight": 2.0,
+      "weight": 1.91,
       "flags": [
         "no_cost"
       ]
@@ -443,7 +444,7 @@
       "venue": "phantom",
       "quantity": 1.03504,
       "avg_entry": null,
-      "last_price": 95.39,
+      "last_price": 82.1,
       "price_source": "coingecko",
       "currency": "USD",
       "position_type": "spot",
@@ -452,11 +453,11 @@
       "as_of_date": "2026-06-02",
       "is_perp": false,
       "cost_aud": null,
-      "value_aud": 137.48,
+      "value_aud": 120.35,
       "pnl_aud": null,
       "pnl_pct": null,
       "notional_aud": null,
-      "weight": 1.99,
+      "weight": 1.79,
       "flags": [
         "no_cost"
       ]
@@ -468,7 +469,7 @@
       "venue": "exchange",
       "quantity": 232.558,
       "avg_entry": null,
-      "last_price": 0.139678,
+      "last_price": 0.132171,
       "price_source": "coingecko",
       "currency": "USD",
       "position_type": "spot",
@@ -477,7 +478,7 @@
       "as_of_date": "2026-06-02",
       "is_perp": false,
       "cost_aud": null,
-      "value_aud": 45.23,
+      "value_aud": 43.53,
       "pnl_aud": null,
       "pnl_pct": null,
       "notional_aud": null,
@@ -493,7 +494,7 @@
       "venue": "hyperliquid",
       "quantity": 0.28980513,
       "avg_entry": 57.193,
-      "last_price": 72.58,
+      "last_price": 55.28,
       "price_source": "coingecko",
       "currency": "USDC",
       "position_type": "spot",
@@ -501,12 +502,12 @@
       "tac_id": null,
       "as_of_date": "2026-06-02",
       "is_perp": false,
-      "cost_aud": 23.08,
-      "value_aud": 29.29,
-      "pnl_aud": 6.21,
-      "pnl_pct": 26.9,
+      "cost_aud": 23.48,
+      "value_aud": 22.69,
+      "pnl_aud": -0.79,
+      "pnl_pct": -3.34,
       "notional_aud": null,
-      "weight": 0.42,
+      "weight": 0.34,
       "flags": []
     },
     {
@@ -524,61 +525,13 @@
       "tac_id": null,
       "as_of_date": "2026-06-02",
       "is_perp": false,
-      "cost_aud": 71.16,
-      "value_aud": 71.16,
+      "cost_aud": 72.37,
+      "value_aud": 72.37,
       "pnl_aud": 0.0,
       "pnl_pct": 0.0,
       "notional_aud": null,
-      "weight": 1.03,
+      "weight": 1.08,
       "flags": []
-    },
-    {
-      "book": "tactical",
-      "asset": "GOOGL",
-      "asset_class": "equity_perp",
-      "venue": "hyperliquid",
-      "quantity": 0.519,
-      "avg_entry": 389.89,
-      "last_price": 365.72,
-      "price_source": "manual",
-      "currency": "USDC",
-      "position_type": "long",
-      "leverage": 10.0,
-      "tac_id": null,
-      "as_of_date": "2026-06-02",
-      "is_perp": true,
-      "cost_aud": 0.0,
-      "value_aud": 0.0,
-      "pnl_aud": -17.47,
-      "pnl_pct": -61.99,
-      "notional_aud": 264.31,
-      "weight": 0.0,
-      "flags": [],
-      "is_collateralised": true
-    },
-    {
-      "book": "tactical",
-      "asset": "NVDA",
-      "asset_class": "equity_perp",
-      "venue": "hyperliquid",
-      "quantity": 1.37,
-      "avg_entry": 228.73,
-      "last_price": 227.14,
-      "price_source": "manual",
-      "currency": "USDC",
-      "position_type": "long",
-      "leverage": 15.0,
-      "tac_id": null,
-      "as_of_date": "2026-06-02",
-      "is_perp": true,
-      "cost_aud": 0.0,
-      "value_aud": 0.0,
-      "pnl_aud": -3.03,
-      "pnl_pct": -10.43,
-      "notional_aud": 433.32,
-      "weight": 0.0,
-      "flags": [],
-      "is_collateralised": true
     }
   ],
   "filters": {
@@ -591,7 +544,6 @@
       "cash",
       "crypto_spot",
       "equity",
-      "equity_perp",
       "etf"
     ],
     "venue": [
@@ -606,35 +558,16 @@
   "exposure": {
     "currency": "AUD",
     "basis": "current mark",
-    "collateral_aud": 71.16,
-    "open_pnl_aud": -20.5,
-    "gross_long": 697.63,
+    "collateral_aud": 72.37,
+    "open_pnl_aud": 0,
+    "gross_long": 0.0,
     "gross_short": 0.0,
-    "net": 697.63,
-    "leverage": 9.8,
-    "long_count": 2,
+    "net": 0.0,
+    "leverage": 0.0,
+    "long_count": 0,
     "short_count": 0,
     "unpriced_count": 0,
-    "positions": [
-      {
-        "asset": "GOOGL",
-        "position_type": "long",
-        "leverage": 10.0,
-        "venue": "hyperliquid",
-        "notional_aud": 264.31,
-        "pnl_aud": -17.47,
-        "pnl_pct": -61.99
-      },
-      {
-        "asset": "NVDA",
-        "position_type": "long",
-        "leverage": 15.0,
-        "venue": "hyperliquid",
-        "notional_aud": 433.32,
-        "pnl_aud": -3.03,
-        "pnl_pct": -10.43
-      }
-    ]
+    "positions": []
   },
   "tactical": {
     "source": "data/hyperliquid_trades.csv",
@@ -647,11 +580,11 @@
     "losses": 1,
     "win_rate": 83.33,
     "volume_usdc": 1251.5,
-    "volume_aud": 1742.7,
+    "volume_aud": 1772.52,
     "fees_usdc": 0.29,
     "fees_aud": 0.41,
     "realised_pnl_usdc": 24.8,
-    "realised_pnl_aud": 34.53,
+    "realised_pnl_aud": 35.12,
     "first_trade": "2026-04-14 20:59:22",
     "last_trade": "2026-05-22 00:02:34",
     "top_assets": [
@@ -679,15 +612,15 @@
           "notional_usdc": 46.149950000000004,
           "fee_usdc": 0.019936,
           "closed_pnl_usdc": 11.547774,
-          "notional_aud": 64.26,
+          "notional_aud": 65.36,
           "fee_aud": 0.03,
-          "closed_pnl_aud": 16.08
+          "closed_pnl_aud": 16.36
         },
         "first_trade": "2026-04-14 20:59:22",
         "last_trade": "2026-05-22 00:02:34",
-        "notional_aud": 413.48,
+        "notional_aud": 420.56,
         "fees_aud": 0.18,
-        "realised_pnl_aud": 35.57,
+        "realised_pnl_aud": 36.18,
         "win_rate": 100.0
       },
       {
@@ -714,15 +647,15 @@
           "notional_usdc": 115.41816,
           "fee_usdc": 0.04986,
           "closed_pnl_usdc": 1.756698,
-          "notional_aud": 160.72,
+          "notional_aud": 163.47,
           "fee_aud": 0.07,
-          "closed_pnl_aud": 2.45
+          "closed_pnl_aud": 2.49
         },
         "first_trade": "2026-04-14 21:00:06",
         "last_trade": "2026-04-15 10:24:55",
-        "notional_aud": 323.95,
+        "notional_aud": 329.49,
         "fees_aud": 0.14,
-        "realised_pnl_aud": 2.38,
+        "realised_pnl_aud": 2.42,
         "win_rate": 100.0
       },
       {
@@ -738,7 +671,7 @@
         "best_trade": null,
         "first_trade": "2026-05-21 16:06:03",
         "last_trade": "2026-05-21 19:07:17",
-        "notional_aud": 281.77,
+        "notional_aud": 286.59,
         "fees_aud": 0.03,
         "realised_pnl_aud": -0.02,
         "win_rate": null
@@ -767,15 +700,15 @@
           "notional_usdc": 101.91144000000001,
           "fee_usdc": 0.008805,
           "closed_pnl_usdc": -2.3968770000000004,
-          "notional_aud": 141.91,
+          "notional_aud": 144.34,
           "fee_aud": 0.01,
-          "closed_pnl_aud": -3.34
+          "closed_pnl_aud": -3.39
         },
         "first_trade": "2026-05-18 17:25:20",
         "last_trade": "2026-05-21 19:06:33",
-        "notional_aud": 723.49,
+        "notional_aud": 735.87,
         "fees_aud": 0.06,
-        "realised_pnl_aud": -3.39,
+        "realised_pnl_aud": -3.45,
         "win_rate": 0.0
       }
     ],
@@ -794,9 +727,9 @@
         "notional_usdc": 46.149950000000004,
         "fee_usdc": 0.019936,
         "closed_pnl_usdc": 11.547774,
-        "notional_aud": 64.26,
+        "notional_aud": 65.36,
         "fee_aud": 0.03,
-        "closed_pnl_aud": 16.08
+        "closed_pnl_aud": 16.36
       },
       {
         "id": 10,
@@ -812,9 +745,9 @@
         "notional_usdc": 43.502250000000004,
         "fee_usdc": 0.018792,
         "closed_pnl_usdc": 9.799458000000001,
-        "notional_aud": 60.58,
+        "notional_aud": 61.61,
         "fee_aud": 0.03,
-        "closed_pnl_aud": 13.65
+        "closed_pnl_aud": 13.88
       },
       {
         "id": 8,
@@ -830,9 +763,9 @@
         "notional_usdc": 37.527,
         "fee_usdc": 0.016211,
         "closed_pnl_usdc": 3.8267889999999998,
-        "notional_aud": 52.26,
+        "notional_aud": 53.15,
         "fee_aud": 0.02,
-        "closed_pnl_aud": 5.33
+        "closed_pnl_aud": 5.42
       },
       {
         "id": 4,
@@ -848,9 +781,9 @@
         "notional_usdc": 115.41816,
         "fee_usdc": 0.04986,
         "closed_pnl_usdc": 1.756698,
-        "notional_aud": 160.72,
+        "notional_aud": 163.47,
         "fee_aud": 0.07,
-        "closed_pnl_aud": 2.45
+        "closed_pnl_aud": 2.49
       },
       {
         "id": 6,
@@ -866,9 +799,9 @@
         "notional_usdc": 34.1265,
         "fee_usdc": 0.014742,
         "closed_pnl_usdc": 0.427758,
-        "notional_aud": 47.52,
+        "notional_aud": 48.33,
         "fee_aud": 0.02,
-        "closed_pnl_aud": 0.6
+        "closed_pnl_aud": 0.61
       },
       {
         "id": 11,
@@ -884,9 +817,9 @@
         "notional_usdc": 101.91144000000001,
         "fee_usdc": 0.008805,
         "closed_pnl_usdc": -2.3968770000000004,
-        "notional_aud": 141.91,
+        "notional_aud": 144.34,
         "fee_aud": 0.01,
-        "closed_pnl_aud": -3.34
+        "closed_pnl_aud": -3.39
       }
     ],
     "losing_trades": [
@@ -904,9 +837,9 @@
         "notional_usdc": 101.91144000000001,
         "fee_usdc": 0.008805,
         "closed_pnl_usdc": -2.3968770000000004,
-        "notional_aud": 141.91,
+        "notional_aud": 144.34,
         "fee_aud": 0.01,
-        "closed_pnl_aud": -3.34
+        "closed_pnl_aud": -3.39
       },
       {
         "id": 6,
@@ -922,9 +855,9 @@
         "notional_usdc": 34.1265,
         "fee_usdc": 0.014742,
         "closed_pnl_usdc": 0.427758,
-        "notional_aud": 47.52,
+        "notional_aud": 48.33,
         "fee_aud": 0.02,
-        "closed_pnl_aud": 0.6
+        "closed_pnl_aud": 0.61
       },
       {
         "id": 4,
@@ -940,9 +873,9 @@
         "notional_usdc": 115.41816,
         "fee_usdc": 0.04986,
         "closed_pnl_usdc": 1.756698,
-        "notional_aud": 160.72,
+        "notional_aud": 163.47,
         "fee_aud": 0.07,
-        "closed_pnl_aud": 2.45
+        "closed_pnl_aud": 2.49
       },
       {
         "id": 8,
@@ -958,9 +891,9 @@
         "notional_usdc": 37.527,
         "fee_usdc": 0.016211,
         "closed_pnl_usdc": 3.8267889999999998,
-        "notional_aud": 52.26,
+        "notional_aud": 53.15,
         "fee_aud": 0.02,
-        "closed_pnl_aud": 5.33
+        "closed_pnl_aud": 5.42
       },
       {
         "id": 10,
@@ -976,9 +909,9 @@
         "notional_usdc": 43.502250000000004,
         "fee_usdc": 0.018792,
         "closed_pnl_usdc": 9.799458000000001,
-        "notional_aud": 60.58,
+        "notional_aud": 61.61,
         "fee_aud": 0.03,
-        "closed_pnl_aud": 13.65
+        "closed_pnl_aud": 13.88
       }
     ],
     "recent_trades": [
@@ -996,9 +929,9 @@
         "notional_usdc": 46.149950000000004,
         "fee_usdc": 0.019936,
         "closed_pnl_usdc": 11.547774,
-        "notional_aud": 64.26,
+        "notional_aud": 65.36,
         "fee_aud": 0.03,
-        "closed_pnl_aud": 16.08
+        "closed_pnl_aud": 16.36
       },
       {
         "id": 12,
@@ -1014,7 +947,7 @@
         "notional_usdc": 100.97374,
         "fee_usdc": 0.008724,
         "closed_pnl_usdc": -0.008724,
-        "notional_aud": 140.6,
+        "notional_aud": 143.01,
         "fee_aud": 0.01,
         "closed_pnl_aud": -0.01
       },
@@ -1032,9 +965,9 @@
         "notional_usdc": 101.91144000000001,
         "fee_usdc": 0.008805,
         "closed_pnl_usdc": -2.3968770000000004,
-        "notional_aud": 141.91,
+        "notional_aud": 144.34,
         "fee_aud": 0.01,
-        "closed_pnl_aud": -3.34
+        "closed_pnl_aud": -3.39
       },
       {
         "id": 10,
@@ -1050,9 +983,9 @@
         "notional_usdc": 43.502250000000004,
         "fee_usdc": 0.018792,
         "closed_pnl_usdc": 9.799458000000001,
-        "notional_aud": 60.58,
+        "notional_aud": 61.61,
         "fee_aud": 0.03,
-        "closed_pnl_aud": 13.65
+        "closed_pnl_aud": 13.88
       },
       {
         "id": 9,
@@ -1068,7 +1001,7 @@
         "notional_usdc": 101.37660000000001,
         "fee_usdc": 0.008758,
         "closed_pnl_usdc": -0.008758,
-        "notional_aud": 141.17,
+        "notional_aud": 143.58,
         "fee_aud": 0.01,
         "closed_pnl_aud": -0.01
       },
@@ -1086,9 +1019,9 @@
         "notional_usdc": 37.527,
         "fee_usdc": 0.016211,
         "closed_pnl_usdc": 3.8267889999999998,
-        "notional_aud": 52.26,
+        "notional_aud": 53.15,
         "fee_aud": 0.02,
-        "closed_pnl_aud": 5.33
+        "closed_pnl_aud": 5.42
       },
       {
         "id": 7,
@@ -1104,7 +1037,7 @@
         "notional_usdc": 317.54233,
         "fee_usdc": 0.027435,
         "closed_pnl_usdc": -0.027435,
-        "notional_aud": 442.17,
+        "notional_aud": 449.74,
         "fee_aud": 0.04,
         "closed_pnl_aud": -0.04
       },
@@ -1122,9 +1055,9 @@
         "notional_usdc": 34.1265,
         "fee_usdc": 0.014742,
         "closed_pnl_usdc": 0.427758,
-        "notional_aud": 47.52,
+        "notional_aud": 48.33,
         "fee_aud": 0.02,
-        "closed_pnl_aud": 0.6
+        "closed_pnl_aud": 0.61
       },
       {
         "id": 5,
@@ -1140,7 +1073,7 @@
         "notional_usdc": 100.11459,
         "fee_usdc": 0.008649,
         "closed_pnl_usdc": -0.008649,
-        "notional_aud": 139.41,
+        "notional_aud": 141.79,
         "fee_aud": 0.01,
         "closed_pnl_aud": -0.01
       },
@@ -1158,9 +1091,9 @@
         "notional_usdc": 115.41816,
         "fee_usdc": 0.04986,
         "closed_pnl_usdc": 1.756698,
-        "notional_aud": 160.72,
+        "notional_aud": 163.47,
         "fee_aud": 0.07,
-        "closed_pnl_aud": 2.45
+        "closed_pnl_aud": 2.49
       },
       {
         "id": 3,
@@ -1176,7 +1109,7 @@
         "notional_usdc": 47.218720000000005,
         "fee_usdc": 0.020398,
         "closed_pnl_usdc": -0.020398,
-        "notional_aud": 65.75,
+        "notional_aud": 66.88,
         "fee_aud": 0.03,
         "closed_pnl_aud": -0.03
       },
@@ -1194,7 +1127,7 @@
         "notional_usdc": 70.00644999999999,
         "fee_usdc": 0.030242,
         "closed_pnl_usdc": -0.030242,
-        "notional_aud": 97.48,
+        "notional_aud": 99.15,
         "fee_aud": 0.04,
         "closed_pnl_aud": -0.04
       }
@@ -1214,21 +1147,21 @@
         "notional_usdc": 16.58597,
         "fee_usdc": 0.00019487,
         "closed_pnl_usdc": -0.01114519991,
-        "notional_aud": 23.1,
+        "notional_aud": 23.49,
         "fee_aud": 0.0,
         "closed_pnl_aud": -0.02
       }
     ],
     "account": {
       "basis": "Hyperliquid account export + current holdings snapshot",
-      "collateral_aud": 71.16,
-      "open_pnl_aud": -20.5,
-      "realised_pnl_aud": 34.53,
-      "total_pnl_aud": 14.03,
-      "gross_long_aud": 697.63,
+      "collateral_aud": 72.37,
+      "open_pnl_aud": 0,
+      "realised_pnl_aud": 35.12,
+      "total_pnl_aud": 35.12,
+      "gross_long_aud": 0.0,
       "gross_short_aud": 0.0,
-      "net_exposure_aud": 697.63,
-      "leverage": 9.8
+      "net_exposure_aud": 0.0,
+      "leverage": 0.0
     }
   },
   "breakdowns": {
@@ -1236,8 +1169,7 @@
       "etf": 5,
       "equity": 8,
       "crypto_spot": 5,
-      "cash": 1,
-      "equity_perp": 2
+      "cash": 1
     },
     "venue_counts": {
       "commsec_au": 2,
@@ -1245,7 +1177,7 @@
       "commsec_intl": 2,
       "phantom": 3,
       "exchange": 1,
-      "hyperliquid": 4
+      "hyperliquid": 2
     }
   },
   "performance": {
@@ -1348,10 +1280,10 @@
       "benchmark": "Benchmark \u00b7 MSCI ACWI (AUD)"
     },
     "marked": {
-      "wealth_base": 1.1,
-      "conviction": 1.36,
-      "tactical": 0.71,
-      "total_fund": 1.34
+      "wealth_base": 1.09,
+      "conviction": 1.27,
+      "tactical": 1.0,
+      "total_fund": 1.26
     }
   },
   "reports": [
