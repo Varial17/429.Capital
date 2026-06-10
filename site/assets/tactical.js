@@ -100,11 +100,19 @@ async function goLive() {
       hlPost({ type: "userFills", user: HL_ADDRESS }).catch(() => null),
       hlPost({ type: "allMids" }).catch(() => ({})),
     ]);
-    renderLive(perp, spot, mids);
-    if (Array.isArray(fills) && fills.length) renderRecentFills(fills.slice(0, 16), "live");
+    // Everything below is derived from the address itself — the whole track
+    // record is recomputed live from the fill history, not from data.json.
+    const summary = Array.isArray(fills) ? summariseFills(fills) : null;
+    renderLive(perp, spot, mids, summary);
+    if (summary) {
+      renderRecord(summary);
+      renderByAsset(summary);
+      renderTopTrades(summary);
+      renderRecentFills(fills.slice(0, 18), "live");
+    }
     const now = new Date();
     $("#tac-status").innerHTML = `· <span class="px-live">● live</span> ${now.toLocaleTimeString()}`;
-    $("#live-note").innerHTML = `Pulled read-only from Hyperliquid for <code>${HL_ADDRESS.slice(0, 6)}…${HL_ADDRESS.slice(-4)}</code> · auto-refresh every ${REFRESH_MS / 1000}s.`;
+    $("#live-note").innerHTML = `Everything on this page pulled read-only from Hyperliquid for <code>${HL_ADDRESS.slice(0, 6)}…${HL_ADDRESS.slice(-4)}</code> · auto-refresh every ${REFRESH_MS / 1000}s.`;
   } catch (e) {
     $("#tac-status").innerHTML = `· <span class="neg">live fetch failed</span>`;
     $("#live-note").innerHTML = `Couldn't reach Hyperliquid (${e.message}). Showing the recorded track record.`;
@@ -116,7 +124,7 @@ async function goLive() {
 
 const STABLES = new Set(["USDC", "USDT", "USDT0", "USDE", "USDH", "DAI", "USD"]);
 
-function renderLive(perp, spot, mids) {
+function renderLive(perp, spot, mids, summary) {
   const ms = (perp && perp.marginSummary) || {};
   const perpEquityUsd = Number(ms.accountValue) || 0;
   const positions = (perp && perp.assetPositions) || [];
@@ -177,7 +185,8 @@ function renderLive(perp, spot, mids) {
   // ── headline cards: perp equity + spot, combined ──
   const accountUsd = perpEquityUsd + spotUsd;
   const openPnlUsd = perpPnlUsd + spotPnlUsd;
-  const realisedAud = (DATA.tactical && DATA.tactical.realised_pnl_aud) || 0;
+  const realisedAud = summary ? summary.realised_pnl_aud
+    : (DATA.tactical && DATA.tactical.realised_pnl_aud) || 0;
   liveCards({
     accountAud: usdToAud(accountUsd),
     openPnlAud: usdToAud(openPnlUsd),
@@ -225,8 +234,79 @@ function renderLiveCardsFromRecord(t) {
 }
 
 // ════════════════════════════════════════════════════════════════════════════
-//  RECORD  — from data.json (build.py / hyperliquid_trades.csv)
+//  TRACK RECORD  — recomputed live from the address's fill history.
+//  data.json's tactical block is the offline fallback (same shape).
 // ════════════════════════════════════════════════════════════════════════════
+
+// Strip the "xyz:" perp-dex prefix; show bare spot-pair indices (@NNN) as "spot".
+function cleanCoin(c) { return (c || "").replace(/^xyz:/, "").replace(/^@\d+$/, "spot"); }
+function fmtFillTime(ms) {
+  if (!ms) return "";
+  const d = new Date(Number(ms));
+  const p = (n) => String(n).padStart(2, "0");
+  return `${d.getFullYear()}-${p(d.getMonth() + 1)}-${p(d.getDate())} ${p(d.getHours())}:${p(d.getMinutes())}`;
+}
+
+// Turn raw Hyperliquid userFills into the same summary shape build.py emits,
+// all in AUD. Perp opens/closes drive the trade stats; spot buys/sells are
+// holdings, not closed trades, so they're kept out of realised/win-rate.
+function summariseFills(fills) {
+  const sorted = [...fills].sort((a, b) => Number(a.time) - Number(b.time));
+  const perp = [], byCoin = {};
+  let realisedUsd = 0, feesUsd = 0, volumeUsd = 0, closeCount = 0, wins = 0, losses = 0;
+
+  for (const f of sorted) {
+    const dir = f.dir || "";
+    const isPerp = /Long|Short/.test(dir);
+    if (!isPerp) continue;                       // skip spot Buy/Sell
+    const coin = cleanCoin(f.coin);
+    const px = Number(f.px), sz = Number(f.sz);
+    const notional = px * sz;
+    const pnl = Number(f.closedPnl) || 0;
+    const fee = Number(f.fee) || 0;
+    const isClose = dir.startsWith("Close");
+
+    realisedUsd += pnl; feesUsd += fee; volumeUsd += notional;
+    if (isClose) { closeCount++; if (pnl > 0) wins++; else if (pnl < 0) losses++; }
+
+    const b = byCoin[coin] || (byCoin[coin] = {
+      asset: coin, trade_count: 0, closes: 0, wins: 0,
+      notionalUsd: 0, feesUsd: 0, realisedUsd: 0,
+    });
+    b.trade_count++; b.notionalUsd += notional; b.feesUsd += fee; b.realisedUsd += pnl;
+    if (isClose) { b.closes++; if (pnl > 0) b.wins++; }
+
+    perp.push({
+      asset: coin, dir, size: sz, price: px,
+      closed_pnl_aud: usdToAud(pnl), time: fmtFillTime(f.time), _pnlUsd: pnl, _isClose: isClose,
+    });
+  }
+
+  const top_assets = Object.values(byCoin)
+    .map((b) => ({
+      asset: b.asset, trade_count: b.trade_count,
+      win_rate: b.closes ? (b.wins / b.closes) * 100 : null,
+      notional_aud: usdToAud(b.notionalUsd), fees_aud: usdToAud(b.feesUsd),
+      realised_pnl_aud: usdToAud(b.realisedUsd),
+    }))
+    .sort((a, b) => (b.realised_pnl_aud || 0) - (a.realised_pnl_aud || 0));
+
+  const top_trades = perp.filter((t) => t._isClose)
+    .sort((a, b) => b._pnlUsd - a._pnlUsd).slice(0, 8);
+
+  return {
+    realised_pnl_aud: usdToAud(realisedUsd),
+    fees_aud: usdToAud(feesUsd),
+    volume_aud: usdToAud(volumeUsd),
+    trade_count: perp.length,
+    close_count: closeCount,
+    wins, losses,
+    win_rate: closeCount ? (wins / closeCount) * 100 : null,
+    first_trade: perp.length ? perp[0].time : null,
+    top_assets, top_trades,
+  };
+}
+
 function renderRecord(t) {
   const a = t.account || {};
   $("#record-cards").innerHTML = `
@@ -282,17 +362,13 @@ function renderRecentFills(trades, src) {
 // Normalise a raw Hyperliquid userFills row into the same shape as record trades.
 function normFill(x) {
   if (x.closed_pnl_aud !== undefined) return x; // already a record-shape trade
-  const pnlUsd = Number(x.closedPnl);
-  const t = x.time ? new Date(Number(x.time)) : null;
-  // Strip the "xyz:" perp-dex prefix; show bare spot-pair indices (@NNN) as "spot".
-  const coin = (x.coin || "").replace(/^xyz:/, "").replace(/^@\d+$/, "spot");
   return {
-    asset: coin,
+    asset: cleanCoin(x.coin),
     dir: x.dir,
     size: Number(x.sz),
     price: Number(x.px),
-    closed_pnl_aud: usdToAud(pnlUsd),
-    time: t ? t.toISOString().slice(0, 16).replace("T", " ") : "",
+    closed_pnl_aud: usdToAud(Number(x.closedPnl)),
+    time: fmtFillTime(x.time),
   };
 }
 
