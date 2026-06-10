@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>429 Capital — Tactical</title>
+<link rel="stylesheet" href="assets/style.css">
+<script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js"></script>
+</head>
+<body>
+<div class="wrap">
+
+  <header class="topbar">
+    <div class="word">429&nbsp;<b>CAPITAL</b></div>
+    <nav class="topnav">
+      <a href="index.html">Home</a>
+      <a href="dashboard.html">Dashboard</a>
+      <a href="tactical.html" class="active">Tactical</a>
+      <a href="reports/index.html">Reports</a>
+      <button class="theme-toggle" onclick="toggleTheme()">Theme</button>
+    </nav>
+  </header>
+
+  <div class="page-head">
+    <div class="kicker">Tactical Sleeve · Hyperliquid</div>
+    <h1>The fast book</h1>
+    <p class="sub">Leveraged perps and short-hold spot on Hyperliquid — the small, high-velocity sleeve that runs alongside the fund. Live positions are pulled straight from the chain; the trade record is the marked history. <span id="tac-status" style="color:var(--text-dim)"></span></p>
+  </div>
+
+  <main id="app">
+
+    <!-- LIVE -->
+    <section class="block" id="live">
+      <div class="sec-label">01 · Live</div>
+      <h2 class="sec-title">Account, marked now <button class="theme-toggle" id="refresh-btn" style="margin-left:10px">Refresh</button></h2>
+      <p class="placeholder-note" id="live-note"></p>
+      <div class="cards" id="live-cards"></div>
+
+      <h3 class="sub-title" style="margin-top:34px">Open positions</h3>
+      <div class="panel">
+        <table class="holdings-table" id="pos-table">
+          <thead><tr>
+            <th>Coin</th>
+            <th>Side</th>
+            <th class="num">Size</th>
+            <th class="num">Entry</th>
+            <th class="num">Mark</th>
+            <th class="num">Notional (USD)</th>
+            <th class="num">Unrealised</th>
+            <th class="num">ROE</th>
+            <th class="num">Lev</th>
+            <th class="num">Liq.</th>
+          </tr></thead>
+          <tbody id="pos-body"></tbody>
+        </table>
+      </div>
+      <p class="placeholder-note" id="spot-note"></p>
+    </section>
+
+    <!-- TRACK RECORD -->
+    <section class="block" id="record">
+      <div class="sec-label">02 · Track record</div>
+      <h2 class="sec-title">What the book has done</h2>
+      <div class="cards" id="record-cards"></div>
+
+      <h3 class="sub-title" style="margin-top:34px">By coin</h3>
+      <div class="panel">
+        <table class="perf-table" id="byasset-table">
+          <thead><tr>
+            <th>Coin</th>
+            <th class="num">Trades</th>
+            <th class="num">Win rate</th>
+            <th class="num">Volume (AUD)</th>
+            <th class="num">Fees (AUD)</th>
+            <th class="num">Realised P&amp;L (AUD)</th>
+          </tr></thead>
+          <tbody id="byasset-body"></tbody>
+        </table>
+      </div>
+    </section>
+
+    <!-- TRADES -->
+    <section class="block" id="trades">
+      <div class="sec-label">03 · Trades</div>
+      <h2 class="sec-title">Best &amp; recent fills</h2>
+      <div class="two-col">
+        <div class="panel">
+          <div class="panel-head"><h3>Top trades</h3><span class="badge">Closed, by P&amp;L</span></div>
+          <div class="panel-body"><div class="trade-list" id="top-trades"></div></div>
+        </div>
+        <div class="panel">
+          <div class="panel-head"><h3>Recent fills</h3><span class="badge" id="fills-src">From record</span></div>
+          <div class="panel-body"><div class="trade-list" id="recent-fills"></div></div>
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+  <footer class="foot">
+    <div class="foot-top">
+      <div class="word">429&nbsp;<b>CAPITAL</b></div>
+      <div class="topnav"><a href="dashboard.html">Dashboard</a><a href="reports/index.html">Reports</a><a href="index.html">Home</a></div>
+    </div>
+    <p class="disc">Tactical is the leveraged sleeve and the most volatile part of the book. Live figures are read read-only from Hyperliquid's public <code>info</code> endpoint and can move second to second; the track record is marked from the recorded fill log in <code>data/hyperliquid_trades.csv</code>. USD/USDC is converted to AUD at the rate in <code>data/fx.csv</code>. Nothing here is advice. Past performance is not indicative of future performance.</p>
+  </footer>
+
+</div>
+<script src="assets/tactical.js"></script>
+</body>
+</html>

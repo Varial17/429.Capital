@@ -342,3 +342,15 @@ section.block{padding:40px 0 8px}
 /* live vs manual price badge (header sub-line) */
 .px-live{color:var(--positive);font-family:var(--mono);font-size:11px;letter-spacing:0.03em}
 .px-manual{color:var(--text-dim);font-family:var(--mono);font-size:11px;letter-spacing:0.03em}
+
+/* tactical — trade lists */
+.trade-list{display:flex;flex-direction:column}
+.trade-row{display:grid;grid-template-columns:1fr auto;gap:2px 12px;
+  padding:10px 0;border-bottom:1px solid var(--border)}
+.trade-row:last-child{border-bottom:0}
+.tr-main{display:flex;align-items:baseline;gap:8px}
+.tr-coin{font-family:var(--mono);font-size:13px;color:var(--text)}
+.tr-dir{font-size:11px;color:var(--text-muted);text-transform:uppercase;letter-spacing:0.06em}
+.tr-meta{grid-column:1;font-family:var(--mono);font-size:10.5px;color:var(--text-dim)}
+.tr-pnl{grid-column:2;grid-row:1 / span 2;align-self:center;
+  font-family:var(--mono);font-size:14px;text-align:right}
