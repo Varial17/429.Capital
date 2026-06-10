@@ -55,6 +55,7 @@ const charts = [];
   renderPerformance();
   renderHoldings();
   renderExposure();
+  enhanceTacticalLive();
   window.__redrawCharts = redrawCharts;
 })();
 
@@ -349,6 +350,57 @@ function renderExposure() {
       <span class="bn">${n}</span>
     </div>`;
   }).join("");
+}
+
+// ---------- Tactical: live overlay from Hyperliquid ----------
+// Replaces the Exposure section's CSV-derived figures with the live account
+// (same shared HL_LIVE layer the Tactical page uses). Silently keeps the
+// static numbers if the address is unset or Hyperliquid is unreachable.
+function enhanceTacticalLive() {
+  if (!window.HL_LIVE || !HL_LIVE.ADDRESS) return;
+  const badge = $("#expo-live");
+  const fx = (DATA.meta.fx && DATA.meta.fx.AUDUSD) || 0.65;
+
+  const run = async () => {
+    let snap;
+    try { snap = await HL_LIVE.fetchSnapshot(fx); }
+    catch (e) { if (badge) badge.innerHTML = `<span class="neg">· live unavailable</span>`; return; }
+    const a = snap.account;
+
+    $("#expo-cards").innerHTML = `
+      <div class="card">
+        <div class="l">Account value</div>
+        <div class="v">${fmtAUD(a.accountAud)} <span style="font-size:12px;color:var(--text-dim)">AUD</span></div>
+        <div class="x">perp equity + spot, live</div>
+      </div>
+      <div class="card">
+        <div class="l">Open P&amp;L</div>
+        <div class="v ${signClass(a.openPnlAud)}">${fmtAUD(a.openPnlAud)}</div>
+        <div class="x">unrealised, marked now</div>
+      </div>
+      <div class="card">
+        <div class="l">Net exposure</div>
+        <div class="v">${fmtAUD(a.netAud)}</div>
+        <div class="x">${a.longCount}L / ${a.shortCount}S · long − short</div>
+      </div>
+      <div class="card">
+        <div class="l">Realised P&amp;L</div>
+        <div class="v ${signClass(a.realisedAud)}">${fmtAUD(a.realisedAud)}</div>
+        <div class="x">closed trades, all-time</div>
+      </div>`;
+
+    $("#expo-note").innerHTML = snap.positions.length
+      ? `Open now: ` +
+        snap.positions.map((p) =>
+          `${p.coin} ${p.lev ? p.lev + "× " : ""}${p.side} ${fmtAUD(p.notionalAud)} (${fmtPct(p.roe)})`).join(" · ") +
+        ` · <a href="tactical.html">full tactical →</a>`
+      : `Flat on perps — no open leverage right now. The ${fmtAUD(a.accountAud)} account is sitting in spot and collateral on Hyperliquid. <a href="tactical.html">Full tactical →</a>`;
+
+    if (badge) badge.innerHTML = `<span class="px-live">● live</span> ${new Date().toLocaleTimeString()}`;
+  };
+
+  run();
+  setInterval(() => { if (!document.hidden) run(); }, 60000);
 }
 
 // ---------- Charts ----------
