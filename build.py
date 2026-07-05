@@ -565,13 +565,18 @@ def process_reports():
     parsed.sort(key=lambda o: (o.get("date") or o.get("period") or ""))
     manifest = []
     for i, obj in enumerate(parsed):
+        kind = obj.get("kind") or "letter"
+        # prev/next chain stays within the same kind (letters vs research notes)
+        same = [o for o in parsed if (o.get("kind") or "letter") == kind]
+        j = same.index(obj)
         manifest.append({
             "period": obj.get("period"),
+            "kind": kind,
             "title": obj.get("title"),
             "subtitle": obj.get("subtitle"),
             "date": obj.get("date"),
-            "prev": parsed[i - 1].get("period") if i > 0 else None,
-            "next": parsed[i + 1].get("period") if i < len(parsed) - 1 else None,
+            "prev": same[j - 1].get("period") if j > 0 else None,
+            "next": same[j + 1].get("period") if j < len(same) - 1 else None,
         })
     manifest.reverse()
     return manifest

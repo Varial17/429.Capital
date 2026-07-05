@@ -75,8 +75,10 @@
       const date = r.date
         ? new Date(r.date).toLocaleDateString(undefined, { year: "numeric", month: "long", day: "numeric" })
         : "";
-      return `<a class="report-card" href="report.html?period=${encodeURIComponent(r.period)}">
-        <div class="rc-period">${esc(r.period || "")}</div>
+      const page = r.kind === "research" ? "research.html" : "report.html";
+      const tag = r.kind === "research" ? " · Research" : "";
+      return `<a class="report-card" href="${page}?period=${encodeURIComponent(r.period)}">
+        <div class="rc-period">${esc(r.period || "")}${tag}</div>
         <div class="rc-title">${esc(r.title || r.period || "")}</div>
         <div class="rc-meta">${esc(r.subtitle || "")}${date ? ` · ${esc(date)}` : ""}</div>
         <div class="rc-go">Read →</div>

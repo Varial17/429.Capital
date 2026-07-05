@@ -1,0 +1,385 @@
+{
+  "period": "2026-R1",
+  "kind": "research",
+  "title": "Truth Sources",
+  "subtitle": "429 Research · Thesis Note",
+  "date": "2026-07-05",
+  "tickers": [
+    { "sym": "HUBS", "name": "HubSpot", "entity": "hubs", "price": "US$192.12", "asof": "Jul 2, 2026" },
+    { "sym": "CRM", "name": "Salesforce", "entity": "crm", "price": "US$166.11", "asof": "Jul 2, 2026" },
+    { "sym": "XRO", "name": "Xero", "entity": "xro", "price": "A$72.25", "asof": "Jul 3, 2026" }
+  ],
+  "verdict": {
+    "thesis": "AI agents don't kill the system of record — they clock into it. CRMs and ledgers are the truth sources agents read from and write to, and the vendors are becoming metered resellers of frontier-model tokens. The market is pricing these franchises as AI roadkill; we think a subset of them are AI toll roads. Watchlist, not positions — the entry prices and the triggers are at the bottom.",
+    "stances": [
+      { "ticker": "HUBS", "name": "HubSpot", "entity": "hubs", "stance": "Watchlist — high interest", "line": "−78% from high, ~15× forward earnings, ~11× free cash flow. The credits engine is real but not yet in the numbers. We want proof net-new ARR has bottomed — or a panic print." },
+      { "ticker": "CRM", "name": "Salesforce", "entity": "crm", "stance": "Watchlist", "line": "Cheapest in its public history at ~13× forward. $1.2B Agentforce ARR growing 205%. Slower core, bigger buyback. The safer expression of the same thesis." },
+      { "ticker": "XRO", "name": "Xero", "entity": "xro", "stance": "Sidebar", "line": "The accounting version of the same trade — covered in passing here, deserves its own note." }
+    ]
+  },
+  "sections": [
+    {
+      "type": "prose",
+      "id": "idea",
+      "label": "The Idea",
+      "title": "No such thing as guerrilla accounting",
+      "body": "There is guerrilla marketing. There is no guerrilla accounting, and no guerrilla sales pipeline. Tax has to be filed the same way whether you are a barber or a biotech; a deal moves from lead to close through the same stages everywhere. Because these workflows barely vary between businesses, the software that runs them gets enormous economies of scale — millions of customers funding one product — and the customers get enormous switching costs, because the software holds their history, their compliance trail, and their money.\n\nThat is why we don't believe the CRMs and the ledgers get replaced by AI. They are **data spaces — truth sources**. An agent can draft an email or write a report from anywhere, but the moment it needs to know *what is actually true* about a customer, an invoice, or a bank balance — and the moment it needs to *change* that truth with permissions and an audit trail — it has to go where the record lives.\n\nThe second half of the idea: the agents will be **staff**. They will spend their working day inside Xero, Salesforce and HubSpot the way employees do today, except they'll be metered. Every action an agent takes inside these platforms burns tokens from Anthropic or OpenAI underneath, and the platform bills the customer in credits on top. As long as the incumbents stay open — plug into every model provider, every agent surface — they effectively become **resellers of frontier-model tokens**, with the markup that resellers earn.\n\nThis note tests that idea against what actually happened in 2025–26, then puts numbers on the two names the market hates most."
+    },
+    {
+      "type": "stack",
+      "id": "stack",
+      "label": "The Stack",
+      "title": "Where the agent clocks in",
+      "note": "The system of record sits between the model labs and the business: it buys intelligence wholesale (tokens) and sells work retail (credits, resolutions, seats). Its moat is not the UI — it's the data, the permissions, and the compliance rails agents can't fake.",
+      "layers": [
+        {
+          "k": "labs",
+          "title": "Frontier models",
+          "desc": "Anthropic · OpenAI — intelligence, sold wholesale by the token",
+          "items": ["Claude in Agentforce 360 & Slack", "Claude powers Xero's JAX", "GPT-5 native in Agentforce", "HubSpot connectors in ChatGPT & Claude"]
+        },
+        {
+          "k": "record",
+          "title": "Systems of record — the truth source",
+          "desc": "Salesforce · HubSpot · Xero — the data, the permissions, the audit trail, the workflow rails",
+          "items": ["Customer & pipeline truth (CRM)", "Financial truth (ledger, bank feeds, payroll)", "MCP servers: the tool layer agents call", "Compliance: tax filing, GAAP, payroll rails"]
+        },
+        {
+          "k": "work",
+          "title": "Agents as staff",
+          "desc": "Metered digital labor, billed in credits and outcomes",
+          "items": ["Agentforce: $0.10/action · pay-per-resolution", "Breeze: $0.50 per resolved conversation", "JAX: reconciles 80%+ of bank transactions", "Sold against labor budgets, not software seats"]
+        }
+      ],
+      "flows": [
+        { "from": "labs", "to": "record", "label": "tokens — wholesale" },
+        { "from": "record", "to": "work", "label": "credits & outcomes — retail" }
+      ]
+    },
+    {
+      "type": "stats",
+      "id": "evidence",
+      "label": "The Evidence",
+      "title": "The agents already clocked in",
+      "note": "This stopped being a forecast in 2025. Machine traffic passed human traffic on the open web in June 2026, and the metered-agent revenue lines are compounding triple-digit.",
+      "cards": [
+        { "l": "Tokens processed by Salesforce", "v": "~20T", "x": "cumulative through Jan 2026 — Agentforce runs on Anthropic & OpenAI models underneath" },
+        { "l": "Agentforce ARR", "v": "$1.2B", "x": "+205% y/y at Q1 FY27 (May 2026) — fastest-scaling product line Salesforce has reported" },
+        { "l": "HubSpot credit burn", "v": "+67%", "x": "quarter-over-quarter growth in credits consumed, Q1 2026" },
+        { "l": "Bot share of web traffic", "v": "57.5%", "x": "automated requests passed human traffic on Cloudflare Radar, June 2026; agentic traffic +7,851% y/y (HUMAN Security)" }
+      ]
+    },
+    {
+      "type": "prose",
+      "id": "voted",
+      "label": "The De-Rating",
+      "title": "The market has already voted the other way",
+      "body": "Every one of these franchises trades like it is being disrupted *now*. Nadella said business applications \"collapse in the agent era.\" Klarna ripped out Salesforce to prove it — then admitted it hadn't replaced SaaS with an LLM at all, and rehired the humans. In February 2026, Claude Cowork and OpenAI Frontier launched in the same week and took roughly a trillion dollars off software in days. The sector's median revenue multiple roughly halved.\n\nThe result is the chart below. HubSpot has lost more than three-quarters of its value from the February 2025 high. Salesforce is the second-worst Dow stock of 2026 at the cheapest forward multiple in its public history. Xero — accelerating, 48.5 Rule of 40 — is down ~60% from where it placed stock in mid-2025.\n\nDe-ratings this violent are usually either the market correctly smelling terminal decline, or the entry point of the decade. The rest of this note is about telling those apart."
+    },
+    {
+      "type": "chart",
+      "id": "drawdown",
+      "label": "Drawdown",
+      "title": "Drawdown from 2025 highs",
+      "kind": "hbar",
+      "note": "HUBS from $881.13 all-time high (Feb 13, 2025) to $192.12 (Jul 2, 2026). CRM from $276.80 52-week high to $166.11. XRO from the A$176 June 2025 placement price to A$72.25 (Jul 3, 2026).",
+      "labels": ["HubSpot", "Salesforce", "Xero"],
+      "series": [
+        { "name": "Drawdown", "entities": ["hubs", "crm", "xro"], "values": [-78, -40, -59] }
+      ],
+      "valueFmt": "pct",
+      "xMin": -100,
+      "xMax": 0
+    },
+    {
+      "type": "timeline",
+      "id": "timeline",
+      "label": "Timeline",
+      "title": "How the narrative got here",
+      "events": [
+        { "date": "Dec 2024", "text": "Nadella on BG2: business applications \"collapse in the agent era\" — SaaS is just CRUD plus logic, and the logic moves to agents.", "side": "bear" },
+        { "date": "Sep 2024 – May 2025", "text": "Klarna \"shuts down Salesforce\" … then admits it didn't replace SaaS with an LLM, swaps Workday for Deel, and rehires human support after quality fell. The bear case's poster child recants.", "side": "bull" },
+        { "date": "Oct 2025", "text": "Dreamforce: Anthropic and OpenAI deals — Claude becomes a foundational model inside Agentforce 360; GPT-5 native; Agentforce apps inside ChatGPT. The record opens up instead of walling off.", "side": "bull" },
+        { "date": "Feb 2026", "text": "Claude Cowork and OpenAI Frontier launch the same week. \"Trillion-dollar\" software selloff; median software multiple roughly halves. HUBS, CRM, XRO all crater.", "side": "bear" },
+        { "date": "Apr 2026", "text": "HubSpot flips agents to outcome pricing — $0.50 per resolved conversation, pay only when the agent completes the task. Second leg of the software selloff.", "side": "mixed" },
+        { "date": "May 2026", "text": "HUBS Q1: net-new ARR growth falls below revenue growth for the first time → downgrade cascade (BofA PT $180). Founder Dharmesh Shah personally buys the dip.", "side": "mixed" },
+        { "date": "Jun–Jul 2026", "text": "Cloudflare: automated traffic passes human traffic. Guggenheim upgrades CRM — the \"AI Armageddon\" priced into software is \"a hallucination.\" Xero's JAX embeds into Microsoft 365 Copilot.", "side": "bull" }
+      ]
+    },
+    {
+      "type": "prose",
+      "id": "moat",
+      "label": "The Moat",
+      "title": "Why the record survives",
+      "body": "Three pieces of evidence carry most of the weight.\n\n### The customers don't leave\n\nXero loses about 1% of subscribers a month. QuickBooks Online renews at ~82–88% depending on tier. HubSpot's net revenue retention is ~103% and *improving*; Salesforce attrition is stable at ~8% a year. None of these look like products being replaced — and this is 18 months into the loudest disruption narrative software has ever had.\n\n### The challengers keep hitting the same wall\n\nBench — $100M+ of venture money for AI bookkeeping — imploded over Christmas 2024; the AI \"didn't work properly.\" Digits' autonomous ledger serves hundreds of businesses against Xero's 4.6 million and QuickBooks' ~10 million. Day.ai, the Sequoia-backed \"Cursor of CRM\" aimed straight at HubSpot, has on the order of a hundred customers. The AI-native winners so far — Clay at $3.1B, Basis at $1.15B — sell *tools that sit on top of* the record, they don't replace it. The pattern is consistent: generic intelligence is easy to get now; the trusted, permissioned, compliance-wired record is not.\n\n### Even the walk-backs prove it\n\nKlarna is the cleanest natural experiment anyone ran. A motivated, technically strong company publicly tried to delete its CRM in favor of AI — and ended up on other SaaS, a knowledge graph, and rehired humans, with the CEO explicitly doubting others should try. The lesson isn't that AI failed; it's that the record was never the part AI replaces.\n\nThe honest caveat: stickiness protects the *stock* only if the seats it bills for survive. The real bear case was never rip-and-replace — it's slow seat compression while credits ramp too slowly to offset. That's the race the deep dives below try to handicap."
+    },
+    {
+      "type": "prose",
+      "id": "reseller",
+      "label": "Token Resellers",
+      "title": "The token resale business, priced",
+      "body": "Every incumbent has now built the same machine: buy intelligence wholesale from the labs, sell work retail to the customer. The pricing tells you what the machine earns. An Agentforce \"action\" is capped around ten thousand tokens — pennies at API rates — and retails at $0.10. HubSpot retails a resolved support conversation at $0.50 against a human cost of $20–50 per ticket. That's the resale spread: order-of-magnitude markups on the token cost at list price, sold against **labor budgets, not software budgets**.\n\nTwo things keep this honest. First, nobody discloses AI gross margin yet — Bessemer pegs AI-heavy software at ~60–70% gross margin versus 80–90% classic SaaS, so the spread is real but thinner than old software. Second, the deflation is deliberate: Salesforce went $2 per conversation → $0.10 per action → pay-per-resolution in eighteen months; HubSpot halved its agent price in April. They are racing prices down to make agents a no-brainer — margin now traded for metered volume later. That's the right trade if, and only if, agent volume compounds the way usage metrics say it is."
+    },
+    {
+      "type": "table",
+      "id": "pricing",
+      "label": "Agent Pricing",
+      "title": "How the record meters its agents",
+      "head": ["Vendor", "Agent product", "Retail pricing", "The tell"],
+      "rows": [
+        ["Salesforce", "Agentforce 360", "$2/conversation (2024) → $0.10/action Flex Credits (2025) → pay-per-resolution (2026); seats $125–550/user/mo", "Three pricing models in 18 months — racing to the meter"],
+        ["HubSpot", "Breeze agents + credits", "$0.01/credit · $0.50 per resolved conversation · $1.00 per qualified lead (Apr 2026)", "First outcome pricing at SMB scale — priced against labor"],
+        ["Microsoft", "365 Copilot / Cowork", "$30/user/mo, 15M paid seats; metered Cowork pricing at GA", "Even Microsoft is moving from seats to meters"],
+        ["Intuit", "QuickBooks agent team", "Bundled — with QBO Plus price +64% since 2020", "AI monetized as pricing power, and it stuck: QBO revenue +22%"],
+        ["Xero", "JAX superagent", "Bundled into subscriptions; price rises landing 2026", "Distribution first: JAX inside Claude and Microsoft Copilot"],
+        ["SAP", "Joule agents", "\"AI Units\" consumption currency; agent runs burn multiples of copilot chats", "The enterprise template: agents as a consumption line"]
+      ]
+    },
+    {
+      "type": "divider",
+      "id": "hubs",
+      "label": "HubSpot",
+      "title": "HubSpot — the cheap shot at the thesis",
+      "entity": "hubs",
+      "body": "The market's single most hated large-cap software stock, and the purest expression of the fear: SMB customers, seat pricing, and a marketing wedge that ChatGPT supposedly eats. Down 78% while growing 18% with expanding margins."
+    },
+    {
+      "type": "stats",
+      "id": "hubs-stats",
+      "label": "HUBS Vitals",
+      "title": "The vitals",
+      "cards": [
+        { "l": "Price / from high", "v": "$192 · −78%", "x": "all-time high $881.13, Feb 13 2025" },
+        { "l": "Forward P/E", "v": "~15.5×", "x": "on FY26 non-GAAP EPS guide of $12.38–12.46" },
+        { "l": "EV / FY26 sales", "v": "~2.2×", "x": "market cap ~$9.8B, ~$1.8B net cash" },
+        { "l": "EV / FCF", "v": "~11×", "x": "~$740M FCF guided for 2026" },
+        { "l": "Revenue growth", "v": "+18% cc", "x": "Q1 2026; FY26 guide ~$3.70B (+16% cc)" },
+        { "l": "Customers", "v": "~300k", "x": "+16% y/y; NRR ~103% and improving" },
+        { "l": "Op margin (nG)", "v": "21%", "x": "FY26 guide — hit the 2027 target a year early" },
+        { "l": "Screen P/E (trailing GAAP)", "v": "~98×", "x": "the number that makes it screen expensive — see below" }
+      ]
+    },
+    {
+      "type": "chart",
+      "id": "hubs-agents",
+      "label": "HUBS Agents",
+      "title": "Breeze agents: customers activating, quarter over quarter",
+      "kind": "groupbar",
+      "note": "Customers with each agent live. Customer Agent resolves 70% of conversations on average (some >90%) twelve months after launch; total credits consumed grew +67% q/q in Q1 2026. Dollar revenue from credits: still undisclosed — the honest hole in the bull case.",
+      "labels": ["Customer Agent", "Prospecting Agent", "Data Agent"],
+      "series": [
+        { "name": "Q4 2025", "entity": "context", "values": [8000, 10000, 4000] },
+        { "name": "Q1 2026", "entity": "hubs", "values": [9000, 14000, 9000] }
+      ],
+      "valueFmt": "k"
+    },
+    {
+      "type": "scoreboard",
+      "id": "hubs-scoreboard",
+      "label": "HUBS Bull/Bear",
+      "title": "The two stories",
+      "entity": "hubs",
+      "bull": [
+        "Distribution: 300k SMBs get turnkey agents with their CRM context attached — HubSpot is how small businesses that can't build AI, buy AI.",
+        "Outcome pricing sells against labor: $0.50 per resolved ticket vs $20–50 human cost. TAM stops being 'seats at SMBs' and starts being 'SMB payroll'.",
+        "First CRM connected into both ChatGPT (Jun 2025) and Claude (Jul 2025), plus a production MCP server — the truth source for whatever agent surface wins.",
+        "Franchise health: margins at target a year early, NRR improving, founder buying the dip with his own money.",
+        "At ~15× forward / ~11× FCF, you're paying a GDP-growth multiple for a mid-teens grower with an un-modeled consumption line."
+      ],
+      "bear": [
+        "Net-new ARR growth fell below revenue growth in Q1 2026 — the leading indicator went the wrong way, and the downgrade cascade followed.",
+        "ARPU is flat (+2pts cc): all growth is volume at the Starter tier. If agents shrink GTM headcount, the seat base erodes from the top.",
+        "The credits line is real but undisclosed — management won't put a dollar number on AI revenue, which means it doesn't yet move the P&L.",
+        "ChatGPT genuinely absorbs the content/email/SEO jobs that were HubSpot's inbound wedge; AEO is a defensive crouch.",
+        "Outcome pricing is self-deflating: the agent price was cut 50% in April. Volume has to outrun deflation forever."
+      ]
+    },
+    {
+      "type": "divider",
+      "id": "crm",
+      "label": "Salesforce",
+      "title": "Salesforce — the toll road, already tolling",
+      "entity": "crm",
+      "body": "The strongest version of the truth-source argument isn't a forecast — it's on the income statement. $1.2B of Agentforce ARR, 20 trillion tokens through the platform, Claude and GPT-5 serving inside its trust boundary. Priced at the cheapest forward multiple in its public history."
+    },
+    {
+      "type": "stats",
+      "id": "crm-stats",
+      "label": "CRM Vitals",
+      "title": "The vitals",
+      "cards": [
+        { "l": "Price / from high", "v": "$166 · −40%", "x": "52-week high $276.80; worst-2 Dow stock of 2026" },
+        { "l": "Forward P/E", "v": "~13×", "x": "sources span 12–15×; cheapest in its public history" },
+        { "l": "Revenue (FY27E)", "v": "~$46B", "x": "+11% y/y (~3pts from Informatica)" },
+        { "l": "Op margin (nG)", "v": "34.8%", "x": "Q1 FY27; FCF $14.4B in FY26" },
+        { "l": "Agentforce ARR", "v": "$1.2B", "x": "+205% y/y; AI + Data ARR $3.4B (~7% of revenue)" },
+        { "l": "Backlog (RPO)", "v": "$72.4B", "x": "cRPO $33.6B, +14% — the franchise isn't shrinking" },
+        { "l": "Capital return", "v": "$50B", "x": "buyback authorization + $25B accelerated repurchase (debt-funded)" },
+        { "l": "Attrition", "v": "~8%", "x": "revenue attrition, stable through the whole AI panic" }
+      ]
+    },
+    {
+      "type": "chart",
+      "id": "crm-agentforce",
+      "label": "Agentforce ARR",
+      "title": "Agentforce ARR: zero to $1.2B in six quarters",
+      "kind": "bar",
+      "note": "Disclosed Agentforce ARR by quarter since launch (Oct 2024). The caveat that keeps us honest: Stifel estimates only ~5% of Salesforce customers have adopted, and ~1/3 of cumulative deals are paid — it's a fast ramp off a base the bears call rounding error (~2.6% of revenue).",
+      "labels": ["Q3 FY26 · Dec 25", "Q4 FY26 · Feb 26", "Q1 FY27 · May 26"],
+      "series": [
+        { "name": "Agentforce ARR", "entity": "crm", "values": [0.5, 0.8, 1.2] }
+      ],
+      "valueFmt": "busd"
+    },
+    {
+      "type": "scoreboard",
+      "id": "crm-scoreboard",
+      "label": "CRM Bull/Bear",
+      "title": "The two stories",
+      "entity": "crm",
+      "bull": [
+        "The reseller machine at scale: ~20T tokens processed, billed back as $0.10 actions, $125–550 seats and per-resolution fees. Fastest-scaling product line the company has ever reported.",
+        "Both labs inside the tent: Claude is a foundational model within Agentforce 360 (preferred for regulated industries), GPT-5 native, Agentforce apps inside ChatGPT. Co-opetition beats disintermediation.",
+        "Benioff's own layoffs are the demo: support headcount 9,000 → 5,000 with AI handling half of interactions — digital labor sold with receipts.",
+        "$14–16B FCF, 34%+ margins, $50B buyback at ~13× forward: the downside case is being paid to wait.",
+        "Guggenheim's Jul 1 upgrade framed it: current multiples price software 'declining into perpetuity' — any outcome short of Armageddon re-rates it."
+      ],
+      "bear": [
+        "Core growth is ~10–11% and 3 points of it is acquired (Informatica). AI + Data is ~7% of revenue — triple-digit growth on a base that can't move the needle for years.",
+        "The seat-cannibalization math is unproven: consumption revenue may replace, not add to, $125-seat revenue. Salesforce cutting its own headcount proves agents kill seats too.",
+        "FCF growth was cut to +4–5% this year to fund a debt-financed buyback — financial engineering where organic growth used to be.",
+        "Claude-in-Slack and OpenAI Frontier both raise the same question: if the assistant layer lives elsewhere, Agentforce becomes plumbing priced like plumbing.",
+        "Adoption reality: <10% of the install base has signed any Agentforce deal; most deals are pilots, not production."
+      ]
+    },
+    {
+      "type": "prose",
+      "id": "screen",
+      "label": "Screen vs Read",
+      "title": "What the screen sees, and what it misses",
+      "body": "The valuation screen that prompted this note scores HubSpot 2/6 — \"expensive\" — and Salesforce 4/6, mostly on trailing P/E. That's the machine reading GAAP optics. HubSpot's 98× trailing P/E is an artifact of stock-comp accounting on barely-positive GAAP earnings; on guided cash earnings it's ~15×, and on free cash flow ~11×. Salesforce screens at 17× trailing because its GAAP earnings are real — the screen and the read agree it's cheap.\n\nWhere the screen is useful: both names trade far below its DCF fair values ($820 for HUBS, $300 for CRM). We wouldn't underwrite $820 — a DCF on a disrupted-narrative stock is a fistfight between terminal assumptions — but the direction matches our read: the market is pricing terminal decline into franchises whose customers aren't leaving.\n\nThe growth-multiple picture below is the cleaner way to see it: both companies now carry market-or-lower forward multiples while growing faster than the market."
+    },
+    {
+      "type": "chart",
+      "id": "pe-chart",
+      "label": "P/E Reality",
+      "title": "Trailing optics vs forward reality",
+      "kind": "bar",
+      "note": "Trailing P/E as screened (Simply Wall St, GAAP). Forward P/E on FY26 guided non-GAAP EPS (HUBS ~$12.42; CRM consensus ~$12.5–13). Reference lines: US software industry trailing average 27.7×, US market 19.2×. Same company, different accounting lens — an 83-point gap for HubSpot.",
+      "labels": ["HUBS trailing", "HUBS forward", "CRM trailing", "CRM forward"],
+      "series": [
+        { "name": "P/E", "entities": ["hubs-soft", "hubs", "crm-soft", "crm"], "values": [98.1, 15.5, 17.0, 13.0] }
+      ],
+      "refLines": [
+        { "label": "US software industry 27.7×", "value": 27.7 },
+        { "label": "US market 19.2×", "value": 19.2 }
+      ],
+      "valueFmt": "x"
+    },
+    {
+      "type": "chart",
+      "id": "growth-chart",
+      "label": "Growth",
+      "title": "Revenue growth: decelerating, not dying",
+      "kind": "line",
+      "note": "Annual revenue growth by fiscal year (HubSpot calendar FY; Salesforce FY ends January, plotted against the closest calendar year; CRM FY27E includes ~3pts from Informatica). The bear case needs these lines to go to zero; the bull case just needs them to stabilize.",
+      "labels": ["2022", "2023", "2024", "2025", "2026E"],
+      "series": [
+        { "name": "HubSpot", "entity": "hubs", "values": [33, 25, 21, 19, 16] },
+        { "name": "Salesforce", "entity": "crm", "values": [18, 11, 9, 10, 11] }
+      ],
+      "valueFmt": "pct"
+    },
+    {
+      "type": "ladders",
+      "id": "scenarios",
+      "label": "Scenarios",
+      "title": "Three ways each story ends",
+      "note": "Illustrative 2–3 year scenarios: forward non-GAAP EPS × an exit multiple, anchored to the pasted screen's fair values where relevant. These are sizing tools, not predictions.",
+      "items": [
+        {
+          "name": "HubSpot",
+          "ticker": "HUBS",
+          "entity": "hubs",
+          "currency": "US$",
+          "current": 192,
+          "scaleMin": 60,
+          "scaleMax": 460,
+          "marks": [
+            { "label": "Bear", "value": 110, "kind": "bear", "note": "Seats erode, growth fades to single digits — ~$11 EPS × 10× (−43%)" },
+            { "label": "Base", "value": 250, "kind": "base", "note": "Mid-teens growth holds, credits offset seat drag — ~$14 EPS × 18× (+30%)" },
+            { "label": "Bull", "value": 415, "kind": "bull", "note": "Credit consumption inflects into a second engine — ~$16 EPS × 26× (+116%)" }
+          ],
+          "offscale": { "label": "Screen DCF fair value $820", "value": 820 }
+        },
+        {
+          "name": "Salesforce",
+          "ticker": "CRM",
+          "entity": "crm",
+          "currency": "US$",
+          "current": 166,
+          "scaleMin": 80,
+          "scaleMax": 320,
+          "marks": [
+            { "label": "Bear", "value": 120, "kind": "bear", "note": "Seat cannibalization outruns Agentforce — ~$12 EPS × 10× (−28%)" },
+            { "label": "Base", "value": 215, "kind": "base", "note": "~10% growth, margins hold, buyback works — ~$13.5 EPS × 16× (+30%)" },
+            { "label": "Bull", "value": 300, "kind": "bull", "note": "Agentforce to $5B+ ARR, re-rate to 20× — matches the screen's $300 DCF (+81%)" }
+          ],
+          "offscale": null
+        }
+      ]
+    },
+    {
+      "type": "prose",
+      "id": "triggers",
+      "label": "Triggers & Risks",
+      "title": "What would make us buy — and what kills the thesis",
+      "body": "No position in either name today. What moves them onto the book:\n\n### Buy triggers — HubSpot\n\n- **Net-new ARR growth re-crosses above revenue growth**, or two consecutive quarters of stabilization. That was the metric that broke the stock; it's the metric that fixes it.\n- **A dollar disclosure on credits.** The first quarter management quantifies AI/credit revenue, the un-modeled line becomes modelable — and likely gets bought hard.\n- **A panic print into the $140s–150s** (~12× forward) on no fundamental change — paying a market multiple for the franchise with the option thrown in free.\n\n### Buy triggers — Salesforce\n\n- **Organic (ex-Informatica) growth holding ≥9%** while Agentforce compounds — evidence consumption is additive, not substitutive.\n- **Agentforce ARR through $2B with paid-deal share rising.** At that run-rate AI stops being rounding error.\n- The stock already sits near its bear-case floor; below ~$150 the buyback does the underwriting for us.\n\n### What kills the thesis\n\n- **Seat compression shows up in the reported numbers** — HubSpot ARPU turning negative, Salesforce cRPO growth breaking below ~10% — while credit lines stay small. That's the race being lost, not feared.\n- **The labs go direct at the record.** If Anthropic or OpenAI ship a genuine system-of-record product (not an assistant surface) and win real migrations, the truth-source moat is breached. Watch OpenAI Frontier's customer list, not its press releases.\n- **AI gross margin turns out structurally thin.** If metered agent revenue lands at 40–50% gross margin instead of 60–70%, the reseller spread was a mirage and these deserve their de-rated multiples.\n- **A churn inflection.** The whole thesis rests on ~1%/month and NRR >100%. If stickiness cracks anywhere in the cohort data, exit first, re-underwrite later."
+    },
+    {
+      "type": "callout",
+      "id": "xero",
+      "label": "Sidebar",
+      "title": "Sidebar: Xero is the same trade in a ledger",
+      "entity": "xro",
+      "body": "Everything in this note applies with the serial numbers filed off: ~1% monthly churn, 88.5% gross margin, Rule of 40 at 48.5 and *accelerating* — while the stock sits ~60% below its June 2025 placement price on the same AI fear. JAX reconciles 80%+ of bank transactions, Claude powers it under a March 2026 Anthropic deal, and from August it lives inside Microsoft 365 Copilot. The differences that demand a separate note: NZ$ reporting, the US$2.5B Melio bet on US bill-pay, and an AI line that is bundled (pricing power) rather than metered (consumption). On the watchlist for its own write-up."
+    },
+    {
+      "type": "sources",
+      "id": "sources",
+      "label": "Sources",
+      "title": "Sources & method",
+      "note": "Compiled July 5, 2026 from company filings and press releases, earnings-call coverage, and the reporting below. Prices as of July 2–3, 2026. The Simply Wall St screen (fair values, PE/PEG/PB comparisons) was supplied to us and is quoted as 'the screen' throughout. Key figures were cross-checked across at least two sources; numbers we could not verify are flagged in the text.",
+      "groups": [
+        {
+          "title": "Company disclosures",
+          "links": [
+            { "label": "Salesforce Q1 FY27 results (May 27, 2026)", "url": "https://www.salesforce.com/news/press-releases/2026/05/27/fy27-q1-earnings/" },
+            { "label": "Salesforce Q4 FY26 results (Feb 25, 2026)", "url": "https://www.salesforce.com/news/press-releases/2026/02/25/fy26-q4-earnings/" },
+            { "label": "Salesforce–Anthropic expanded partnership (Oct 14, 2025)", "url": "https://www.salesforce.com/news/press-releases/2025/10/14/anthropic-regulated-industries-partnership-expansion-announcement/" },
+            { "label": "Agentforce Flex Credits pricing (May 15, 2025)", "url": "https://www.salesforce.com/news/press-releases/2025/05/15/agentforce-flexible-pricing-news/" },
+            { "label": "HubSpot Q1 2026 results (May 7, 2026)", "url": "https://ir.hubspot.com/news-releases/news-release-details/hubspot-reports-strong-q1-2026-results" },
+            { "label": "HubSpot outcome-based agent pricing (Apr 2026)", "url": "https://www.hubspot.com/company-news/hubspots-customer-agent-and-prospecting-agent-now-you-pay-when-the-task-is-complete" },
+            { "label": "HubSpot ChatGPT deep-research connector (Jun 4, 2025)", "url": "https://ir.hubspot.com/news-releases/news-release-details/hubspot-launches-first-crm-deep-research-connector-chatgpt" },
+            { "label": "HubSpot Claude connector (Jul 29, 2025)", "url": "https://ir.hubspot.com/news-releases/news-release-details/hubspot-launches-first-crm-connector-anthropics-claude" },
+            { "label": "Xero–Anthropic collaboration (Mar 2026)", "url": "https://www.xero.com/us/media-releases/xero-and-anthropic-collaborate/" }
+          ]
+        },
+        {
+          "title": "Market & analysis",
+          "links": [
+            { "label": "Guggenheim CRM upgrade — 'AI Armageddon' (Jul 1, 2026)", "url": "https://www.benzinga.com/markets/tech/26/07/60260284/software-stocks-ai-death-hallucination-guggenhaim-salesforce" },
+            { "label": "Feb 2026 software selloff (Fortune)", "url": "https://fortune.com/2026/02/06/anthropic-claude-opus-4-6-stock-selloff-new-upgrade/" },
+            { "label": "Klarna: 'we didn't replace SaaS with an LLM' (diginomica)", "url": "https://diginomica.com/those-shutting-down-salesforce-and-workday-rumors-klarna-no-we-didnt-replace-saas-llm-admits-ceo" },
+            { "label": "Nadella on agents and business applications (BG2, Dec 2024)", "url": "https://creators.spotify.com/pod/profile/bg2pod/episodes/Satya-Nadella--BG2-w-Bill-Gurley--Brad-Gerstner-e2s7pnc" },
+            { "label": "Cloudflare: bots pass human traffic (Jun 2026)", "url": "https://workos.com/blog/ai-agent-web-traffic-what-developers-need-to-change" },
+            { "label": "HUMAN Security 2026 agentic-traffic benchmark", "url": "https://www.humansecurity.com/learn/resources/2026-state-of-ai-traffic-cyberthreat-benchmarks/" },
+            { "label": "Bench implosion (TechCrunch, Jan 2025)", "url": "https://techcrunch.com/2025/01/03/inside-the-wild-fall-and-last-minute-revival-of-bench-the-vc-backed-accounting-startup-that-imploded-over-the-holidays/" },
+            { "label": "Bessemer: AI gross margins", "url": "https://www.saasmag.com/ai-cogs-saas-gross-margin-compression/" }
+          ]
+        }
+      ]
+    }
+  ],
+  "disclaimer": "429 Capital is a private personal investment record maintained for the owner's own use. This research note is not an offer, a solicitation, or financial advice, and does not take anyone's objectives or circumstances into account. Figures are compiled from public sources as of July 5, 2026 and may contain errors; scenario values are illustrative arithmetic, not forecasts. No position is held in HUBS, CRM or XRO at the date of writing. Past performance is not indicative of future performance."
+}
