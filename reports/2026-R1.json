@@ -14,7 +14,7 @@
     "stances": [
       { "ticker": "HUBS", "name": "HubSpot", "entity": "hubs", "stance": "Watchlist — high interest", "line": "−78% from high, ~15× forward earnings, ~11× free cash flow. The credits engine is real but not yet in the numbers. We want proof net-new ARR has bottomed — or a panic print." },
       { "ticker": "CRM", "name": "Salesforce", "entity": "crm", "stance": "Watchlist", "line": "Cheapest in its public history at ~13× forward. $1.2B Agentforce ARR growing 205%. Slower core, bigger buyback. The safer expression of the same thesis." },
-      { "ticker": "XRO", "name": "Xero", "entity": "xro", "stance": "Sidebar", "line": "The accounting version of the same trade — covered in passing here, deserves its own note." }
+      { "ticker": "XRO", "name": "Xero", "entity": "xro", "stance": "Watchlist — high interest", "line": "Fundamentals accelerating into the fear: FY27 guided +31–35%, ~1% monthly churn, street average target ~A$130 with zero sells. Earnings optics are Melio-depressed — we want H1 FY27 proof the US bet is landing, or another visit to the June panic lows." }
     ]
   },
   "sections": [
@@ -23,7 +23,7 @@
       "id": "idea",
       "label": "The Idea",
       "title": "No such thing as guerrilla accounting",
-      "body": "There is guerrilla marketing. There is no guerrilla accounting, and no guerrilla sales pipeline. Tax has to be filed the same way whether you are a barber or a biotech; a deal moves from lead to close through the same stages everywhere. Because these workflows barely vary between businesses, the software that runs them gets enormous economies of scale — millions of customers funding one product — and the customers get enormous switching costs, because the software holds their history, their compliance trail, and their money.\n\nThat is why we don't believe the CRMs and the ledgers get replaced by AI. They are **data spaces — truth sources**. An agent can draft an email or write a report from anywhere, but the moment it needs to know *what is actually true* about a customer, an invoice, or a bank balance — and the moment it needs to *change* that truth with permissions and an audit trail — it has to go where the record lives.\n\nThe second half of the idea: the agents will be **staff**. They will spend their working day inside Xero, Salesforce and HubSpot the way employees do today, except they'll be metered. Every action an agent takes inside these platforms burns tokens from Anthropic or OpenAI underneath, and the platform bills the customer in credits on top. As long as the incumbents stay open — plug into every model provider, every agent surface — they effectively become **resellers of frontier-model tokens**, with the markup that resellers earn.\n\nThis note tests that idea against what actually happened in 2025–26, then puts numbers on the two names the market hates most."
+      "body": "There is guerrilla marketing. There is no guerrilla accounting, and no guerrilla sales pipeline. Tax has to be filed the same way whether you are a barber or a biotech; a deal moves from lead to close through the same stages everywhere. Because these workflows barely vary between businesses, the software that runs them gets enormous economies of scale — millions of customers funding one product — and the customers get enormous switching costs, because the software holds their history, their compliance trail, and their money.\n\nThat is why we don't believe the CRMs and the ledgers get replaced by AI. They are **data spaces — truth sources**. An agent can draft an email or write a report from anywhere, but the moment it needs to know *what is actually true* about a customer, an invoice, or a bank balance — and the moment it needs to *change* that truth with permissions and an audit trail — it has to go where the record lives.\n\nThe second half of the idea: the agents will be **staff**. They will spend their working day inside Xero, Salesforce and HubSpot the way employees do today, except they'll be metered. Every action an agent takes inside these platforms burns tokens from Anthropic or OpenAI underneath, and the platform bills the customer in credits on top. As long as the incumbents stay open — plug into every model provider, every agent surface — they effectively become **resellers of frontier-model tokens**, with the markup that resellers earn.\n\nThis note tests that idea against what actually happened in 2025–26, then puts numbers on three names the market has thrown out: the two CRMs — and the ledger that fits our own book."
     },
     {
       "type": "stack",
@@ -82,10 +82,10 @@
       "label": "Drawdown",
       "title": "Drawdown from 2025 highs",
       "kind": "hbar",
-      "note": "HUBS from $881.13 all-time high (Feb 13, 2025) to $192.12 (Jul 2, 2026). CRM from $276.80 52-week high to $166.11. XRO from the A$176 June 2025 placement price to A$72.25 (Jul 3, 2026).",
+      "note": "HUBS from $881.13 all-time high (Feb 13, 2025) to $192.12 (Jul 2, 2026). CRM from $276.80 52-week high to $166.11. XRO from its A$196.52 all-time high (Jun 24, 2025 — the day before the Melio placement at A$176) to A$72.25 (Jul 3, 2026).",
       "labels": ["HubSpot", "Salesforce", "Xero"],
       "series": [
-        { "name": "Drawdown", "entities": ["hubs", "crm", "xro"], "values": [-78, -40, -59] }
+        { "name": "Drawdown", "entities": ["hubs", "crm", "xro"], "values": [-78, -40, -63] }
       ],
       "valueFmt": "pct",
       "xMin": -100,
@@ -253,6 +253,65 @@
       ]
     },
     {
+      "type": "divider",
+      "id": "xero",
+      "label": "Xero",
+      "title": "Xero — the ledger version, growing fastest",
+      "entity": "xro",
+      "body": "The accounting expression of the thesis, and the strangest chart of the three: the fundamentals accelerated all the way through the panic. Revenue grew 31% in FY26 and is guided to grow 31–35% in FY27, churn is ~1% a month, and JAX — powered by Claude — has already reconciled 40M+ bank transactions at 97% accuracy and ships inside Microsoft 365 Copilot from August. Meanwhile the stock fell 63% from its June 2025 high and briefly traded at COVID-era prices. It's also the one that fits the AUD book natively."
+    },
+    {
+      "type": "stats",
+      "id": "xro-stats",
+      "label": "XRO Vitals",
+      "title": "The vitals",
+      "note": "Xero reports in NZ$ with a March fiscal year-end; the share price is A$. FY27 guidance given May 14, 2026: revenue NZ$3.6–3.7B, adjusted EBITDA NZ$860–920M, including up to NZ$55M of extra US brand spend.",
+      "cards": [
+        { "l": "Price / from high", "v": "A$72.25 · −63%", "x": "all-time high A$196.52 (Jun 24, 2025); June 2026 panic low ~A$65 — COVID-era prices" },
+        { "l": "EV / FY27E sales", "v": "~3.8×", "x": "market cap ~A$12.5B; EV ~5.0× FY26 revenue of NZ$2.75B" },
+        { "l": "Revenue growth", "v": "+31%", "x": "FY26 (organic +21%); FY27 guided +31–35% — accelerating" },
+        { "l": "Rule of 40", "v": "48.5", "x": "organic, vs 44.3 in FY25 — accelerating; 36 pro forma with Melio's payments mix" },
+        { "l": "Subscribers", "v": "4.92M", "x": "+11% y/y; churn ~1% a month" },
+        { "l": "ARPC", "v": "NZ$55.44", "x": "+23% — AI monetized as pricing power, not a meter" },
+        { "l": "Free cash flow", "v": "NZ$554M", "x": "+9%; EV/FCF ~25×; A$550M buyback authorized for FY27" },
+        { "l": "The street", "v": "14 buy · 0 sell", "x": "average target ~A$130 (+80%) — vs the most bombed-out chart on the ASX" }
+      ]
+    },
+    {
+      "type": "chart",
+      "id": "xro-growth",
+      "label": "XRO Growth",
+      "title": "Accelerating into the fear: revenue growth by fiscal year",
+      "kind": "bar",
+      "note": "Fiscal years end March 31, reported in NZ$. FY26 includes ~5 months of Melio (organic +21%); FY27E is the guidance midpoint (NZ$3.6–3.7B). Trailing P/E screens at ~80× because Melio acquisition and amortization costs cut NPAT 27% — the same GAAP-optics trap as HubSpot, in a different costume.",
+      "labels": ["FY23", "FY24", "FY25", "FY26", "FY27E"],
+      "series": [
+        { "name": "Revenue growth", "entity": "xro", "values": [28, 22, 23, 31, 33] }
+      ],
+      "valueFmt": "pct"
+    },
+    {
+      "type": "scoreboard",
+      "id": "xro-scoreboard",
+      "label": "XRO Bull/Bear",
+      "title": "The two stories",
+      "entity": "xro",
+      "bull": [
+        "The deepest compliance moat in the note: tax filing (BAS, MTD), payroll and bank feeds are wired into the ledger — the workflows with literally zero tolerance for a hallucination.",
+        "JAX is working at scale: 40M+ transactions reconciled at 97% accuracy, usage +61% in three months, messages per user +115%. Claude powers it, XeroForce lets customers build their own agents, and from August JAX lives inside Microsoft 365 Copilot — Xero data on every agent surface.",
+        "AI is monetized as pricing power today (ARPC +23%, churn ~1%/month, 2.6M customers already using AI features) — and a metered layer is coming: management starts AI monetization in FY27, mixing bundling, à-la-carte and usage-linked pricing, with the CFO saying token costs won't materially dent gross margin.",
+        "Melio makes it the 'active GL' — accounting plus payments plus payroll — with US core revenue up 240% in the first partial year.",
+        "Rule of 40 at 48.5 and rising, a fresh A$550M buyback, and a street that is unanimous the wrong way for a disrupted business: 14 buys, zero sells, ~A$130 average target."
+      ],
+      "bear": [
+        "The screen trap is real until it isn't: ~80× trailing earnings, net debt of NZ$383M plus up to US$500M of Melio earnout — the market can keep pricing the optics for a long time.",
+        "Xero has failed in the US before. Melio is a US$2.5B+ second attempt that cut group gross margin 5.1pts to 83.9% (Melio runs at ~35–45%), isn't guided to break even until H2 FY28, and needs NZ$55M of extra brand spend — and ex-Melio, North American subscribers actually slipped in FY26.",
+        "The bank-data-fee risk went from theory to invoice: JPMorgan now has paid data contracts covering >95% of aggregator pulls, and the CFPB's open-banking rule is enjoined. RBC sized broad adoption at up to −27% of EBITDA worst case — live and not in guidance.",
+        "AI-native bookkeeping (Digits, Puzzle, Fondo) attacks exactly this: SMB books are the most template-able workflow in software. Sub-scale today; aimed directly here.",
+        "Because AI is bundled, there is no consumption revenue line — if agents do become the economy, Xero captures it only through price rises, not a meter."
+      ]
+    },
+    {
       "type": "prose",
       "id": "screen",
       "label": "Screen vs Read",
@@ -295,7 +354,7 @@
       "id": "scenarios",
       "label": "Scenarios",
       "title": "Three ways each story ends",
-      "note": "Illustrative 2–3 year scenarios: forward non-GAAP EPS × an exit multiple, anchored to the pasted screen's fair values where relevant. These are sizing tools, not predictions.",
+      "note": "Illustrative 2–3 year scenarios. HUBS and CRM: forward non-GAAP EPS × an exit multiple, anchored to the pasted screen's fair values where relevant. XRO: EV/sales, because earnings are Melio-depressed (trailing P/E ~80× is an artifact). These are sizing tools, not predictions.",
       "items": [
         {
           "name": "HubSpot",
@@ -326,6 +385,21 @@
             { "label": "Bull", "value": 300, "kind": "bull", "note": "Agentforce to $5B+ ARR, re-rate to 20× — matches the screen's $300 DCF (+81%)" }
           ],
           "offscale": null
+        },
+        {
+          "name": "Xero",
+          "ticker": "XRO",
+          "entity": "xro",
+          "currency": "A$",
+          "current": 72,
+          "scaleMin": 30,
+          "scaleMax": 190,
+          "marks": [
+            { "label": "Bear", "value": 48, "kind": "bear", "note": "Melio stalls, bank-data fees bite, organic slows — ~2.5× FY27E sales (−34%)" },
+            { "label": "Base", "value": 120, "kind": "base", "note": "FY28 'double FY25 revenue' lands (>NZ$4.2B) — ~5× sales, in line with street targets of A$127–155 (+66%)" },
+            { "label": "Bull", "value": 175, "kind": "bull", "note": "US + JAX monetization compound, re-rate toward ~7.5× — back to the June 2025 placement price (+142%)" }
+          ],
+          "offscale": { "label": "ATH A$196.52", "value": 196 }
         }
       ]
     },
@@ -334,22 +408,53 @@
       "id": "triggers",
       "label": "Triggers & Risks",
       "title": "What would make us buy — and what kills the thesis",
-      "body": "No position in either name today. What moves them onto the book:\n\n### Buy triggers — HubSpot\n\n- **Net-new ARR growth re-crosses above revenue growth**, or two consecutive quarters of stabilization. That was the metric that broke the stock; it's the metric that fixes it.\n- **A dollar disclosure on credits.** The first quarter management quantifies AI/credit revenue, the un-modeled line becomes modelable — and likely gets bought hard.\n- **A panic print into the $140s–150s** (~12× forward) on no fundamental change — paying a market multiple for the franchise with the option thrown in free.\n\n### Buy triggers — Salesforce\n\n- **Organic (ex-Informatica) growth holding ≥9%** while Agentforce compounds — evidence consumption is additive, not substitutive.\n- **Agentforce ARR through $2B with paid-deal share rising.** At that run-rate AI stops being rounding error.\n- The stock already sits near its bear-case floor; below ~$150 the buyback does the underwriting for us.\n\n### What kills the thesis\n\n- **Seat compression shows up in the reported numbers** — HubSpot ARPU turning negative, Salesforce cRPO growth breaking below ~10% — while credit lines stay small. That's the race being lost, not feared.\n- **The labs go direct at the record.** If Anthropic or OpenAI ship a genuine system-of-record product (not an assistant surface) and win real migrations, the truth-source moat is breached. Watch OpenAI Frontier's customer list, not its press releases.\n- **AI gross margin turns out structurally thin.** If metered agent revenue lands at 40–50% gross margin instead of 60–70%, the reseller spread was a mirage and these deserve their de-rated multiples.\n- **A churn inflection.** The whole thesis rests on ~1%/month and NRR >100%. If stickiness cracks anywhere in the cohort data, exit first, re-underwrite later."
+      "body": "No position in either name today. What moves them onto the book:\n\n### Buy triggers — HubSpot\n\n- **Net-new ARR growth re-crosses above revenue growth**, or two consecutive quarters of stabilization. That was the metric that broke the stock; it's the metric that fixes it.\n- **A dollar disclosure on credits.** The first quarter management quantifies AI/credit revenue, the un-modeled line becomes modelable — and likely gets bought hard.\n- **A panic print into the $140s–150s** (~12× forward) on no fundamental change — paying a market multiple for the franchise with the option thrown in free.\n\n### Buy triggers — Salesforce\n\n- **Organic (ex-Informatica) growth holding ≥9%** while Agentforce compounds — evidence consumption is additive, not substitutive.\n- **Agentforce ARR through $2B with paid-deal share rising.** At that run-rate AI stops being rounding error.\n- The stock already sits near its bear-case floor; below ~$150 the buyback does the underwriting for us.\n\n### Buy triggers — Xero\n\n- **H1 FY27 (November 2026): organic growth ≥20% with Melio tracking to its H2 FY28 breakeven.** The NPAT optics trough passing is the re-rating catalyst.\n- **The FY27 AI monetization rollout.** Management has said metered AI pricing starts this year — the first evidence customers pay it converts JAX from a cost line into the thesis.\n- **A re-test of the June lows (~A$65–66, ~3.4× FY27E sales)** buys the FY28 revenue double at half the street's targets — that print, we don't wait for the November result.\n\n### What kills the thesis\n\n- **Seat compression shows up in the reported numbers** — HubSpot ARPU turning negative, Salesforce cRPO growth breaking below ~10% — while credit lines stay small. That's the race being lost, not feared.\n- **The labs go direct at the record.** If Anthropic or OpenAI ship a genuine system-of-record product (not an assistant surface) and win real migrations, the truth-source moat is breached. Watch OpenAI Frontier's customer list, not its press releases.\n- **AI gross margin turns out structurally thin.** If metered agent revenue lands at 40–50% gross margin instead of 60–70%, the reseller spread was a mirage and these deserve their de-rated multiples.\n- **A churn inflection.** The whole thesis rests on ~1%/month and NRR >100%. If stickiness cracks anywhere in the cohort data, exit first, re-underwrite later."
     },
     {
-      "type": "callout",
-      "id": "xero",
-      "label": "Sidebar",
-      "title": "Sidebar: Xero is the same trade in a ledger",
-      "entity": "xro",
-      "body": "Everything in this note applies with the serial numbers filed off: ~1% monthly churn, 88.5% gross margin, Rule of 40 at 48.5 and *accelerating* — while the stock sits ~60% below its June 2025 placement price on the same AI fear. JAX reconciles 80%+ of bank transactions, Claude powers it under a March 2026 Anthropic deal, and from August it lives inside Microsoft 365 Copilot. The differences that demand a separate note: NZ$ reporting, the US$2.5B Melio bet on US bill-pay, and an AI line that is bundled (pricing power) rather than metered (consumption). On the watchlist for its own write-up."
+      "type": "options",
+      "id": "conclusion",
+      "label": "Conclusion",
+      "title": "Conclusion — the options on the table",
+      "intro": "One thesis, three expressions, three very different setups. Salesforce is the thesis already on the income statement at the cheapest multiple in its history. HubSpot is the thesis at maximum pessimism, waiting on one metric to turn. Xero is the thesis accelerating in plain sight, priced as if it were dying. All three trade at a fraction of their 2025 highs for the same single reason — and if that reason is wrong, we don't need to pick the perfect ticket. These are the ways to play it:",
+      "options": [
+        {
+          "name": "Do nothing yet",
+          "body": "Wait until the credits/consumption lines are disclosed dollars and the seat-compression question is settled. Cleanest information, worst prices — every trigger in this note resolving positively is also the event that takes the discount away.",
+          "fit": "Cost: certainty is the most expensive thing on this page."
+        },
+        {
+          "name": "Start with Salesforce",
+          "entity": "crm",
+          "body": "The conservative core: ~13× forward with $14B+ of free cash flow, a $50B buyback underwriting the floor, and the agent thesis already producing $1.2B of ARR. Least torque of the three (+30% base case), least dependence on anything going right.",
+          "fit": "For capital that wants the thesis without the drama."
+        },
+        {
+          "name": "Wait for HubSpot's signal",
+          "entity": "hubs",
+          "body": "The torque: −78% and ~15× forward, but the leading indicator (net-new ARR) is still pointing down. Buy the stabilization print, the first credits dollar-disclosure, or a panic into the $140s–150s — not before.",
+          "fit": "Highest upside in the note (bull case +116%) — earned by waiting."
+        },
+        {
+          "name": "Xero on proof or panic",
+          "entity": "xro",
+          "body": "The AUD-native ticket with the best fundamentals of the three and two clean entry points: H1 FY27 in November showing Melio on its FY28 breakeven path, or a re-test of the A$65–66 June lows. The FY27 AI-monetization rollout is the free option on top.",
+          "fit": "Fits the AUD book; November 2026 is the decision date."
+        },
+        {
+          "name": "Staged basket across all three",
+          "suggested": true,
+          "body": "What we'd actually do: open a starter position in Salesforce now, then add HubSpot and Xero as their triggers fire — targeting a full thesis weight built across two or three entries rather than one guess. The bet is the thesis (the record survives and meters the agents), not any single ticker; staging caps the cost of being early and keeps us exposed if the whole complex re-rates first.",
+          "fit": "Fits the Conviction sleeve: thesis-driven, owned outright, no leverage, entries earned not guessed."
+        }
+      ],
+      "outro": "Discipline notes: if the complex re-rates before the triggers arrive, we let most of it go — the starter position is the hedge against that regret. And the thesis gets falsified by cohort data, not headlines: churn, NRR, cRPO and net-new ARR are the four numbers we re-read every quarter. The moment stickiness cracks, this whole note is wrong and we exit first, re-underwrite later."
     },
     {
       "type": "sources",
       "id": "sources",
       "label": "Sources",
       "title": "Sources & method",
-      "note": "Compiled July 5, 2026 from company filings and press releases, earnings-call coverage, and the reporting below. Prices as of July 2–3, 2026. The Simply Wall St screen (fair values, PE/PEG/PB comparisons) was supplied to us and is quoted as 'the screen' throughout. Key figures were cross-checked across at least two sources; numbers we could not verify are flagged in the text.",
+      "note": "Compiled July 5–6, 2026 from company filings and press releases, earnings-call coverage, and the reporting below. Prices as of July 2–3, 2026. The Simply Wall St screen (fair values, PE/PEG/PB comparisons) was supplied to us and is quoted as 'the screen' throughout. Xero reports in NZ$ with a March year-end; its share price and targets are A$. Key figures were cross-checked across at least two sources; numbers we could not verify are flagged in the text.",
       "groups": [
         {
           "title": "Company disclosures",
@@ -363,6 +468,20 @@
             { "label": "HubSpot ChatGPT deep-research connector (Jun 4, 2025)", "url": "https://ir.hubspot.com/news-releases/news-release-details/hubspot-launches-first-crm-deep-research-connector-chatgpt" },
             { "label": "HubSpot Claude connector (Jul 29, 2025)", "url": "https://ir.hubspot.com/news-releases/news-release-details/hubspot-launches-first-crm-connector-anthropics-claude" },
             { "label": "Xero–Anthropic collaboration (Mar 2026)", "url": "https://www.xero.com/us/media-releases/xero-and-anthropic-collaborate/" }
+          ]
+        },
+        {
+          "title": "Xero & the accounting rails",
+          "links": [
+            { "label": "Xero FY26 annual results (May 14, 2026)", "url": "https://www.listcorp.com/asx/xro/xero-limited/news/fy26-annual-results-market-release-3352616.html" },
+            { "label": "Xero FY27 guidance — earnings call", "url": "https://www.investing.com/news/transcripts/earnings-call-transcript-xero-reports-strong-growth-stock-dips-on-margin-concerns-in-h2-2026-93CH-4687056" },
+            { "label": "Xero × Microsoft 365 Copilot (Jul 1, 2026)", "url": "https://www.xero.com/us/media-releases/xero-launches-integration-with-microsoft-365/" },
+            { "label": "Melio acquisition announcement (Jun 25, 2025)", "url": "https://www.prnewswire.com/news-releases/xero-to-acquire-melio-a-leading-us-smb-bill-pay-solution-to-accelerate-global-growth-302490268.html" },
+            { "label": "CEO on agentic accounting & AI monetization (diginomica)", "url": "https://diginomica.com/accounting-agentic-future-xero-progress-report-ceo-sukhinder-cassidy" },
+            { "label": "RBC downgrade on US bank data fees (Feb 2026)", "url": "https://www.investing.com/news/analyst-ratings/xero-stock-rating-downgraded-by-rbc-capital-on-us-banking-fee-concerns-93CH-4220768" },
+            { "label": "JPMorgan data-fee contracts cover >95% of pulls (CNBC, Nov 2025)", "url": "https://www.cnbc.com/2025/11/14/jpmorgan-chase-fintech-fees.html" },
+            { "label": "CFPB 1033 enjoined & under rewrite (Cozen O'Connor)", "url": "https://www.cozen.com/news-resources/publications/2026/section-1033-compliance-date-open-banking-rule-enjoined-and-under-reconsideration" },
+            { "label": "XRO consensus: down 60%, buy/hold/sell? (Motley Fool AU, Jul 2, 2026)", "url": "https://www.fool.com.au/2026/07/02/xero-shares-are-down-60-is-it-time-to-buy-hold-or-sell/" }
           ]
         },
         {
@@ -381,5 +500,5 @@
       ]
     }
   ],
-  "disclaimer": "429 Capital is a private personal investment record maintained for the owner's own use. This research note is not an offer, a solicitation, or financial advice, and does not take anyone's objectives or circumstances into account. Figures are compiled from public sources as of July 5, 2026 and may contain errors; scenario values are illustrative arithmetic, not forecasts. No position is held in HUBS, CRM or XRO at the date of writing. Past performance is not indicative of future performance."
+  "disclaimer": "429 Capital is a private personal investment record maintained for the owner's own use. This research note is not an offer, a solicitation, or financial advice, and does not take anyone's objectives or circumstances into account. Figures are compiled from public sources as of July 5–6, 2026 and may contain errors; scenario values are illustrative arithmetic, not forecasts. No position is held in HUBS, CRM or XRO at the date of writing. Past performance is not indicative of future performance."
 }
