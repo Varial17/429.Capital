@@ -278,6 +278,23 @@ const RENDER = {
       <thead>${head}</thead><tbody>${rows}</tbody></table></div>`);
   },
 
+  options: (s) => {
+    const cards = (s.options || []).map((o) => `
+      <div class="opt${o.suggested ? " suggested" : ""}"${entityVar(o.entity)}>
+        <div class="opt-head">
+          <span class="opt-name">${esc(o.name)}</span>
+          ${o.suggested ? `<span class="opt-badge">Suggested</span>` : ""}
+        </div>
+        <p class="opt-body">${esc(o.body)}</p>
+        ${o.fit ? `<p class="opt-fit">${esc(o.fit)}</p>` : ""}
+      </div>`).join("");
+    let inner = "";
+    if (s.intro) inner += `<div class="prose" style="margin-bottom:22px">${md(s.intro)}</div>`;
+    inner += `<div class="opts">${cards}</div>`;
+    if (s.outro) inner += `<div class="prose" style="margin-top:22px">${md(s.outro)}</div>`;
+    return block(s, inner);
+  },
+
   sources: (s) => {
     const groups = (s.groups || []).map((g) => `
       <div class="src-group"><h4>${esc(g.title)}</h4>

@@ -521,3 +521,19 @@ section.block{padding:40px 0 8px}
   border-bottom:1px solid var(--border);line-height:1.5}
 .src-group a:hover{color:var(--text);border-bottom-color:var(--border-strong)}
 .src-note{font-size:12.5px;color:var(--text-dim);line-height:1.7;max-width:80ch;margin-bottom:22px}
+
+/* conclusion — the options */
+.opts{display:grid;grid-template-columns:repeat(2,1fr);gap:14px}
+@media(max-width:760px){.opts{grid-template-columns:1fr}}
+.opt{border:1px solid var(--border);border-radius:var(--radius);
+  background:linear-gradient(180deg,var(--bg-2),var(--bg));padding:20px 22px;
+  display:flex;flex-direction:column;gap:10px}
+.opt.suggested{border-color:var(--border-strong);background:var(--surface)}
+.opt-head{display:flex;align-items:center;gap:10px;justify-content:space-between}
+.opt-name{font-family:var(--serif);font-size:17px}
+.opt-badge{font-family:var(--mono);font-size:9.5px;letter-spacing:0.14em;
+  text-transform:uppercase;color:var(--bg);background:var(--text);
+  border-radius:3px;padding:3px 8px;flex:none}
+.opt-body{font-size:13.5px;color:var(--text-muted);line-height:1.65}
+.opt-fit{font-family:var(--mono);font-size:11px;color:var(--text-dim);
+  border-top:1px solid var(--border);padding-top:10px;margin-top:auto}
