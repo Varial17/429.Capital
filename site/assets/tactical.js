@@ -29,8 +29,9 @@ const fmtPct = (n, sign = true) =>
   n == null || isNaN(n) ? "—" : (sign && n > 0 ? "+" : "") + Number(n).toFixed(1) + "%";
 const fmtNum = (n, dp = 2) =>
   n == null || isNaN(n) ? "—" : Number(n).toLocaleString(undefined, { maximumFractionDigits: dp });
+const isOwnerView = () => DATA && DATA.meta && DATA.meta.authenticated;
 const fmtAUD = (n, dp = 0) =>
-  n == null || isNaN(n) ? "—" : "$" + Number(n).toLocaleString(undefined, { minimumFractionDigits: dp, maximumFractionDigits: dp });
+  n == null || isNaN(n) ? (isOwnerView() ? "—" : '<span class="locked">Login</span>') : "$" + Number(n).toLocaleString(undefined, { minimumFractionDigits: dp, maximumFractionDigits: dp });
 const fmtUSD = (n, dp = 2) =>
   n == null || isNaN(n) ? "—" : "$" + Number(n).toLocaleString(undefined, { minimumFractionDigits: dp, maximumFractionDigits: dp });
 const signClass = (n) => (n == null || isNaN(n) ? "" : n >= 0 ? "pos" : "neg");
@@ -42,8 +43,8 @@ const usdToAud = (usd) => (usd == null || isNaN(usd) ? null : Number(usd) / FX);
 // ---- boot ----
 (async function () {
   try {
-    const res = await fetch("data/data.json", { cache: "no-store" });
-    DATA = await res.json();
+    const authed = window.AUTH429 && await window.AUTH429.me();
+    DATA = authed ? await window.AUTH429.privateData() : await (await fetch("data/data.json", { cache: "no-store" })).json();
     if (DATA.meta && DATA.meta.fx && DATA.meta.fx.AUDUSD) FX = DATA.meta.fx.AUDUSD;
   } catch (e) {
     $("#app").innerHTML = `<p class="empty">Could not load data.json. Run <code>python3 build.py</code> first.</p>`;

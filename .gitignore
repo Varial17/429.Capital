@@ -24,3 +24,6 @@ Thumbs.db
 
 # NOTE: site/data/data.json is GENERATED but intentionally NOT ignored —
 # GitHub Pages has no build step, so the committed JSON is what the site serves.
+
+# Private build artifact served only through Netlify Functions
+private/

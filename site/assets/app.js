@@ -31,8 +31,9 @@ const fmtPct = (n, sign = true) =>
   n == null ? "—" : (sign && n > 0 ? "+" : "") + n.toFixed(1) + "%";
 const fmtNum = (n, dp = 2) =>
   n == null ? "—" : n.toLocaleString(undefined, { maximumFractionDigits: dp });
+const isOwnerView = () => DATA && DATA.meta && DATA.meta.authenticated;
 const fmtAUD = (n, dp = 0) =>
-  n == null ? "—" : "$" + n.toLocaleString(undefined, { minimumFractionDigits: dp, maximumFractionDigits: dp });
+  n == null || isNaN(n) ? (isOwnerView() ? "—" : '<span class="locked">Login</span>') : "$" + Number(n).toLocaleString(undefined, { minimumFractionDigits: dp, maximumFractionDigits: dp });
 const signClass = (n) => (n == null ? "" : n >= 0 ? "pos" : "neg");
 
 // ---- boot ----
@@ -41,8 +42,8 @@ const charts = [];
 
 (async function () {
   try {
-    const res = await fetch("data/data.json", { cache: "no-store" });
-    DATA = await res.json();
+    const authed = window.AUTH429 && await window.AUTH429.me();
+    DATA = authed ? await window.AUTH429.privateData() : await (await fetch("data/data.json", { cache: "no-store" })).json();
   } catch (e) {
     $("#app").innerHTML =
       `<p class="empty">Could not load data.json. Run <code>python3 build.py</code> first.</p>`;
@@ -432,7 +433,7 @@ function enhanceTacticalLive() {
 // ---------- Charts ----------
 function drawLine(id, labels, datasets) {
   const ctx = document.getElementById(id);
-  if (!ctx) return;
+  if (!ctx || typeof Chart === "undefined") return;
   const dim = cssVar("--text-dim"), grid = cssVar("--border");
   charts.push(new Chart(ctx, {
     type: "line",

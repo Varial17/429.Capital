@@ -395,9 +395,10 @@ const refLinePlugin = {
     ctx.restore();
   },
 };
-Chart.register(valueLabelPlugin, refLinePlugin);
+if (typeof Chart !== "undefined") Chart.register(valueLabelPlugin, refLinePlugin);
 
 function drawCharts() {
+  if (typeof Chart === "undefined") return;
   for (const s of chartSpecs) {
     const ctx = document.getElementById(`c-${s.id}`);
     if (!ctx) continue;

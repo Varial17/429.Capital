@@ -577,3 +577,18 @@ img,svg,canvas{max-width:100%}
   .tl-row{grid-template-columns:58px 12px 1fr;gap:0 8px}
   .tl-date{font-size:10px}
 }
+/* ---- owner login / private values ---- */
+.locked{display:inline-flex;align-items:center;gap:6px;color:var(--text-muted);font-family:var(--mono);font-size:.72em;letter-spacing:.04em;text-transform:uppercase}
+.locked::before{content:"🔒";font-size:.9em}
+.auth-button{white-space:nowrap}
+.auth-modal{position:fixed;inset:0;z-index:100;display:grid;place-items:center;padding:20px;background:rgba(0,0,0,.68);backdrop-filter:blur(8px)}
+.auth-card{position:relative;width:min(420px,100%);border:1px solid var(--border-strong);border-radius:var(--radius);background:linear-gradient(180deg,var(--bg-2),var(--bg));padding:28px;box-shadow:0 20px 70px rgba(0,0,0,.45)}
+.auth-card h2{font-family:var(--serif);font-weight:300;font-size:30px;line-height:1.1;margin-bottom:10px}
+.auth-card p{font-size:13.5px;color:var(--text-muted);line-height:1.6;margin-bottom:18px}
+.auth-card label{display:block;font-size:11px;letter-spacing:.12em;text-transform:uppercase;color:var(--text-dim);margin:14px 0 0}
+.auth-card input{width:100%;margin-top:7px;border:1px solid var(--border);border-radius:var(--radius);background:var(--surface);color:var(--text);padding:11px 12px;font:16px var(--sans)}
+.auth-card input:focus{outline:1px solid var(--border-strong)}
+.auth-card .btn{width:100%;margin-top:18px;background:transparent}
+.auth-error{min-height:20px;margin:12px 0 0!important;color:var(--warn)!important;font-family:var(--mono);font-size:11px!important}
+.auth-x{position:absolute;top:12px;right:14px;border:0;background:none;color:var(--text-muted);font-size:24px;cursor:pointer}
+.auth-x:hover{color:var(--text)}

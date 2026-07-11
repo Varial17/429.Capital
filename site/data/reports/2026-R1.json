@@ -766,5 +766,8 @@
       ]
     }
   ],
-  "disclaimer": "429 Capital is a private personal investment record maintained for the owner's own use. This research note is not an offer, a solicitation, or financial advice, and does not take anyone's objectives or circumstances into account. Figures are compiled from public sources as of July 5, 2026 and may contain errors; scenario values are illustrative arithmetic, not forecasts. No position is held in HUBS, CRM or XRO at the date of writing. Past performance is not indicative of future performance."
+  "disclaimer": "429 Capital is a private personal investment record maintained for the owner's own use. This research note is not an offer, a solicitation, or financial advice, and does not take anyone's objectives or circumstances into account. Figures are compiled from public sources as of July 5, 2026 and may contain errors; scenario values are illustrative arithmetic, not forecasts. No position is held in HUBS, CRM or XRO at the date of writing. Past performance is not indicative of future performance.",
+  "meta": {
+    "authenticated": false
+  }
 }
