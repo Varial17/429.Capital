@@ -521,3 +521,75 @@ section.block{padding:40px 0 8px}
   border-bottom:1px solid var(--border);line-height:1.5}
 .src-group a:hover{color:var(--text);border-bottom-color:var(--border-strong)}
 .src-note{font-size:12.5px;color:var(--text-dim);line-height:1.7;max-width:80ch;margin-bottom:22px}
+
+/* ============================================================
+   Mobile hardening
+   ============================================================ */
+html,body{max-width:100%;overflow-x:hidden}
+img,svg,canvas{max-width:100%}
+
+@media(max-width:760px){
+  body{font-size:15px}
+  .wrap{padding:0 16px}
+  .topbar{position:static;align-items:flex-start;gap:14px;padding:18px 0;flex-wrap:wrap}
+  .topbar>.wrap{padding:0 16px!important;gap:14px;flex-wrap:wrap}
+  .word{font-size:18px;line-height:1.2}
+  .topnav{width:100%;gap:8px;overflow-x:auto;padding-bottom:2px;scrollbar-width:none;-webkit-overflow-scrolling:touch}
+  .topnav::-webkit-scrollbar{display:none}
+  .topnav a,.theme-toggle{flex:0 0 auto;font-size:10.5px;letter-spacing:0.08em;white-space:nowrap}
+  .theme-toggle{padding:5px 9px}
+  .page-head{padding:32px 0 4px}
+  .page-head .kicker,.sec-label,.hero-sub{letter-spacing:0.18em}
+  section.block{padding:30px 0 4px}
+  .panel-head,.panel-body{padding-left:16px;padding-right:16px}
+  .panel{overflow-x:auto;-webkit-overflow-scrolling:touch}
+  .perf-table,.holdings-table,.rsch-table{min-width:720px}
+  .chart-wrap{height:250px;padding:4px 0}
+  .chart-wrap.donut{height:220px}
+  .cards{grid-template-columns:1fr}
+  .card{padding:18px 16px 20px}
+  .navchip{min-width:calc(50% - 1px);padding:12px 14px}
+  .expo-grid{grid-template-columns:1fr}
+  .bar-row{grid-template-columns:minmax(76px,32%) 1fr 44px;gap:8px}
+  .report-list{grid-template-columns:1fr}
+  .report-layout{padding-top:0}
+  .report-side{margin-top:22px;overflow-x:auto;-webkit-overflow-scrolling:touch}
+  .side-nav{flex-direction:row;gap:12px;white-space:nowrap;padding-bottom:8px}
+  .side-nav a{border-left:0;border-bottom:2px solid transparent;padding:4px 0 7px}
+  .side-nav a.active{border-left-color:transparent;border-bottom-color:var(--text)}
+  .prevnext{flex-wrap:wrap}
+  .hcard>summary{padding:16px;gap:10px}
+  .hc-body{padding:0 16px 18px}
+  .region-head{gap:12px}
+  .rsch-chart{height:240px}.rsch-chart.short{height:210px}
+  .verdict,.ladder,.callout{padding:20px 16px}
+  .ladder{overflow:hidden}
+  .ladder-head{flex-wrap:wrap;margin-bottom:46px}
+  .ladder-head .off{margin-left:0;width:100%}
+  .lmark-lab,.lnow-lab{font-size:9.5px}
+}
+
+@media(max-width:430px){
+  .wrap{padding:0 14px}
+  .panel-head,.panel-body{padding-left:14px;padding-right:14px}
+  .navchip{min-width:100%}
+  .chart-note{padding-left:14px;padding-right:14px}
+  .tl-row{grid-template-columns:58px 12px 1fr;gap:0 8px}
+  .tl-date{font-size:10px}
+}
+
+/* ---- owner login / private values ---- */
+.locked{display:inline-flex;align-items:center;gap:6px;color:var(--text-muted);font-family:var(--mono);font-size:.72em;letter-spacing:.04em;text-transform:uppercase}
+.locked::before{content:"🔒";font-size:.9em}
+.auth-button{white-space:nowrap}
+.auth-modal{position:fixed;inset:0;z-index:100;display:grid;place-items:center;padding:20px;background:rgba(0,0,0,.68);backdrop-filter:blur(8px)}
+.auth-card{position:relative;width:min(420px,100%);border:1px solid var(--border-strong);border-radius:var(--radius);background:linear-gradient(180deg,var(--bg-2),var(--bg));padding:28px;box-shadow:0 20px 70px rgba(0,0,0,.45)}
+.auth-card h2{font-family:var(--serif);font-weight:300;font-size:30px;line-height:1.1;margin-bottom:10px}
+.auth-card p{font-size:13.5px;color:var(--text-muted);line-height:1.6;margin-bottom:18px}
+.auth-card label{display:block;font-size:11px;letter-spacing:.12em;text-transform:uppercase;color:var(--text-dim);margin:14px 0 0}
+.auth-card input{width:100%;margin-top:7px;border:1px solid var(--border);border-radius:var(--radius);background:var(--surface);color:var(--text);padding:11px 12px;font:16px var(--sans)}
+.auth-card input:focus{outline:1px solid var(--border-strong)}
+.auth-card .btn{width:100%;margin-top:18px;background:transparent}
+.auth-error{min-height:20px;margin:12px 0 0!important;color:var(--warn)!important;font-family:var(--mono);font-size:11px!important}
+.auth-x{position:absolute;top:12px;right:14px;border:0;background:none;color:var(--text-muted);font-size:24px;cursor:pointer}
+.auth-x:hover{color:var(--text)}

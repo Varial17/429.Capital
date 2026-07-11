@@ -86,9 +86,9 @@
   },
   "exposure": {
     "currency": "USDC",
-    "gross_long": 515.71,
-    "gross_short": 0,
-    "net": 515.71,
+    "gross_long": null,
+    "gross_short": null,
+    "net": null,
     "long_count": 2,
     "short_count": 0
   },
@@ -146,5 +146,8 @@
       "pct": 8
     }
   ],
-  "disclaimer": "429 Capital is a private personal investment record maintained for the owner's own use. Nothing here is an offer, a solicitation, or financial advice, and it does not take into account anyone's objectives or circumstances. Figures and commentary in this sample report are illustrative. Past performance is not indicative of future performance."
+  "disclaimer": "429 Capital is a private personal investment record maintained for the owner's own use. Nothing here is an offer, a solicitation, or financial advice, and it does not take into account anyone's objectives or circumstances. Figures and commentary in this sample report are illustrative. Past performance is not indicative of future performance.",
+  "meta": {
+    "authenticated": false
+  }
 }

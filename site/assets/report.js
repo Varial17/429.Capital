@@ -25,7 +25,9 @@ const charts = [];
 
 const esc = (s) =>
   String(s).replace(/[&<>"]/g, (c) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;" }[c]));
+const isOwnerView = (r) => r && r.meta && r.meta.authenticated;
 const fmtPct = (n) => (n == null ? "—" : (n > 0 ? "+" : "") + n.toFixed(1) + "%");
+const fmtMoney = (n, r) => n == null ? (isOwnerView(r) ? "—" : '<span class="locked">Login</span>') : Number(n).toLocaleString();
 const slug = (s) => s.toLowerCase().replace(/[^a-z0-9]+/g, "-").replace(/(^-|-$)/g, "");
 
 // --- tiny markdown: ## h2, ### h3, **bold**, _em_, - lists, blank-line paragraphs ---
@@ -55,7 +57,8 @@ function md(src) {
   if (!PERIOD) { fail("No report specified. Add ?period=2026-Q2 to the URL."); return; }
   let report, manifest = [];
   try {
-    report = await (await fetch(`../data/reports/${PERIOD}.json`, { cache: "no-store" })).json();
+    const authed = window.AUTH429 && await window.AUTH429.me();
+    report = authed ? await window.AUTH429.privateReport(PERIOD) : await (await fetch(`../data/reports/${PERIOD}.json`, { cache: "no-store" })).json();
   } catch (e) { fail(`Could not load report "${esc(PERIOD)}". Run build.py.`); return; }
   try {
     const d = await (await fetch("../data/data.json", { cache: "no-store" })).json();
@@ -160,7 +163,7 @@ function renderExposure(r) {
   $("#expo-cards").innerHTML = [
     ["Gross Long", e.gross_long], ["Gross Short", e.gross_short], ["Net Exposure", e.net],
   ].map(([l, v]) => `<div class="card"><div class="l">${l}</div>
-      <div class="v">${v == null ? "—" : v.toLocaleString()} <span style="font-size:12px;color:var(--text-dim)">${cur}</span></div></div>`)
+      <div class="v">${fmtMoney(v, r)} <span style="font-size:12px;color:var(--text-dim)">${cur}</span></div></div>`)
     .join("") + `<div class="card"><div class="l">Positions</div>
       <div class="v">${e.long_count || 0}L / ${e.short_count || 0}S</div></div>`;
 }
@@ -193,7 +196,7 @@ function renderDisclaimer(r) { $("#disclaimer").textContent = r.disclaimer || ""
 
 function drawDonut(id, obj) {
   const ctx = document.getElementById(id);
-  if (!ctx) return;
+  if (!ctx || typeof Chart === "undefined") return;
   const labels = Object.keys(obj), values = Object.values(obj);
   const base = [cssVar("--text"), cssVar("--text-muted"), cssVar("--text-dim"), cssVar("--border-strong")];
   const colors = labels.map((_, i) => base[i % base.length]);

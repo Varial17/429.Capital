@@ -45,6 +45,8 @@ DATA = ROOT / "data"
 REPORTS = ROOT / "reports"
 OUT = ROOT / "site" / "data" / "data.json"
 OUT_REPORTS = ROOT / "site" / "data" / "reports"
+PRIVATE_OUT = ROOT / "private" / "data.json"
+PRIVATE_REPORTS = ROOT / "private" / "reports"
 
 BOOK_DISPLAY = {
     "passive": "Wealth Base",
@@ -55,6 +57,47 @@ BOOK_ORDER = ["passive", "conviction", "tactical"]
 # Long-run target weights across the whole book (the mandate).
 TARGET_WEIGHTS = {"passive": 0.50, "conviction": 0.35, "tactical": 0.15}
 
+
+
+SENSITIVE_KEYS = {
+    "book_total_aud", "quantity", "avg_entry", "last_price", "notional_aud",
+    "value_aud", "cost_aud", "pnl_aud", "collateral_aud", "open_pnl_aud",
+    "gross_long", "gross_short", "net", "volume_aud", "fees_aud",
+    "realised_pnl_aud", "total_pnl_aud", "gross_long_aud", "gross_short_aud",
+    "net_exposure_aud", "accountAud", "openPnlAud", "realisedAud", "netAud",
+}
+SENSITIVE_SUFFIXES = ("_aud", "_usd", "_usdc")
+SENSITIVE_CONTAINS = ("price", "notional", "collateral", "volume", "fee")
+
+
+def is_sensitive_key(key):
+    k = str(key)
+    return (
+        k in SENSITIVE_KEYS
+        or k.endswith(SENSITIVE_SUFFIXES)
+        or any(part in k.lower() for part in SENSITIVE_CONTAINS)
+    )
+
+
+def redact_private_values(obj):
+    """Return a public copy: keep percentages/counts/labels, remove dollar values."""
+    if isinstance(obj, list):
+        return [redact_private_values(x) for x in obj]
+    if isinstance(obj, dict):
+        out = {}
+        for k, v in obj.items():
+            if is_sensitive_key(k) and isinstance(v, (int, float)):
+                out[k] = None
+            else:
+                out[k] = redact_private_values(v)
+        return out
+    return obj
+
+
+def mark_auth(obj, authenticated):
+    if isinstance(obj, dict):
+        obj.setdefault("meta", {})["authenticated"] = authenticated
+    return obj
 
 def read_csv(path):
     """Read a CSV into a list of dicts. Missing file -> empty list."""
@@ -547,7 +590,10 @@ def process_reports():
     if not REPORTS.exists():
         return []
     OUT_REPORTS.mkdir(parents=True, exist_ok=True)
+    PRIVATE_REPORTS.mkdir(parents=True, exist_ok=True)
     for stale in OUT_REPORTS.glob("*.json"):
+        stale.unlink()
+    for stale in PRIVATE_REPORTS.glob("*.json"):
         stale.unlink()
 
     parsed = []
@@ -558,8 +604,12 @@ def process_reports():
             print(f"  WARN: skipping {p.name} (invalid JSON): {e}")
             continue
         period = obj.get("period") or p.stem
+        private_obj = mark_auth(json.loads(json.dumps(obj)), True)
+        (PRIVATE_REPORTS / f"{period}.json").write_text(
+            json.dumps(private_obj, indent=2) + "\n", encoding="utf-8")
+        public_obj = mark_auth(redact_private_values(json.loads(json.dumps(obj))), False)
         (OUT_REPORTS / f"{period}.json").write_text(
-            json.dumps(obj, indent=2) + "\n", encoding="utf-8")
+            json.dumps(public_obj, indent=2) + "\n", encoding="utf-8")
         parsed.append(obj)
 
     parsed.sort(key=lambda o: (o.get("date") or o.get("period") or ""))
@@ -696,11 +746,17 @@ def build():
     }
 
     OUT.parent.mkdir(parents=True, exist_ok=True)
+    PRIVATE_OUT.parent.mkdir(parents=True, exist_ok=True)
+    private_data = mark_auth(json.loads(json.dumps(data)), True)
+    with PRIVATE_OUT.open("w", encoding="utf-8") as f:
+        json.dump(private_data, f, indent=2)
+        f.write("\n")
+    public_data = mark_auth(redact_private_values(json.loads(json.dumps(data))), False)
     with OUT.open("w", encoding="utf-8") as f:
-        json.dump(data, f, indent=2)
+        json.dump(public_data, f, indent=2)
         f.write("\n")
 
-    print(f"Wrote {OUT.relative_to(ROOT)}")
+    print(f"Wrote {OUT.relative_to(ROOT)} (public) and {PRIVATE_OUT.relative_to(ROOT)} (private)")
     if price_meta.get("enabled"):
         print(f"  live prices: {live_count} marked from {', '.join(price_meta.get('sources') or ['none'])}")
     else:
