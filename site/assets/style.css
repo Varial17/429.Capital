@@ -577,7 +577,6 @@ img,svg,canvas{max-width:100%}
   .tl-row{grid-template-columns:58px 12px 1fr;gap:0 8px}
   .tl-date{font-size:10px}
 }
-
 /* ---- owner login / private values ---- */
 .locked{display:inline-flex;align-items:center;gap:6px;color:var(--text-muted);font-family:var(--mono);font-size:.72em;letter-spacing:.04em;text-transform:uppercase}
 .locked::before{content:"🔒";font-size:.9em}
